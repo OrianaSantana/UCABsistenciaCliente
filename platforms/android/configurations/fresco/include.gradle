@@ -1,0 +1,11 @@
+android {
+	productFlavors {
+		"F1" {
+			dimension "fresco"
+		}
+	}
+}
+
+// dependencies {
+// 	compile "com.facebook.fresco:fresco:0.7.0"
+// }

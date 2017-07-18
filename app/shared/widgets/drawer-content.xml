@@ -1,0 +1,19 @@
+  <stack-layout class="drawer-title" orientation="vertical">
+    <Image src="res://profile" horizontalAlignment="left"></Image>
+    <label text="{{ profesor }}"/>
+    <label text="{{ correo }}"/>
+<grid-layout class="drawer-content" columns="auto,auto" rows="auto,auto,auto,auto,auto,auto">
+  <Image src="res://home" col="0" row="0"></Image>
+    <label text="Home" tap="navigate" class="{{ selectedPage == 'home' ? 'selected' : '' }}" col="1" row="0"/>
+     <Image src="res://about" col="0" row="1"></Image>
+    <label text="About" tap="navigate" class="{{ selectedPage == 'about' ? 'selected' : '' }}" col="1" row="1"/>
+    <Image src="res://settings" col="0" row="2"></Image>
+    <label text="Preferencias" tap="navigate" class="{{ selectedPage == 'preferencias' ? 'selected' : '' }}" col="1" row="2"/>
+    <Image src="res://settings" col="0" row="3"></Image>    
+	  <label text="Reportar Asistencia" tap="navigate" class="{{ selectedPage == 'reportar asistencia' ? 'selected' : '' }}" col="1" row="3"/>
+    <Image src="res://settings" col="0" row="4"></Image>    
+	 <label text="Notificaciones" tap="navigate" class="{{ selectedPage == 'notificaciones' ? 'selected' : '' }}" col="1" row="4"  android:separatorColor="#000000" android:divider="#000000"/>       
+    <Image src="res://settings" col="0" row="5"></Image>    
+	  <label text="Cerrar Sesion" tap="navigate" class="{{ selectedPage == 'cerrar sesion' ? 'selected' : '' }}" col="1" row="5"/>       
+</grid-layout>
+ </stack-layout>

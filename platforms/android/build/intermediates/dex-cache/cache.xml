@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\com.android.support-support-v4-23.4.0_acd3c27f1d9f935606c7f72bd693ff10b7f8c330.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\List-2016.3.1118-dev-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="a1733921f8567f06df140d8a53a802669b62bb16">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\intermediates-exploded-aar-List-2016.3.1118-dev-release_ee941f1e20b864e8b844463c29ad0fde0247fd38.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\com.android.support-recyclerview-v7-23.1.0_90a9f559d83c1084e63ceeb324d7c80426c85be4.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\Common-2016.3.1118-dev-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="8763df494a4176b8d7acedbf60ebc9b5483f6629">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\intermediates-exploded-aar-Common-2016.3.1118-dev-release_691feeb88247289a6357bda849eb1e2cce859887.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\UCABsistenciaprueba\runtime\unspecified\jars\libs\binding-generator.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4290aba11bda501dbadc2dd5c4b08282c0bbfeb8">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\binding-generator_5b1cfa132b93d090856a4e0b49fcbd4ea08fa892.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\Primitives-2016.3.1118-dev-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="acf956a9e525bfe0596e189d99c0e59a41c0f525">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\intermediates-exploded-aar-Primitives-2016.3.1118-dev-release_1247db441c267212cb634babaef69d700ea3f7e1.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\com.android.support-appcompat-v7-23.4.0_982e142de9b39c3ae10ecb374a91c123b6b7dfbc.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\widgets-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9eec987a0056adc79d607b32e7e1c41997a434a7">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\intermediates-exploded-aar-widgets-release_e3abd0c24f494d5cfb6d3f2147ce0bbbf2d0ae16.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\com.android.support-animated-vector-drawable-23.4.0_8584a0fc7f49e4e5e0cd58ccadf8ea39c6d19de0.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\UCABsistenciaprueba\runtime\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9909ad5fcc13fcc60529cfa340ee7e0abc79af38">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\UCABsistenciaprueba-runtime-unspecified_47f8ae7d54d147d87bf8506479a425e899b7030d.jar" />
+    </item>
+    <item
+        jar="C:\dev\tools\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\support-annotations-23.4.0_70cfcb9794b92dafe551d01fac022ad072a6355a.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\com.android.support-support-vector-drawable-23.4.0_b1d37a5e556633c06454c1b1f40165587c72ecfa.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\Data-2016.3.1118-dev-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="7b14109d2464707646a7e61667b939f3c285f627">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\intermediates-exploded-aar-Data-2016.3.1118-dev-release_c34eac7f9d310de73033b3553cd7e31f341045d1.jar" />
+    </item>
+    <item
+        jar="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\dev\apps\teg\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4\debug\internal_impl-23.4.0_5c049d838cf2228328fbd7edeced0f4dd9476dfe.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,4 @@
+
+android {
+    flavorDimensions "acratelerikanalytics", "fresco", "nativescripttelerikui", "nativescripttelerikuipro", "tnscoremoduleswidgets"
+}

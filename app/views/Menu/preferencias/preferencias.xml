@@ -1,0 +1,56 @@
+<page
+  xmlns="http://schemas.nativescript.org/tns.xsd"
+  xmlns:drawer="nativescript-telerik-ui/sidedrawer"
+  xmlns:widgets="shared/widgets"
+  loaded="pageLoaded">
+  <page.actionBar>
+    <action-bar title="UCABsistencia">
+      <navigation-button icon="res://ic_menu" tap="toggleDrawer" ios:visibility="collapsed" />
+      <action-bar.actionItems>
+        <ios>
+          <action-item icon="res://ic_menu" ios.position="left" tap="toggleDrawer" />
+        </ios>
+      </action-bar.actionItems>
+    </action-bar>
+  </page.actionBar>
+  <drawer:rad-side-drawer id="drawer">
+    <drawer:rad-side-drawer.mainContent>
+      <!-- Preference page contents -->
+	    <GridLayout rows="auto, *" columns="*" loaded="contentLoaded" cssClass="main-content" id="main-content">
+       <!-- Segmented Bar -->
+        <SegmentedBar row="0"
+                ios:selectedBackgroundColor="white"
+                android:selectedBackgroundColor="#053140"
+                cssClass="conf-segmented-bar">
+            <SegmentedBar.items>
+                <SegmentedBarItem title="Preferencias"/>
+            </SegmentedBar.items>
+        </SegmentedBar>
+        <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
+        <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
+            <!-- List -->
+            <Label text="Notificaciones" textWrap="true" cssClass="session-title" row="1"/>            
+            <!--<ListView row="2" items="{{ preferenciasList }}" id="sessions-list" separatorColor="#00000000" ios:itemLoading="changeCellBackground">-->
+            <ListView row="2" items="{{ preferenciasList }}" id="sessions-list" android:separatorColor="#000000" android:divider="#000000" ios:itemLoading="changeCellBackground">
+                <ListView.itemTemplate>
+                            <GridLayout columns="auto, auto, *" rows="auto, auto">
+                            <switch checked="{{ valorCambia }}" row="0" rowSpan="1" col="1" />
+                            <!--<switch checked="true" row="0" rowSpan="1" col="2"/>-->
+                            <Label id="id-nombre" text="{{ nombre }}" textWrap="true" cssClass="session-subtitle"/>
+                            </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+        </GridLayout>
+        <GridLayout row="6" rows="auto, *">
+           <Button text="Actualizar" row="0" tap="onCheckChange"/>
+         </GridLayout>
+    </GridLayout>
+
+    </drawer:rad-side-drawer.mainContent>
+    <drawer:rad-side-drawer.drawerContent>
+      <widgets:drawer-content />
+    </drawer:rad-side-drawer.drawerContent>
+  </drawer:rad-side-drawer>
+
+</page>
+
