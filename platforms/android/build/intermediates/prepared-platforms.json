@@ -1,5 +1,7 @@
 {
     "local-storage": true,
+    "nativescript-accelerometer": true,
+    "nativescript-geolocation": true,
     "nativescript-telerik-ui": true,
     "tns-core-modules": true,
     "tns-core-modules-widgets": true

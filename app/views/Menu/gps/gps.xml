@@ -1,0 +1,56 @@
+<page
+  xmlns="http://schemas.nativescript.org/tns.xsd"
+  xmlns:drawer="nativescript-telerik-ui/sidedrawer"
+  xmlns:widgets="shared/widgets"
+  xmlns:statusbar="nativescript-statusbar"
+  loaded="pageLoaded">
+
+ <page.actionBar>
+    <action-bar title="UCABsistencia">
+      <navigation-button icon="res://ic_menu" tap="toggleDrawer" ios:visibility="collapsed" />
+      <action-bar.actionItems>
+        <ios>
+          <action-item icon="res://ic_menu" ios.position="left" tap="toggleDrawer" />
+        </ios>
+      </action-bar.actionItems>
+    </action-bar>
+  </page.actionBar>
+  <drawer:rad-side-drawer id="drawer">
+    <drawer:rad-side-drawer.mainContent>
+      <!-- Preference page contents -->
+	    <GridLayout rows="auto, *" columns="*" loaded="contentLoaded" cssClass="main-content" id="main-content">
+       <!-- Segmented Bar -->
+        <SegmentedBar row="0"
+                ios:selectedBackgroundColor="white"
+                android:selectedBackgroundColor="#053140"
+                cssClass="conf-segmented-bar">
+            <SegmentedBar.items>
+                <SegmentedBarItem title="GPS"/>
+            </SegmentedBar.items>
+        </SegmentedBar>
+<GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
+    <ScrollView>
+        <GridLayout row="2" rows="auto, auto, auto, auto, auto, *, auto" ios:itemLoading="changeCellBackground">
+            <Button row="0" text="enable Location" tap="enableLocationTap" cssClass="boton"/>
+            <Button row="1" text="get current location" tap="buttonGetLocationTap" cssClass="boton"/>
+            <Button row="2" text="start monitoring" tap="buttonStartTap" cssClass="boton"/>
+            <Button row="3" text="stop monitoring" tap="buttonStopTap" cssClass="boton"/>
+            <ListView row="5" items="{{ locations }}">
+                <ListView.itemTemplate>
+                    <Label text="{{ $value, latitude + ', ' + longitude + ', ' + altitude }}" cssClass="mensajito"/>
+                </ListView.itemTemplate>
+            </ListView>
+            <Label row="6" text="{{ status }}" cssClass="mensajito"/>
+        </GridLayout>
+    </ScrollView>
+  </GridLayout>       
+    </GridLayout>
+
+
+    </drawer:rad-side-drawer.mainContent>
+    <drawer:rad-side-drawer.drawerContent>
+      <widgets:drawer-content />
+    </drawer:rad-side-drawer.drawerContent>
+  </drawer:rad-side-drawer>
+
+</page>
