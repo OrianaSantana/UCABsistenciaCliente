@@ -2,6 +2,7 @@ var dialogsModule = require("ui/dialogs");
 var observableModule = require("data/observable")
 var ObservableArray = require("data/observable-array").ObservableArray;
 var NotificacionesListViewModel = require("./notificaciones-view-model");
+var frameModule = require("ui/frame");
 var page;
 var ls_notificaciones = require('local-storage');
 var ls_profesor = require('local-storage');
@@ -21,7 +22,7 @@ var pageData = new observableModule.fromObject({
 NotificacionesPage.prototype.contentLoaded = function(args) {
     page = args.object;
     page.bindingContext = pageData;
-    
+    proId = ls_profesor.get('id');
     notificacionesList.vaciarLista();
     notificacionesList.cargarNotificaciones();
 

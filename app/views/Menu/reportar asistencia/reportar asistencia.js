@@ -3,21 +3,24 @@ var createViewModel = require("./reportar asistencia-view-model").createViewMode
 var Observable = require("data/observable").Observable;
 var frameModule = require("ui/frame");
 var dialogs = require("ui/dialogs");
-
 var ls_id = require('local-storage');
-
 var horId;
+//var LocalNotifications = require("nativescript-local-notifications");
 
 var ReportePage = function() {};
 ReportePage.prototype = new BasePage();
 ReportePage.prototype.constructor = ReportePage;
 // Place any code you want to run when the Agregar rol page loads here.
 ReportePage.prototype.contentLoaded = function(args) {
-    console.log("Content reportar asistencia");
-	var page = args.object;
-    reporte = createViewModel();
-    page.bindingContext = reporte;
-   
+       // LocalNotifications.requestPermission().then((granted) => {
+           // if(granted) {
+                    //console.log("Permission granted? " + granted);
+                    console.log("Content reportar asistencia");
+	                var page = args.object;
+                    reporte = createViewModel();
+                    page.bindingContext = reporte;
+           // }
+       // })   
    // var prueba = false;
 
    //CODIGO ASISTENCIA E INASISTENCIA AUTOMATICA - NO BORRAR

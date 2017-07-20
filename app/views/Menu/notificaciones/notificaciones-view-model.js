@@ -28,18 +28,16 @@ function NotificacionesListViewModel(items) {
           } 
     };
 
-  viewModel.InsertarNotificacion = function (idPro/*,mensajito*/) {
-        console.log("id del profesor" + idPro);
-		
-        return fetch(config.apiUrl + "notificaciones" , { 
+    viewModel.InsertarNotificacion = function (idPro) {
+        console.log("id del profesor" + idPro);		    
+        //return fetch("http://192.168.1.6:8080/WSUcabsistencia/api.ucabsistencia.com/profesores/notificaciones/notificacion" 
+        return fetch(config.apiUrl + "profesores/notificaciones/notificacion", { 
         method: "POST",
         body: JSON.stringify({
             usu_id: idPro,
-			mensaje: "Mensaje de Prueba"
-				
+            mensaje: "Prueba"							
         }),
-        headers: {
-            // "Authorization": "Bearer " + config.token,
+        headers: {            
             "Content-Type": "application/json"
         }
     })

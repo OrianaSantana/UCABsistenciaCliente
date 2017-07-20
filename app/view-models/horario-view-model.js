@@ -3,11 +3,11 @@ var frameModule = require("ui/frame");
 var fetchModule = require("fetch");
 var config = require("../shared/config");
 var topmost = require("ui/frame").topmost;
-
 var ls_asistencia = require('local-storage');
 console.log("LLAMADO VIEWMODELJS 1");
 var condicional = false;
 var horarioValidator = [];
+
 function formatTime(time) {
     var hour = time.getHours();
     var min = time.getMinutes() + "";
@@ -111,7 +111,7 @@ var ConferenceViewModel = (function (_super) {
               hora_fin = horario[i].hor_hora_fin.substr(11,2);
               min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
 
-              allSessions.push(new Session(horario[i].hor_catedra, new Date(2017, 5, 3, hora_inicio, min_hora_inicio), new Date(2017, 5, 3, hora_fin, min_hora_fin), "L1207",horario[i].hor_dia, horario[i].hor_id));            
+              allSessions.push(new Session(horario[i].hor_catedra, new Date(2017, 5, 3, hora_inicio, min_hora_inicio), new Date(2017, 5, 3, hora_fin, min_hora_fin), horario[i].hor_salon ,horario[i].hor_dia, horario[i].hor_id));            
         };
         horarioValidator = allSessions ;
         condicional = true;
