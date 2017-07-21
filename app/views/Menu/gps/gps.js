@@ -7,7 +7,8 @@ var observable_1 = require("data/observable");
 var observable_array_1 = require("data/observable-array");
 
 var GpsPage = function() {};
-GpsPage.prototype = new GpsPage();
+//GpsPage.prototype = new GpsPage();
+GpsPage.prototype = new BasePage();
 GpsPage.prototype.constructor = GpsPage;
 
 var ViewModel = (function (_super) {

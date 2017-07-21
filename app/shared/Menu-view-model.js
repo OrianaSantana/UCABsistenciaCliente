@@ -83,6 +83,26 @@ function notificaciones()
         });
 }
 
+function cerrarSesion(_id)
+{
+        console.log("modificar id del profesor " + _id);
+        return fetchModule.fetch( config.apiUrl + "profesor/cerrar/conexion", {  //colocar uri
+        method: "PUT",
+        body: JSON.stringify({
+            Usu_foto:'off', 
+            Usu_id: _id,
+            }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(handleErrors)
+    .then(function(response) {
+        console.log("response " + response);
+        return response.json();   
+    })      
+};    
+
 BasePage.prototype.navigate = function(args) {
   var pageName = args.view.text.toLowerCase(); 
   console.log("PAGE navigate " + pageName );
@@ -150,22 +170,35 @@ BasePage.prototype.navigate = function(args) {
                     });   
           
     } else if (pageName == "cerrar sesion"){
-     ls_profesor('profesor',null);
-     ls_profesor('id',null);
-     ls_correo('correo',null);
-     ls_preferencias('preferencias',null);
-     ls_notificaciones('notificaciones',null);
-     ls_horario('horario_profesor',null);
-     ls_asistencia('asistencias',null);
-      console.log("local profesor" + " " + ls_profesor.get('profesor'));
-      console.log("local id" + " " + ls_profesor.get('id'));
-      console.log("local correo" + " " + ls_correo.get('correo'));
-      console.log("local horario" + " " + ls_horario.get('horario_profesor'));
-      console.log("local preferencias" + " " + ls_preferencias.get('preferencias'));
-      console.log("local notificaciones" + " " + ls_notificaciones.get('notificaciones'));
-      console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
+         cerrarSesion(ls_profesor.get('id'))
+                      .catch(function(error) {
+                          console.log(error);
+                          dialogsModule.alert({
+                          message: "No se pudo actualizar su status",
+                          okButtonText: "OK"
+                          });
+                          console.log("No PUDO ACTUALIZAR STATUS");
+                          return Promise.reject();
+                      })
+                      .then(function() {
+                          console.log("status ACTUALIZADO");                                    
+                        });  
+            ls_profesor('profesor',null);
+            ls_profesor('id',null);
+            ls_correo('correo',null);
+            ls_preferencias('preferencias',null);
+            ls_notificaciones('notificaciones',null);
+            ls_horario('horario_profesor',null);
+            ls_asistencia('asistencias',null);
+            console.log("local profesor" + " " + ls_profesor.get('profesor'));
+            console.log("local id" + " " + ls_profesor.get('id'));
+            console.log("local correo" + " " + ls_correo.get('correo'));
+            console.log("local horario" + " " + ls_horario.get('horario_profesor'));
+            console.log("local preferencias" + " " + ls_preferencias.get('preferencias'));
+            console.log("local notificaciones" + " " + ls_notificaciones.get('notificaciones'));
+            console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
 
-      topmost().navigate("views/InicioSesion/InicioSesion");
+            topmost().navigate("views/InicioSesion/InicioSesion");
     }
     else {
       topmost().navigate("views/Menu/" + pageName + "/" + pageName);

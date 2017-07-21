@@ -12,10 +12,12 @@ function ConsultarAsistenciaListViewModel(items) {
         for (i=0; i< asistencias.length; i++){    
 
               console.log("Asistencias"+ asistencias[i].hist_asis_id);        
-            
+              console.log("Asistencias"+ asistencias[i].hist_asis_justificacion);        
+             
               viewModel.push({
                   fecha: "Fecha de la Clase:" + " " + asistencias[i].hist_asis_fecha,
-                  tipo: "Tipo de Asistencia:" + " " + asistencias[i].hist_asis_tipo 
+                  tipo: "Tipo de Asistencia:" + " " + asistencias[i].hist_asis_tipo,
+                  justificacion: "Justificativo:"+  " " + asistencias[i].hist_asis_justificacion
                   });                              
         }; 
 

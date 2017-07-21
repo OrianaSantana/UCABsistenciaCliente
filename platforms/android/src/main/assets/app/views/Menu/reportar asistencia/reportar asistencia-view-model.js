@@ -6,6 +6,7 @@ var config = require("../../../shared/config");
 var idJus;
 var day = new Date().getDate();
 var fechaActual = day + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear();
+//var LocalNotifications = require("nativescript-local-notifications");
 
 function createViewModel() { 
     var info = info || {}; //no se si esto deba existir
@@ -114,9 +115,33 @@ function createViewModel() {
         }
     })
     .then(handleErrors)
-    .then(function(response) {
-        return response.json();
-    })
+    .then(function(response) {              
+            /*NotificacionAsistenciaManual();  
+            function NotificacionAsistenciaManual() {
+                console.log("Notificacion Manual " + new Date(new Date().getTime()));
+                LocalNotifications.schedule([{
+                    id: 1,
+                    title: "Asistencia Manual",
+                    body: "Asistencia reportada exitosamente",
+                    sound: "sound1",  
+                    at: new Date(new Date().getTime() + (60 * 1000))                     
+                    //at: new Date(new Date().getTime() + (10 * 1000))
+                    //at: new Date(new Date(2017, 6, 16, 22, 28))
+                }]).then(
+                    function() {
+                    //console.log(Date().getTime());
+                    dialogs.alert({
+                            title: "Asistencia Manual",
+                            message: 'Reportada exitosamente',
+                            okButtonText: "OK."
+                        });
+                        },
+                        function(error) {
+                        console.log("doScheduleEveryMinute error: " + error);
+                    });
+            };*/                                   
+            return response.json();
+        })    
     };
 
     viewModel.inasistencia = function (idHor) {
