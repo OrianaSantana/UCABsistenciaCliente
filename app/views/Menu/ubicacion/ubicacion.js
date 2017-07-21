@@ -13,6 +13,7 @@ var miObjeto = function (vx, vy, vz) {
     this.vx = vx || '';
     this.vy = vy || '';
     this.vz = vz || '';
+    this.pro_id = ls_profesor.get('id') || '';
 };
   
   UbicacionPage.prototype.contentLoaded = function(args) {

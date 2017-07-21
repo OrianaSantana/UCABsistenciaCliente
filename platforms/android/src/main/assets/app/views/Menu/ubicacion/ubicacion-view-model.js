@@ -13,6 +13,9 @@ var objeto;
 var intervalo;
 var intervalo1;
 var intervalo2;
+var intervalo3;
+var intervalo4;
+var intervalo5;
 var data1;
 var x;
 var y;
@@ -23,6 +26,9 @@ var Gedificio;
 var Formatear;   
 var counter;
 var ArregloGuardar = []; 
+var ArregloNuevo = []; 
+var OtroArreglo = []; 
+var OtroNuevo = []; 
 var edificio;
 var activarUpdate = false;
 
@@ -116,11 +122,24 @@ function createViewModel() {
                 intervalo1 = setInterval(function () {_this.messageview = "x: " + objeto.vx + " " + "y: " + objeto.vy + " " + "z: " + objeto.vz;}, counter);
                 intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);            
                 intervalo2 = setInterval(function(){ArregloGuardar.push(JSON.stringify(objeto))},counter);
+                intervalo4 = setInterval(function(){OtroArreglo.push(objeto)},counter);
+                intervalo3 = setInterval(function(){ArregloNuevo.push(JSON.stringify(data1))},counter);
+                intervalo5 = setInterval(function(){OtroNuevo.push(data1)},counter);
             }else if (!this._validarBoton) {
-                this.select();            
+               // this.select();        
                 clearInterval(intervalo);
                 clearInterval(intervalo1);
-                clearInterval(intervalo2);}
+                clearInterval(intervalo2);
+                clearInterval(intervalo3);
+                 clearInterval(intervalo4);
+                  clearInterval(intervalo5);
+            console.log("Este es el arreglo:" + " "+ ArregloGuardar);
+            console.log("Arreglo NO JSON" + " " + OtroArreglo);
+            console.log("Arreglo nuevo data1" + " " + ArregloNuevo);  
+            console.log("Arreglo data1 NO JSON" + " " + OtroNuevo);  
+            console.log("Este es el objeto" + " " + objeto.x + " " + objeto.y + " " + objeto.z);
+            console.log("Objeto data1" + " " + data1.x + " " + data1.y + " " + data1.z);
+            }
         //}else if(!activarUpdate){
            // dialogs.action("Debe indicar el intervalo de tiempo para tomar medidas"); 
         //}
