@@ -61,9 +61,9 @@ function createViewModel(info) {
             );        
     };*/
 
-
     viewModel.consultarProfesorID = function()
     {   console.log("consultar profesor por correo " + viewModel.get("usuario"));
+       // viewModel.set("isLoading", true);
         //return fetchModule.fetch("http://192.168.1.6:8080/WSUcabsistencia/api.ucabsistencia.com/profesores/profesor_correo?profesor-correo=" + viewModel.get("usuario") ) 
         return fetchModule.fetch( config.apiUrl + "profesores/profesor_correo?profesor-correo=" + viewModel.get("usuario") ) 
         .then(handleErrors)
@@ -110,8 +110,9 @@ function createViewModel(info) {
         })
         .then(function(json) {
           console.log("BUSCANDO HORARIOOOO segundo function then retorna el json " + json);
+          //viewModel.set("isLoading", false);
           return json;
-        });        
+        });    
     };
     console.log("Return viewModel iniciosesin-view-modeljs " + viewModel);
     return viewModel;

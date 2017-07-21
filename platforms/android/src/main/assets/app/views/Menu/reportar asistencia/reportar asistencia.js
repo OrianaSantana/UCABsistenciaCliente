@@ -19,6 +19,7 @@ ReportePage.prototype.contentLoaded = function(args) {
 	                var page = args.object;
                     reporte = createViewModel();
                     page.bindingContext = reporte;
+                    reporte.set("isLoading", false);
            // }
        // })   
    // var prueba = false;
@@ -70,6 +71,7 @@ ReportePage.prototype.contentLoaded = function(args) {
 
 ReportePage.prototype.ReportarAsistenciaTap = function() {
     //opcion 1
+    reporte.set("isLoading", true);
     console.log("reportar asistencia tap");
     horId = ls_id.get('horario-id');
     console.log("horID "+horId);
@@ -96,11 +98,14 @@ ReportePage.prototype.ReportarAsistenciaTap = function() {
                 okButtonText: "OK"
             });*/
             frameModule.topmost().navigate("views/Menu/home/home");
+            reporte.set("isLoading", true);
         });
 }
 
 ReportePage.prototype.CancelarReporte = function() {
+     reporte.set("isLoading", true);
     frameModule.topmost().navigate("views/Menu/home/home");
+     reporte.set("isLoading", true);
 }
 
 

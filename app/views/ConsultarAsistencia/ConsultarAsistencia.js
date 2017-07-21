@@ -26,6 +26,7 @@ ConsultarAsistenciaPage.prototype.contentLoaded = function(args) {
     
     asistenciaList.vaciarLista();
     asistenciaList.cargarAsistencias();
+    
 };	
 
 

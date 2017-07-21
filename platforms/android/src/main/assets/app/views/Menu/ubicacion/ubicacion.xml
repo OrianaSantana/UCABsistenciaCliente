@@ -28,7 +28,6 @@
         </SegmentedBar>
         <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
         <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
-<ScrollView>
     <StackLayout>
         <Label text="UCABsistencia" class="tittle"/>       
         <Label text="Valores Campo Magnético" class="Label"/>       
@@ -40,7 +39,6 @@
         <Label text="Tiempo de muestreo" class="Label botones"/>
         <Button text="10x1sec" id="Boton8Sec" tap="{{ onTap3 }}" class="buttonClass green radius" />
     </StackLayout>
-    </ScrollView>
      </GridLayout>
        
     </GridLayout>

@@ -21,6 +21,7 @@ exports.loaded = function(args) {
             //if(granted) {
                     user = createViewModel();  
                     page.bindingContext = user;
+                     user.set("isLoading", false); 
                     ls_validator('validar', 0);        
             //}
         //})
@@ -30,6 +31,7 @@ exports.loaded = function(args) {
 exports.IniciarSesion = function() {
    //console.log(ls.get('foo'));
 
+user.set("isLoading", true);
    user.consultarProfesorID()
         .catch(function(error) {            
             dialogsModule.alert({
@@ -58,7 +60,7 @@ exports.IniciarSesion = function() {
                             return Promise.reject();
                         })
                         .then(function() {
-                            console.log("status ACTUALIZADO");                                    
+                            console.log("status ACTUALIZADO");                                   
                             user.consultarHorario(respuesta1.pro_id)
                                 .catch(function(error) {  
                                     console.log("CAtch de la funtion consultar horario");        
@@ -79,8 +81,9 @@ exports.IniciarSesion = function() {
                                                 horario: respuesta1, 
                                                 profesor: id 
                                     }
-                                }                                           
-                                    frameModule.topmost().navigate(navigationOptions);                                   
+                                }                                       
+                                    frameModule.topmost().navigate(navigationOptions);   
+                                   // user.set("isLoading", false);                                  
                                 });
                     });  
            }else if(respuesta1.pro_foto == "on"){

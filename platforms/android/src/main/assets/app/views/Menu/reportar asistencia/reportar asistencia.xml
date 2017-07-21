@@ -64,7 +64,8 @@
                 </StackLayout>
             <!--</ScrollView>-->
         <!--</GridLayout>
-    </GridLayout>-->        
+    </GridLayout>-->      
+    <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" cssClass="animacion"/>  
     </GridLayout>
 
     

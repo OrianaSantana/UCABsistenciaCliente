@@ -7,6 +7,9 @@ var ls_asistencia = require('local-storage');
 console.log("LLAMADO VIEWMODELJS 1");
 var condicional = false;
 var horarioValidator = [];
+var dia = new Date().getDate();
+var mes = new Date().getMonth();
+var a_o = new Date().getFullYear();
 
 function formatTime(time) {
     var hour = time.getHours();
@@ -95,8 +98,8 @@ var ConferenceViewModel = (function (_super) {
         },
         enumerable: true,
         configurable: true
-    });    
-    ConferenceViewModel.prototype.horarios = function (horario) {        
+    });  
+    ConferenceViewModel.prototype.horarios = function (horario) {       
         var catedra = horario[0].hor_id + " " + horario[0].hor_dia + " " + horario[0].hor_catedra + " " + horario[0].hor_seccion_catedra;
         console.log("CATEDRA " + catedra);
         var allSessions = [];
@@ -111,7 +114,7 @@ var ConferenceViewModel = (function (_super) {
               hora_fin = horario[i].hor_hora_fin.substr(11,2);
               min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
 
-              allSessions.push(new Session(horario[i].hor_catedra, new Date(2017, 5, 3, hora_inicio, min_hora_inicio), new Date(2017, 5, 3, hora_fin, min_hora_fin), horario[i].hor_salon ,horario[i].hor_dia, horario[i].hor_id));            
+              allSessions.push(new Session(horario[i].hor_catedra, new Date(a_o, mes, dia, hora_inicio, min_hora_inicio), new Date(a_o, mes, dia, hora_fin, min_hora_fin), horario[i].hor_salon ,horario[i].hor_dia, horario[i].hor_id));            
         };
         horarioValidator = allSessions ;
         condicional = true;

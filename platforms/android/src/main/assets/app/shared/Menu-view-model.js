@@ -23,6 +23,7 @@ BasePage.prototype.viewModel = appViewModel
 BasePage.prototype.pageLoaded = function(args) {
   var page = args.object;
   page.bindingContext = appViewModel; 
+   appViewModel.set("isLoading", false);  
   console.log("MENU NOMBRE 1"); 
 
   try {
@@ -78,7 +79,7 @@ function notificaciones()
              return response.json();
         })
         .then(function(json) {
-          console.log("notificaciones json " +json[0].not_id + " " +  json[0].not_mensaje);
+          console.log("notificaciones json ");
           return json;
         });
 }
@@ -134,6 +135,7 @@ BasePage.prototype.navigate = function(args) {
     if (pageName == "preferencias" /*&& ls_validator.get('validar')== 0*/){
      // ls_validator('validar', 1);
       //console.log("validator "+ ls_validator.get('validar'));
+      appViewModel.set("isLoading", true);
       preferencias()
                     .catch(function(error) {  
                         console.log("CAtch de la funtion consultar preferencias");        
@@ -147,12 +149,14 @@ BasePage.prototype.navigate = function(args) {
                     .then(function(respuesta1) {   
                     ls_preferencias('preferencias', respuesta1);         
                     console.log(" IF RESPUESTA  "+ respuesta1[0].pre_nombre + " " + respuesta1[1].pre_status); 
-                    topmost().navigate("views/Menu/" + pageName + "/" + pageName);                                 
+                    topmost().navigate("views/Menu/" + pageName + "/" + pageName);     
+                      appViewModel.set("isLoading", false);                            
                     });   
           
     } else if(pageName == "notificaciones" /*&& ls_validator.get('validar')== 0*/){
      // ls_validator('validar', 1);
       //console.log("validator "+ ls_validator.get('validar'));
+    appViewModel.set("isLoading", true);  
       notificaciones()
                     .catch(function(error) {  //entra aqui no pasa a respuesta
                         console.log("CAtch de la funtion consultar notificaciones "+ error);        
@@ -166,10 +170,12 @@ BasePage.prototype.navigate = function(args) {
                     .then(function(respuestaNot) {   
                     ls_notificaciones('notificaciones', respuestaNot);         
                     console.log(" IF RESPUESTA  "+ respuestaNot[0].not_id + " " + respuestaNot[0].not_mensaje); 
-                    topmost().navigate("views/Menu/" + pageName + "/" + pageName);                                 
+                    topmost().navigate("views/Menu/" + pageName + "/" + pageName);
+                    appViewModel.set("isLoading", false);                                   
                     });   
           
     } else if (pageName == "cerrar sesion"){
+         appViewModel.set("isLoading", true);  
          cerrarSesion(ls_profesor.get('id'))
                       .catch(function(error) {
                           console.log(error);
@@ -199,9 +205,12 @@ BasePage.prototype.navigate = function(args) {
             console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
 
             topmost().navigate("views/InicioSesion/InicioSesion");
+             appViewModel.set("isLoading", false);  
     }
     else {
+         appViewModel.set("isLoading", true);  
       topmost().navigate("views/Menu/" + pageName + "/" + pageName);
+       appViewModel.set("isLoading", false);  
     }
     } 
    // else{

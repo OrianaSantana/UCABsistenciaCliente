@@ -3,19 +3,21 @@ var magnetometer = require("nativescript-accelerometer");
 var file_system_1 = require("file-system");
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
+var ls_profesor = require('local-storage');
+var fetchModule = require("fetch");
+var config = require("../../../shared/config");
 
 var miObjeto = function (vx, vy, vz) {
     this.vx = vx || '';
     this.vy = vy || '';
     this.vz = vz || '';
+    this.pro_id =  ls_profesor.get('id') || '';
 };
 var objeto;
 var intervalo;
 var intervalo1;
 var intervalo2;
 var intervalo3;
-var intervalo4;
-var intervalo5;
 var data1;
 var x;
 var y;
@@ -27,8 +29,6 @@ var Formatear;
 var counter;
 var ArregloGuardar = []; 
 var ArregloNuevo = []; 
-var OtroArreglo = []; 
-var OtroNuevo = []; 
 var edificio;
 var activarUpdate = false;
 
@@ -77,9 +77,10 @@ function createViewModel() {
   
     viewModel.activarMagnetometro = function () {
         if (this._validarBoton) {
+            var pro_id = ls_profesor.get('id');
             magnetometer.startMagnetometerUpdates(function (data) {
                 data1 = data;
-                objeto = new miObjeto(data.x, data.y, data.z);    
+                objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
             }
             );
         }
@@ -110,8 +111,8 @@ function createViewModel() {
 
     viewModel.limpiar = function(){
         var _this = this;
-        ArregloGuardar = [];
         _this.messageview = "";
+        ArregloGuardar = [];
 
     }               
 
@@ -121,31 +122,75 @@ function createViewModel() {
             if (this._validarBoton) {
                 intervalo1 = setInterval(function () {_this.messageview = "x: " + objeto.vx + " " + "y: " + objeto.vy + " " + "z: " + objeto.vz;}, counter);
                 intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);            
-                intervalo2 = setInterval(function(){ArregloGuardar.push(JSON.stringify(objeto))},counter);
-                intervalo4 = setInterval(function(){OtroArreglo.push(objeto)},counter);
-                intervalo3 = setInterval(function(){ArregloNuevo.push(JSON.stringify(data1))},counter);
-                intervalo5 = setInterval(function(){OtroNuevo.push(data1)},counter);
+               // intervalo2 = setInterval(function(){ArregloGuardar.push(JSON.stringify(objeto))},counter);
+                intervalo3 = setInterval(function(){ArregloNuevo.push(objeto)},counter);
             }else if (!this._validarBoton) {
-               // this.select();        
+                //this.select();            
                 clearInterval(intervalo);
                 clearInterval(intervalo1);
-                clearInterval(intervalo2);
+               // clearInterval(intervalo2);
                 clearInterval(intervalo3);
-                 clearInterval(intervalo4);
-                  clearInterval(intervalo5);
-            console.log("Este es el arreglo:" + " "+ ArregloGuardar);
-            console.log("Arreglo NO JSON" + " " + OtroArreglo);
-            console.log("Arreglo nuevo data1" + " " + ArregloNuevo);  
-            console.log("Arreglo data1 NO JSON" + " " + OtroNuevo);  
-            console.log("Este es el objeto" + " " + objeto.x + " " + objeto.y + " " + objeto.z);
-            console.log("Objeto data1" + " " + data1.x + " " + data1.y + " " + data1.z);
-            }
+            console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo));  
+
+             ubicacion()
+           .catch(function(error) {
+            console.log("catch post ubicacion");
+            /*dialogsModule.alert({
+                message: "No se pudo reportar la asistencia",
+                okButtonText: "OK"
+            });*/
+            console.log("No se pudo localizar");
+            return Promise.reject();
+        })
+        .then(function(respuesta1) {
+            console.log("Respuesta1" + " " + respuesta1._bodyInit);
+            console.dir(respuesta1);
+             //console.log(JSON.stringify(respuesta1));
+            /* dialogsModule.alert({
+                message: "Asistencia reportada exitosamente.",
+                okButtonText: "OK"
+            });*/
+            ArregloNuevo = [];
+            _this.messageview = "";
+            frameModule.topmost().navigate("views/Menu/home/home");
+        });
+            
+        }
         //}else if(!activarUpdate){
            // dialogs.action("Debe indicar el intervalo de tiempo para tomar medidas"); 
         //}
         //activarUpdate = false;
     };       
  
+
     return viewModel;
+}
+function handleErrors(response) {
+    if (!response.ok) {
+        console.log("HANDLE ERROR");
+        console.log(JSON.stringify(response));
+        throw Error(response.statusText);
+    }
+    return response;
+}
+function ubicacion()
+{    
+    console.log("POST de ubicacion ENTRO");
+
+    return fetch(config.apiUrl + "ubicacion" , { 
+        method: "POST",
+        body: JSON.stringify(
+            ArregloNuevo 
+        ),
+        headers: {
+            // "Authorization": "Bearer " + config.token,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(handleErrors)
+     .then(function(response) {          
+        return response;
+        });
+        
 }
 exports.createViewModel = createViewModel;

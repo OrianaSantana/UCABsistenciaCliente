@@ -128,10 +128,11 @@ height: 25;
     margin-top: 10;
 }
 .DescripcionAbout{
-  margin-top: 10;
+  margin-top: 30;
   margin-left: 30;
   margin-right: 30;
   justify-content: center;
+  text-align: center;
 }
 
 /*HOME-HORARIOS*/

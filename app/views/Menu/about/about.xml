@@ -29,12 +29,12 @@
                 <SegmentedBarItem title="About"/>
             </SegmentedBar.items>
         </SegmentedBar>
-      <GridLayout row="1" rows="auto, *">
-          <stack-layout>
-            <Image src="res://logo_ucab" stretch="none" horizontalAlignment="center" class="about-logo" />
-            <label textWrap="true" text="   UCABsistencia en su versión 0.1 es un aplicación que permite reportar la asistencia de los profesores de la Universidad Católica Andrés Bello de forma automática basándose en su ubicación." cssClass="DescripcionAbout"/>
-            <label textWrap="true" text="   Mediante el uso de ubicación en interiores, se debe determinar si un profesor se encuentra dictando sus clases en el salón y horario correspondiente a una asignatura para que así pueda ser reportada su asistencia automáticamente." cssClass="DescripcionAbout"/>
-          </stack-layout>
+      <GridLayout row="1" rows="auto,auto,auto">
+           <StackLayout>
+            <!--<Image row="0" src="res://logo_ucab" stretch="none" horizontalAlignment="center" class="about-logo" />-->
+            <label row="1" textWrap="true" text="   UCABsistencia en su versión 0.1 es un aplicación que permite reportar la asistencia de los profesores de la Universidad Católica Andrés Bello de forma automática basándose en su ubicación." cssClass="DescripcionAbout"/>
+            <label row="2" textWrap="true" text="   Mediante el uso de ubicación en interiores, se debe determinar si un profesor se encuentra dictando sus clases en el salón y horario correspondiente a una asignatura para que así pueda ser reportada su asistencia automáticamente." cssClass="DescripcionAbout"/>
+            </StackLayout>
         </GridLayout>
     </GridLayout>
 

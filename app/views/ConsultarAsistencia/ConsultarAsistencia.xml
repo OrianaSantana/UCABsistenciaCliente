@@ -27,7 +27,7 @@
             </SegmentedBar.items>
         </SegmentedBar>
         <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
-        <GridLayout row="1" rows="auto,auto,auto, *" loaded="onBackgroundLoaded">
+        <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
             <!-- List -->                   
             <ListView row="2" items="{{ asistenciaList }}" id="sessions-list" android:separatorColor="#000000" android:divider="#000000" ios:itemLoading="changeCellBackground">
                 <ListView.itemTemplate>
@@ -38,7 +38,8 @@
                             </GridLayout>
                 </ListView.itemTemplate>
             </ListView>
-        </GridLayout>       
+        </GridLayout>   
+        <ActivityIndicator busy="{{ isLoading }}" rowSpan="2"/>    
     </GridLayout>
 
     </drawer:rad-side-drawer.mainContent>
