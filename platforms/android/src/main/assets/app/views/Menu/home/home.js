@@ -20,6 +20,8 @@ var diaHorario;
 var horaActual = new Date().getHours() + ":" + new Date().getMinutes();
 var horaMillis = new Date().getTime();
 var horaAndroid = java.lang.System.currentTimeMillis();
+var fechaAndroidReal = new Date(horaAndroid);
+var dateAndroid = fechaAndroidReal.getHours() + ":" + fechaAndroidReal.getMinutes() + ":" + fechaAndroidReal.getSeconds();
 var hora_inicio = 0;
 var min_hora_inicio = 0;
 var horaClase;
@@ -69,9 +71,12 @@ if (diaSemana == 2) {
     dia = 'Viernes';
      console.log("El dia de la semana es:" + " " + dia);
 }
-
+        console.log("Hora REAL ANDROID" + " " + dateAndroid);
+        console.log("fecha y dia de hora android" + " " + fechaAndroidReal.getDay() + " " + fechaAndroidReal.getDate() + "/" + 
+        fechaAndroidReal.getMonth() + "/" + fechaAndroidReal.getFullYear());
          console.log("Hora millis compu" + " " + compuString);
          console.log("HoraAndroid millis" + " " + androidString);
+
 
 
 for (i=0; i< compuString.length - 2; i++) {

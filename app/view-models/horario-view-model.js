@@ -7,9 +7,11 @@ var ls_asistencia = require('local-storage');
 console.log("LLAMADO VIEWMODELJS 1");
 var condicional = false;
 var horarioValidator = [];
-var dia = new Date().getDate();
-var mes = new Date().getMonth();
-var a_o = new Date().getFullYear();
+var horaAndroid = java.lang.System.currentTimeMillis();
+var fechaAndroidReal = new Date(horaAndroid);
+var dia = fechaAndroidReal.getDate();
+var mes = fechaAndroidReal.getMonth();
+var a_o = fechaAndroidReal.getFullYear();
 
 function formatTime(time) {
     var hour = time.getHours();
