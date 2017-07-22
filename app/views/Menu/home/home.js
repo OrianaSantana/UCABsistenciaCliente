@@ -49,25 +49,25 @@ HomePage.prototype.contentLoaded = function(args) {
   console.log("LLAMADO HOMEJS 3 content");
 
 
-if (diaSemana == 2) {
+if (diaSemana == 1) {
     dia = 'Lunes';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 3) {
+} else if (diaSemana == 2) {
     dia = 'Martes';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 4) {
+} else if (diaSemana == 3) {
     dia = 'Miercoles';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 5) {
+} else if (diaSemana == 4) {
     dia = 'Jueves';
     console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 6) {
+} else if (diaSemana == 5) {
     dia = 'Viernes';
      console.log("El dia de la semana es:" + " " + dia);
 }
         console.log("Hora REAL ANDROID" + " " + horaActual);
         console.log("fecha y dia de hora android" + " " + diaSemana + " " + fechaAndroidReal.getDate() + "/" + 
-        fechaAndroidReal.getMonth() + "/" + fechaAndroidReal.getFullYear());
+        ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());
         
 //Esta comparacion en el servicio debe hacerse cada minuto
   for (i=0; i< horario.length; i++){ 

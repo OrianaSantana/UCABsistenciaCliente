@@ -10,7 +10,7 @@ var horarioValidator = [];
 var horaAndroid = java.lang.System.currentTimeMillis();
 var fechaAndroidReal = new Date(horaAndroid);
 var dia = fechaAndroidReal.getDate();
-var mes = fechaAndroidReal.getMonth();
+var mes = (fechaAndroidReal.getMonth()) + 1;
 var a_o = fechaAndroidReal.getFullYear();
 
 function formatTime(time) {
