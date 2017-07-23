@@ -25,6 +25,7 @@ function startMagnetometerUpdates(callback) {
     }
     var activity = application.android.foregroundActivity;
     if (!activity) {
+        console.log("activity" + " " + activity);
         throw Error("Could not get foregroundActivity.");
     }
     if (!sensorManager) {

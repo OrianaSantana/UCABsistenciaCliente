@@ -1,5 +1,7 @@
 var createViewModel = require("./InicioSesion-view-model").createViewModel;
 var frameModule = require("ui/frame");
+var application = require("application");
+
 
 var ls_correo = require('local-storage');
 var ls_profesor = require('local-storage');
@@ -21,11 +23,41 @@ exports.loaded = function(args) {
             //if(granted) {
                     user = createViewModel();  
                     page.bindingContext = user;
-                     user.set("isLoading", false); 
+                    user.set("isLoading", false); 
                     ls_validator('validar', 0);        
             //}
         //})
      }
+
+  var hardwareDisponible;
+  var magnetometer;
+  var gps;
+  var packageManager = application.android.context.getPackageManager();
+
+  console.log("package manager" + " " + packageManager);
+  
+  hardwareDisponible = packageManager.getSystemAvailableFeatures();
+    
+
+    for (i=0; i< hardwareDisponible.length; i++){ 
+
+        if (hardwareDisponible[i].name == 'android.hardware.sensor.compass') {
+            magnetometer = true;
+            console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+
+        } else {
+            magnetometer = false;
+        }
+        
+        if (hardwareDisponible[i].name == 'android.hardware.location.gps') {
+            gps = true;
+            console.log("Su dispositivo tiene gps?:" + " " + gps);
+        } else {
+            gps = false;
+        }
+    }
+
+
 };
 
 exports.IniciarSesion = function() {

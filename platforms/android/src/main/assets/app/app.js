@@ -19,6 +19,7 @@ console.log("local profesor" + " " + ls_profesor.get('profesor'));
 console.log("local id" + " " + ls_profesor.get('id'));
 console.log("local correo" + " " + ls_correo.get('correo'));
 console.log("local horario" + " " + ls_horario.get('horario_profesor'));
+
     application.start({ moduleName: "views/InicioSesion/InicioSesion" });
   }
 

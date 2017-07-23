@@ -15,20 +15,14 @@ var ls_id = require('local-storage');
 var ls_asistencia = require('local-storage');
 var dia;
 var horario = ls_horario.get('horario_profesor')
-var diaSemana = new Date().getDay();
 var diaHorario;
-var horaActual = new Date().getHours() + ":" + new Date().getMinutes();
-var horaMillis = new Date().getTime();
 var horaAndroid = java.lang.System.currentTimeMillis();
 var fechaAndroidReal = new Date(horaAndroid);
-var dateAndroid = fechaAndroidReal.getHours() + ":" + fechaAndroidReal.getMinutes() + ":" + fechaAndroidReal.getSeconds();
+var diaSemana = fechaAndroidReal.getDay();
+var horaActual = fechaAndroidReal.getHours() + ":" + fechaAndroidReal.getMinutes();
 var hora_inicio = 0;
 var min_hora_inicio = 0;
 var horaClase;
-var compuString = horaMillis.toString();
-var androidString = horaAndroid.toString();
-var recortandoCompu = "";
-var recortandoAndroid = "";
 //var formato = java.text.SimpleDateFormat("MMM dd,yyyy HH:mm");
 //var fechaFormato = java.util.Date(horaAndroid);
 //var finalAndroid = formato.format(fechaFormato);
@@ -55,44 +49,27 @@ HomePage.prototype.contentLoaded = function(args) {
   console.log("LLAMADO HOMEJS 3 content");
 
 
-if (diaSemana == 2) {
+if (diaSemana == 1) {
     dia = 'Lunes';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 3) {
+} else if (diaSemana == 2) {
     dia = 'Martes';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 4) {
+} else if (diaSemana == 3) {
     dia = 'Miercoles';
      console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 5) {
+} else if (diaSemana == 4) {
     dia = 'Jueves';
     console.log("El dia de la semana es:" + " " + dia);
-} else if (diaSemana == 6) {
+} else if (diaSemana == 5) {
     dia = 'Viernes';
      console.log("El dia de la semana es:" + " " + dia);
 }
-        console.log("Hora REAL ANDROID" + " " + dateAndroid);
-        console.log("fecha y dia de hora android" + " " + fechaAndroidReal.getDay() + " " + fechaAndroidReal.getDate() + "/" + 
-        fechaAndroidReal.getMonth() + "/" + fechaAndroidReal.getFullYear());
-         console.log("Hora millis compu" + " " + compuString);
-         console.log("HoraAndroid millis" + " " + androidString);
-
-
-
-for (i=0; i< compuString.length - 2; i++) {
-
-    recortandoCompu = recortandoCompu + compuString[i];
-}
-
-for (i=0; i< androidString.length - 2; i++) {
-
-    recortandoAndroid = recortandoAndroid + androidString[i];
-}
-
-console.log("String compu actualizado" + " " + recortandoCompu);
-console.log("String android actualizado" + " " + recortandoAndroid);
-
-
+        console.log("Hora REAL ANDROID" + " " + horaActual);
+        console.log("fecha y dia de hora android" + " " + diaSemana + " " + fechaAndroidReal.getDate() + "/" + 
+        ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());
+        
+//Esta comparacion en el servicio debe hacerse cada minuto
   for (i=0; i< horario.length; i++){ 
          diaHorario = horario[i].hor_dia;
          hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
@@ -100,7 +77,6 @@ console.log("String android actualizado" + " " + recortandoAndroid);
 
         if (diaHorario == dia) {
             horaClase = hora_inicio + ":" + min_hora_inicio;
-               if (recortandoCompu == recortandoAndroid) {
                     if (horaActual == horaClase) {
                       salonClase = horario[i].hor_salon;
                     console.log("Su clase es en el salon:" + " " + salonClase);
@@ -108,10 +84,10 @@ console.log("String android actualizado" + " " + recortandoAndroid);
                        message: "Su clase es en el salon:" + " " + salonClase,
                        okButtonText: "OK"
                        });
+                    } else {
+                        console.log("Las horas no son iguales");
                     }
-               } else {
-                   console.log("Las horas no son iguales");
-               }
+              
         } else {
             console.log("Los dias no son iguales");
         }
