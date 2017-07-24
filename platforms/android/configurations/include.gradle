@@ -1,4 +1,4 @@
 
 android {
-    flavorDimensions "acratelerikanalytics", "fresco", "nativescriptgeolocation", "nativescripttelerikui", "nativescripttelerikuipro", "tnscoremoduleswidgets"
+    flavorDimensions "acratelerikanalytics", "fresco", "nativescriptandroidutils", "nativescriptgeolocation", "nativescripttelerikui", "nativescripttelerikuipro", "tnscoremoduleswidgets"
 }

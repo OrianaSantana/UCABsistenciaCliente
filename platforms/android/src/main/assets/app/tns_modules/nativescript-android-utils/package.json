@@ -1,0 +1,102 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "nativescript-android-utils",
+        "scope": null,
+        "escapedName": "nativescript-android-utils",
+        "name": "nativescript-android-utils",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia"
+    ]
+  ],
+  "_from": "nativescript-android-utils@latest",
+  "_id": "nativescript-android-utils@1.0.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/nativescript-android-utils",
+  "_nodeVersion": "6.9.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/nativescript-android-utils-1.0.2.tgz_1485034245655_0.3801361001096666"
+  },
+  "_npmUser": {
+    "name": "pkanev",
+    "email": "pete.kanev@gmail.com"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "nativescript-android-utils",
+    "scope": null,
+    "escapedName": "nativescript-android-utils",
+    "name": "nativescript-android-utils",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/nativescript-android-utils/-/nativescript-android-utils-1.0.2.tgz",
+  "_shasum": "da6efb5701c2c4293f7e897872dde2a0a852354d",
+  "_shrinkwrap": null,
+  "_spec": "nativescript-android-utils",
+  "_where": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia",
+  "author": {
+    "name": "Peter Kanev",
+    "email": "pete.kanev@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/Pip3r4o/nativescript-android-utils/issues"
+  },
+  "dependencies": {},
+  "description": "A collection of certain Java/Android classes that help the NativeScript developer when dealing with Android-specific implementations.",
+  "devDependencies": {
+    "rimraf": "^2.5.0",
+    "typescript": "^2.0.7"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "da6efb5701c2c4293f7e897872dde2a0a852354d",
+    "tarball": "https://registry.npmjs.org/nativescript-android-utils/-/nativescript-android-utils-1.0.2.tgz"
+  },
+  "gitHead": "d03854102f6edb20681ebae758053095a191d3d8",
+  "homepage": "https://github.com/Pip3r4o/nativescript-android-utils",
+  "keywords": [
+    "NativeScript",
+    "JavaScript",
+    "Android",
+    "iOS"
+  ],
+  "license": "MIT",
+  "main": "index",
+  "maintainers": [
+    {
+      "name": "pkanev",
+      "email": "pete.kanev@gmail.com"
+    }
+  ],
+  "name": "nativescript-android-utils",
+  "nativescript": {
+    "platforms": {
+      "android": "2.3.0"
+    }
+  },
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pip3r4o/nativescript-android-utils.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "typings": "index.d.ts",
+  "version": "1.0.2"
+}

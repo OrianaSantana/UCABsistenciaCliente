@@ -1,0 +1,16 @@
+.title {
+    font-size: 30;
+    horizontal-align: center;
+    margin:20;
+}
+
+.boton {
+    font-size: 20;
+    horizontal-align: center;
+}
+
+.mensajito {
+    font-size: 20;
+    color: #284848;
+    horizontal-align: center;
+}

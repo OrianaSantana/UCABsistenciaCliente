@@ -1,7 +1,7 @@
 {
-	"time": "Sun Jul 23 2017 15:30:36 GMT-0400 (Venezuela Standard Time)",
+	"time": "Mon Jul 24 2017 19:00:04 GMT-0400 (Venezuela Standard Time)",
 	"bundle": false,
 	"release": false,
-	"changesRequireBuild": false,
-	"changesRequireBuildTime": "Wed Jul 19 2017 22:20:16 GMT-0400 (Venezuela Standard Time)"
+	"changesRequireBuild": true,
+	"changesRequireBuildTime": "Mon Jul 24 2017 19:00:04 GMT-0400 (Venezuela Standard Time)"
 }

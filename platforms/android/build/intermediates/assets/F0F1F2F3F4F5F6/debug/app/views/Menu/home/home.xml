@@ -1,0 +1,66 @@
+<page
+  xmlns="http://schemas.nativescript.org/tns.xsd"
+  xmlns:drawer="nativescript-telerik-ui/sidedrawer"
+  xmlns:widgets="shared/widgets"
+  xmlns:statusbar="nativescript-statusbar"
+  loaded="pageLoaded">
+
+  <statusbar:StatusBar ios:barStyle="light" />
+
+  <page.actionBar>
+    <action-bar title="UCABsistencia">
+      <navigation-button icon="res://ic_menu" tap="toggleDrawer" ios:visibility="collapsed" />
+      <action-bar.actionItems>
+        <ios>
+          <action-item icon="res://ic_menu" ios.position="left" tap="toggleDrawer" />
+        </ios>
+      </action-bar.actionItems>
+    </action-bar>
+  </page.actionBar>
+
+  <drawer:rad-side-drawer id="drawer">
+    <drawer:rad-side-drawer.mainContent>
+
+      <!-- Home page contents -->
+    <ActionBar title="Horario" automationText="ActionBar" horizontalAlignment="left"/>
+    <GridLayout rows="auto,*" columns="*" loaded="contentLoaded" cssClass="main-content" id="main-content">
+        <!-- Segmented Bar -->
+        <SegmentedBar row="0" selectedIndex="{{ selectedDay }}"
+                ios:selectedBackgroundColor="white"
+                android:selectedBackgroundColor="#FAC950" 
+                cssClass="conf-segmented-bar">
+            <SegmentedBar.items>
+                <SegmentedBarItem title="L"/>
+                <SegmentedBarItem title="M"/>
+                <SegmentedBarItem title="M"/>
+                <SegmentedBarItem title="J"/>
+                <SegmentedBarItem title="V"/>
+            </SegmentedBar.items>
+        </SegmentedBar>
+        <GridLayout row="1" rows="auto, *"  loaded="onBackgroundLoaded">
+            <!-- List -->
+            <!--<ListView row="1" items="{{ sessions }}" id="sessions-list" separatorColor="#00000000" ios:itemLoading="changeCellBackground">-->
+            <ListView row="1" items="{{ sessions }}" id="sessions-list" android:separatorColor="#000000" android:divider="#000000" ios:itemLoading="changeCellBackground">
+                <ListView.itemTemplate>
+                    <GridLayout columns="auto, auto, auto, *" rows="auto, auto, auto" cssClass="session-container">
+                        <Label row="0" col="1" text="{{ range }}" cssClass="session-time"/>
+                        <Label row="0" col="2" text="{{ room }}" cssClass="session-room"/>   
+                        <Image src="res://consult2" ios:visibility="collapsed" row="2" col="1" tap="consultarAsistencias" cssClass="session-consultar"/>  
+                        <!--<Button row="2" col="1" text="Histórico" tap="consultarAsistencias" cssClass="session-consultar"/>                 -->
+                        <Image src="res://checkbox_checked" ios:visibility="collapsed" row="2" col="1" colSpan="3" tap="reportarAsistencia" cssClass="session-reportar"/>  
+                        <Label row="1" col="1" colSpan="2" text="{{ title }}" textWrap="true" position="relative" cssClass="session-title"/>                        
+                        <Label row="1" col="3" text="{{ id }}" textWrap="true" visibility="collapsed" cssClass="session-title" />  
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+             <ActivityIndicator busy="{{ isLoading }}" rowSpan="2"/>
+        </GridLayout>
+    </GridLayout>
+      
+    </drawer:rad-side-drawer.mainContent>
+    <drawer:rad-side-drawer.drawerContent>
+      <widgets:drawer-content />
+    </drawer:rad-side-drawer.drawerContent>
+  </drawer:rad-side-drawer>
+
+</page>

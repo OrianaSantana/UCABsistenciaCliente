@@ -10,7 +10,7 @@
     <Image src="res://settings" col="0" row="2"></Image>
     <label text="Preferencias" tap="navigate" class="{{ selectedPage == 'preferencias' ? 'selected' : '' }}" col="1" row="2"/>
     <Image src="res://settings" col="0" row="3"></Image>    
-	  <label text="Reportar Asistencia" tap="navigate" class="{{ selectedPage == 'reportar asistencia' ? 'selected' : '' }}" col="1" row="3"/>
+	  <label text="ABS" tap="navigate" class="{{ selectedPage == 'abs' ? 'selected' : '' }}" col="1" row="3"/>
     <Image src="res://settings" col="0" row="4"></Image>    
 	 <label text="Notificaciones" tap="navigate" class="{{ selectedPage == 'notificaciones' ? 'selected' : '' }}" col="1" row="4"  android:separatorColor="#000000" android:divider="#000000"/>       
     <Image src="res://settings" col="0" row="5"></Image>    

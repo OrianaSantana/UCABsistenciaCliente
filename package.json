@@ -12,6 +12,7 @@
   "dependencies": {
     "local-storage": "^1.4.2",
     "nativescript-accelerometer": "^2.0.1",
+    "nativescript-android-utils": "^1.0.2",
     "nativescript-geolocation": "^3.0.0",
     "nativescript-telerik-ui": "^1.5.1",
     "tns-core-modules": "2.4.4"
