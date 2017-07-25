@@ -4,6 +4,7 @@ var frameModule = require("ui/frame");
 var fetchModule = require("fetch");
 var dialogsModule = require("ui/dialogs");
 var config = require("./config");
+var services = require("../service-helper");
 
 var ls_profesor = require('local-storage');
 var ls_correo = require('local-storage');
@@ -203,9 +204,9 @@ BasePage.prototype.navigate = function(args) {
             console.log("local preferencias" + " " + ls_preferencias.get('preferencias'));
             console.log("local notificaciones" + " " + ls_notificaciones.get('notificaciones'));
             console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
-
+            appViewModel.set("isLoading", false);  
             topmost().navigate("views/InicioSesion/InicioSesion");
-             appViewModel.set("isLoading", false);  
+            services.stopAlarm();
     }
     else {
          appViewModel.set("isLoading", true);  

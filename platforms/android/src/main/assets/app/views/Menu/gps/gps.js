@@ -55,7 +55,7 @@ GpsPage.prototype.contentLoaded = function(args) {
 GpsPage.prototype.enableLocationTap = function(args) {
     if (!geolocation.isEnabled()) {
         geolocation.enableLocationRequest();
-        console.log("habilitando" + " " +  geolocation.enableLocationRequest());
+        console.log("habilitando gps");
 
         //Aqui se hace automatico el llamado a las coordenadas del GPS
     
@@ -67,17 +67,9 @@ var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistanc
 
     var lat1 = loc.latitude;
     var lon1 = (loc.longitude);
-    var lat2 = 10.464824097361868;
-    var lon2 = (-66.97446489182153);
+    var lat2 = 10.464803656000619;
+    var lon2 = (-66.86167079430855);
 
-        ////////////////////DISTANCIA EUCLIDIANA
-
-//var resta1 = ((10.464824097361868-10.464569569361256) * (10.464824097361868-10.464569569361256));
-//var resta2 = (((-66.97446489182153)-(-66.9750851526562)) * ((-66.97446489182153)-(-66.9750851526562)));
-
-//var distanciaE = Math.sqrt(resta1 + resta2);
-
-//console.log("Esta es la distancia" + " " + (distanciaE)*100000);
 
 /////////////DISTANCIA RADIAL
 
@@ -108,7 +100,12 @@ var d = R * c;
 
 console.log("Esta es la distancia del radio" + " " + d);
 
-         
+      
+if (d <= 100) {
+    console.log("Esta en la UCAB/CASA");
+} else {
+    console.log("No esta en la UCAB/CASA");
+}   
 		}
   
 	}, function(e){
@@ -128,17 +125,8 @@ GpsPage.prototype.buttonGetLocationTap = function(args) {
             
     var lat1 = loc.latitude;
     var lon1 = (loc.longitude);
-    var lat2 = 10.464824097361868;
-    var lon2 = (-66.97446489182153);
-
-        ////////////////////DISTANCIA EUCLIDIANA
-
-//var resta1 = ((10.464824097361868-10.464569569361256) * (10.464824097361868-10.464569569361256));
-//var resta2 = (((-66.97446489182153)-(-66.9750851526562)) * ((-66.97446489182153)-(-66.9750851526562)));
-
-//var distanciaE = Math.sqrt(resta1 + resta2);
-
-//console.log("Esta es la distancia" + " " + (distanciaE)*100000);
+    var lat2 = 10.464803656000619;
+    var lon2 = (-66.86167079430855);
 
 /////////////DISTANCIA RADIAL
 
@@ -169,6 +157,11 @@ var d = R * c;
 
 console.log("Esta es la distancia del radio" + " " + d);
 
+if (d <= 100) {
+    console.log("Esta en la UCAB/CASA");
+} else {
+    console.log("No esta en la UCAB/CASA");
+}
          
 		}
   

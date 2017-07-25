@@ -1,6 +1,8 @@
 var createViewModel = require("./InicioSesion-view-model").createViewModel;
 var frameModule = require("ui/frame");
 var application = require("application");
+var utils = require("utils/utils");
+var services = require("../../service-helper");
 
 
 var ls_correo = require('local-storage');
@@ -29,13 +31,11 @@ exports.loaded = function(args) {
         //})
      }
 
-  var hardwareDisponible;
+  /*var hardwareDisponible;
   var magnetometer;
   var gps;
   var packageManager = application.android.context.getPackageManager();
 
-  console.log("package manager" + " " + packageManager);
-  
   hardwareDisponible = packageManager.getSystemAvailableFeatures();
     
 
@@ -55,8 +55,7 @@ exports.loaded = function(args) {
         } else {
             gps = false;
         }
-    }
-
+    }*/
 
 };
 
@@ -115,6 +114,7 @@ user.set("isLoading", true);
                                     }
                                 }                                       
                                     frameModule.topmost().navigate(navigationOptions);   
+                                    services.setupAlarm(utils.ad.getApplicationContext());
                                    // user.set("isLoading", false);                                  
                                 });
                     });  

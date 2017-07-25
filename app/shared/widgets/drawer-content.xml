@@ -19,6 +19,6 @@
 	  <label text="Gps" tap="navigate" class="{{ selectedPage == 'gps' ? 'selected' : '' }}" col="1" row="6"/>  
 	  <Image src="res://settings" col="0" row="7"></Image>    
 	  <label text="Ubicacion" tap="navigate" class="{{ selectedPage == 'ubicacion' ? 'selected' : '' }}" col="1" row="7"/>
-      <ActivityIndicator busy="{{ isLoading }}" rowSpan="7" colSpan="2"/> 
+    <ActivityIndicator busy="{{ isLoading }}" rowSpan="7" colSpan="2"/> 
 </grid-layout>
  </stack-layout>
