@@ -12,6 +12,9 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
 
 function processStartNotification() {
 var ls_horario = require('local-storage');
+var ls_salon = require('local-storage');
+var ls_lugar = require('local-storage');
+var ls_magnetometro = require('local-storage');
 var geolocation = require("nativescript-geolocation");
 var horario = ls_horario.get('horario_profesor');
 var dia;
@@ -47,6 +50,8 @@ if (fechaAndroidReal.getMinutes() == 1 || fechaAndroidReal.getMinutes() == 2 || 
 var horaActual = horaFormato + ":" + minutoFormato;
 var hora_inicio = 0;
 var min_hora_inicio = 0;
+ var hora_fin = 0;
+ var min_hora_fin = 0;   
 var horaClase;
 
     // AQUI SE COMPARA HORARIO
@@ -71,28 +76,39 @@ if (diaSemana == 1) {
         ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());
         
 //Se comparan las horas
+if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
   for (i=0; i< horario.length; i++){ 
          diaHorario = horario[i].hor_dia;
          hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
          min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
+         hora_fin = horario[i].hor_hora_fin.substr(11,2);
+         min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
 
         if (diaHorario == dia) {
            horaClase = hora_inicio + ":" + min_hora_inicio;
-           if (horaActual == horaClase) {
+           horaFin = hora_fin + ":" + min_hora_fin;
+
+           if (horaActual >= horaClase) {
              salonClase = horario[i].hor_salon;
+             ls_salon('salon',salonClase);
+             ls_horaInicio('inicio',horaClase);
+             ls_horaFin('fin',hora_fin);
              console.log("Su clase es en el salon:" + " " + salonClase);
 
                 //Se consulta si el tlf tiene gps
+                if (ls_gps.get('gps') == null) {
                 gps = hasSystemFeature('android.hardware.location.gps');
                 console.log("Su dispositivo tiene gps?:" + " " + gps);
+                ls_gps('gps',gps);
+                } 
 
-                if (gps) {
+                if (ls_gps.get('gps') == true) {
                 //Se enciende el gps
                   if (!geolocation.isEnabled()) {
                      geolocation.enableLocationRequest();
                      console.log("habilitando gps");
 
-                       //Aqui se hace automatico el llamado a las coordenadas del GPS  
+                    //Aqui se hace automatico el llamado a las coordenadas del GPS  
                     var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
                     then(function(loc) {
                     if (loc) {
@@ -135,53 +151,85 @@ if (diaSemana == 1) {
                 //Se compara la distancia obtenida con la tolerancia en mts
                 if (d <= 100) {
                  console.log("Esta en la UCAB/CASA");
+                 ls_lugar('lugar',"UCAB");
 
-                //Se consulta si el tlf tiene magnetometro
-                 magnetometer = hasSystemFeature('android.hardware.sensor.compass');      
-                                      
-                 console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+                            //Se consulta si el tlf tiene magnetometro
+                        if (ls_magnetometro.get('magnetometro') == null) {
+                            magnetometer = hasSystemFeature('android.hardware.sensor.compass');                         
+                            console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+                            ls_magnetometro('magnetometro',magnetometer);
+                        } 
 
-                   if (magnetometer) {
-                       console.log("Su dispositivo tiene magnetometro")
-                    } else {
-                       console.log("Su dispositivo no tiene magnetometro");
-                        //AQUI SE ENVIA NOTIFICACION
-                        var utils = require("utils/utils");
-                        var context = utils.ad.getApplicationContext();
+                        if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado");
+                            
+                            //Se deben hacer calculos de localizacion
 
-                        var builder = new android.app.Notification.Builder(context);
-                        builder.setContentTitle("Falla de hardware")
-                        .setAutoCancel(true)
-                                               
-                        .setContentText("Reporte Asistencia Manual")
-                        .setVibrate([100, 200, 100])
-                        .setSmallIcon(android.R.drawable.btn_star_big_on);
+                            if (ls_magnetometro.get('magnetometro') == true) {
+                                console.log("Su dispositivo tiene magnetometro funcion gps encendido primera vez");
+                                //Aqui se toman las mediciones
+                                
+                            } 
+                            
+                        } else {
 
-                        // will open main NativeScript activity when the notification is pressed
-                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                         var pendingIntent = android.app.PendingIntent.getActivity(context,
-                         1,
-                        mainIntent,
-                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                        builder.setContentIntent(pendingIntent);
-                        builder.setDeleteIntent(getDeleteIntent(context));
+                         console.log("La clase se termino");   
 
-                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                        manager.notify(1, builder.build());
+                         if (ls_magnetometro.get('magnetometro') == false) {
+                            
+                                    console.log("Su dispositivo no tiene magnetometro");
+                                    //AQUI SE ENVIA NOTIFICACION
+                                    var utils = require("utils/utils");
+                                    var context = utils.ad.getApplicationContext();
+
+                                    var builder = new android.app.Notification.Builder(context);
+                                    builder.setContentTitle("Falla de hardware")
+                                    .setAutoCancel(true)
+                                                        
+                                    .setContentText("Reporte Asistencia Manual")
+                                    .setVibrate([100, 200, 100])
+                                    .setSmallIcon(android.R.drawable.btn_star_big_on);
+
+                                    // will open main NativeScript activity when the notification is pressed
+                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                    1,
+                                    mainIntent,
+                                    android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                    builder.setContentIntent(pendingIntent);
+                                    builder.setDeleteIntent(getDeleteIntent(context));
+
+                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                                    manager.notify(1, builder.build());
+                                    
+                         } else {
+                           console.log("La clase se termino y deben sacarse porcentajes de localizacion");
+                         //Deben sacarse porcentajes de localizacion y dar respuesta
                          }
+                               
+                 }   
+                
                 } else {
                     console.log("No esta en la UCAB/CASA");
-                    //Se debe inicializar el timmer de 30 min
-                        }   
+
+                      if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado");
+                            //Se debe esperar a que termine la clase
+                      } else {
+                          console.log("La clase se termino, se marca inasistencia");
+                          //Aqui se debe hacer el post de inasistencia
+                      }
+                      }   
                     }
                                 
                     }, function(e){
                         console.log("Error: " + e.message);
                         });
 
-                    } else {
+                    } else if (geolocation.isEnabled() == true){
                        //ESTE ES EL ELSE DE SI EL GPS YA ESTA ENCENDIDO
-                         //Aqui se hace automatico el llamado a las coordenadas del GPS  
+                       console.log("El gps esta encendido");
+                      //Aqui se hace automatico el llamado a las coordenadas del GPS  
                     var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
                     then(function(loc) {
                     if (loc) {
@@ -224,43 +272,73 @@ if (diaSemana == 1) {
                 //Se compara la distancia obtenida con la tolerancia en mts
                 if (d <= 100) {
                  console.log("Esta en la UCAB/CASA");
+                 ls_lugar('lugar',"UCAB");
 
-                //Se consulta si el tlf tiene magnetometro
-                 magnetometer = hasSystemFeature('android.hardware.sensor.compass');      
-                                      
-                 console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+                        if (ls_magnetometro.get('magnetometro') == null) {
+                            //Se consulta si el tlf tiene magnetometro
+                            magnetometer = hasSystemFeature('android.hardware.sensor.compass');                    
+                            console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+                            ls_magnetometro('magnetometro',magnetometer);
+                        } 
 
-                   if (magnetometer) {
-                       console.log("Su dispositivo tiene magnetometro")
-                    } else {
-                       console.log("Su dispositivo no tiene magnetometro");
-                        //AQUI SE ENVIA NOTIFICACION
-                        var utils = require("utils/utils");
-                        var context = utils.ad.getApplicationContext();
+                             if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado");
+                            
+                            //Se deben hacer calculos de localizacion
 
-                        var builder = new android.app.Notification.Builder(context);
-                        builder.setContentTitle("Falla de hardware")
-                        .setAutoCancel(true)
-                                               
-                        .setContentText("Reporte Asistencia Manual")
-                        .setVibrate([100, 200, 100])
-                        .setSmallIcon(android.R.drawable.btn_star_big_on);
+                            if (ls_magnetometro.get('magnetometro') == true) {
+                                console.log("Su dispositivo tiene magnetometro funcion gps encendido");
+                                //Aqui se toman las mediciones
+                                
+                            } 
+                            
+                        } else {
 
-                        // will open main NativeScript activity when the notification is pressed
-                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                         var pendingIntent = android.app.PendingIntent.getActivity(context,
-                         1,
-                        mainIntent,
-                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                        builder.setContentIntent(pendingIntent);
-                        builder.setDeleteIntent(getDeleteIntent(context));
+                         console.log("La clase se termino");   
 
-                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                        manager.notify(1, builder.build());
+                         if (ls_magnetometro.get('magnetometro') == false) {
+                            
+                                    console.log("Su dispositivo no tiene magnetometro");
+                                    //AQUI SE ENVIA NOTIFICACION
+                                    var utils = require("utils/utils");
+                                    var context = utils.ad.getApplicationContext();
+
+                                    var builder = new android.app.Notification.Builder(context);
+                                    builder.setContentTitle("Falla de hardware")
+                                    .setAutoCancel(true)
+                                                        
+                                    .setContentText("Reporte Asistencia Manual")
+                                    .setVibrate([100, 200, 100])
+                                    .setSmallIcon(android.R.drawable.btn_star_big_on);
+
+                                    // will open main NativeScript activity when the notification is pressed
+                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                    1,
+                                    mainIntent,
+                                    android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                    builder.setContentIntent(pendingIntent);
+                                    builder.setDeleteIntent(getDeleteIntent(context));
+
+                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                                    manager.notify(1, builder.build());
+                                    
+                         } else {
+                           console.log("La clase se termino y deben sacarse porcentajes de localizacion");
+                         //Deben sacarse porcentajes de localizacion y dar respuesta
                          }
+                               
+                 }   
+                        
                 } else {
                     console.log("No esta en la UCAB/CASA");
-                    //Se debe inicializar el timmer de 30 min
+                   if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado");
+                            //Se debe esperar a que termine la clase
+                      } else {
+                          console.log("La clase se termino, se marca inasistencia");
+                          //Aqui se debe hacer el post de inasistencia
+                      }
                         }   
                     }
                                 
@@ -269,30 +347,40 @@ if (diaSemana == 1) {
                         });
                     } 
                 } else {
-                  console.log("Su dispositivo no tiene gps");
-                //AQUI SE ENVIA NOTIFICACION
-                var utils = require("utils/utils");
-                var context = utils.ad.getApplicationContext();
+                    console.log("Su dispositivo no tiene GPS");
 
-                var builder = new android.app.Notification.Builder(context);
-                builder.setContentTitle("Falla de hardware")
-                .setAutoCancel(true)
-                                    
-                .setContentText("Firme Asistencia en escuela")
-                .setVibrate([100, 200, 100])
-                .setSmallIcon(android.R.drawable.btn_star_big_on);
+                    //SE DEBE PREGUNTAR POR LA HORA Y DAR LA NOTIFICACION AL FINALIZAR
+                     if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado");
+                     } else{
+                         console.log("La clase ya termino, se envia notificacion al profesor por no tener gps");
+                             console.log("Su dispositivo no tiene gps");
+                            //AQUI SE ENVIA NOTIFICACION
+                            var utils = require("utils/utils");
+                            var context = utils.ad.getApplicationContext();
 
-               // will open main NativeScript activity when the notification is pressed
-               var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-               var pendingIntent = android.app.PendingIntent.getActivity(context,
-               1,
-               mainIntent,
-               android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-               builder.setContentIntent(pendingIntent);
-               builder.setDeleteIntent(getDeleteIntent(context));
+                            var builder = new android.app.Notification.Builder(context);
+                            builder.setContentTitle("Falla de hardware")
+                            .setAutoCancel(true)
+                                                
+                            .setContentText("Firme Asistencia en escuela")
+                            .setVibrate([100, 200, 100])
+                            .setSmallIcon(android.R.drawable.btn_star_big_on);
 
-                var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                 manager.notify(1, builder.build());
+                        // will open main NativeScript activity when the notification is pressed
+                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                        var pendingIntent = android.app.PendingIntent.getActivity(context,
+                        1,
+                        mainIntent,
+                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                        builder.setContentIntent(pendingIntent);
+                        builder.setDeleteIntent(getDeleteIntent(context));
+
+                            var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                            manager.notify(1, builder.build());
+
+                     }
+                        
                 }
                        
             } else {
@@ -304,7 +392,62 @@ if (diaSemana == 1) {
         }
 
         };
+} else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro != null) {
 
+    //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
+
+    if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+        console.log("La clase no se ha terminado");
+
+        //Los calculos de localizacion deben seguirse haciendo
+        if (ls_magnetometro.get('magnetometro') == true) {
+        console.log("Su dispositivo tiene magnetometro else salon,lugar true");
+        //Aqui se toman las mediciones
+        }   
+
+    } else {
+        console.log("Se termino la clase");
+       
+        if (ls_magnetometro.get('magnetometro') == false) {
+                            
+        console.log("Su dispositivo no tiene magnetometro");
+       //AQUI SE ENVIA NOTIFICACION
+        var utils = require("utils/utils");
+        var context = utils.ad.getApplicationContext();
+
+        var builder = new android.app.Notification.Builder(context);
+        builder.setContentTitle("Falla de hardware")
+         .setAutoCancel(true)
+                                                        
+        .setContentText("Reporte Asistencia Manual")
+        .setVibrate([100, 200, 100])
+        .setSmallIcon(android.R.drawable.btn_star_big_on);
+
+         // will open main NativeScript activity when the notification is pressed
+        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+        var pendingIntent = android.app.PendingIntent.getActivity(context,
+         1,
+        mainIntent,
+        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        builder.setDeleteIntent(getDeleteIntent(context));
+
+        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+         manager.notify(1, builder.build());
+                                    
+        } else {
+             console.log("La clase se termino y deben sacarse porcentajes de localizacion");
+            //Deben sacarse porcentajes de localizacion y dar respuesta
+           }
+
+        //Debe calcularse el porcentaje de localizacion para dar respuesta final 
+        //Aqui es donde ls_salon, ls_lugar, ls_horaInicio y ls_horaFin vuelven a null
+        //ls_gps y ls_magnetometro no se vuelven a null para no tener q volver a preguntar
+        //Si la sesion se cierra , todas las local storage vuelven a null
+    }
+} 
+
+    
 //AQUI SE ENVIA NOTIFICACION
     /*var utils = require("utils/utils");
     var context = utils.ad.getApplicationContext();

@@ -12,6 +12,9 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
 
 function processStartNotification() {
 var ls_horario = require('local-storage');
+var ls_salon = require('local-storage');
+var ls_gps = require('local-storage');
+var ls_magnetometro = require('local-storage');
 var geolocation = require("nativescript-geolocation");
 var horario = ls_horario.get('horario_profesor');
 var dia;
@@ -71,6 +74,7 @@ if (diaSemana == 1) {
         ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());
         
 //Se comparan las horas
+if (ls_salon.get('salon') == null && ls_gps.get('gps') == null && ls_magnetometro.get('magnetometro') == null) {
   for (i=0; i< horario.length; i++){ 
          diaHorario = horario[i].hor_dia;
          hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
@@ -80,6 +84,7 @@ if (diaSemana == 1) {
            horaClase = hora_inicio + ":" + min_hora_inicio;
            if (horaActual == horaClase) {
              salonClase = horario[i].hor_salon;
+             ls_salon('salon',salonClase);
              console.log("Su clase es en el salon:" + " " + salonClase);
 
                 //Se consulta si el tlf tiene gps
@@ -92,7 +97,7 @@ if (diaSemana == 1) {
                      geolocation.enableLocationRequest();
                      console.log("habilitando gps");
 
-                       //Aqui se hace automatico el llamado a las coordenadas del GPS  
+                    //Aqui se hace automatico el llamado a las coordenadas del GPS  
                     var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
                     then(function(loc) {
                     if (loc) {
@@ -135,14 +140,18 @@ if (diaSemana == 1) {
                 //Se compara la distancia obtenida con la tolerancia en mts
                 if (d <= 100) {
                  console.log("Esta en la UCAB/CASA");
+                 ls_gps('gps',"UCAB");
 
                 //Se consulta si el tlf tiene magnetometro
-                 magnetometer = hasSystemFeature('android.hardware.sensor.compass');      
-                                      
+               if (ls_magnetometro.get('magnetometro') == null) {
+                 magnetometer = hasSystemFeature('android.hardware.sensor.compass');                         
                  console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
-
-                   if (magnetometer) {
-                       console.log("Su dispositivo tiene magnetometro")
+                 ls_magnetometro('magnetometro',magnetometer);
+               } else {
+                   if (ls_magnetometro.get('magnetometro') == true) {
+                       console.log("Su dispositivo tiene magnetometro");
+                       //Aqui se toman las mediciones
+                      
                     } else {
                        console.log("Su dispositivo no tiene magnetometro");
                         //AQUI SE ENVIA NOTIFICACION
@@ -169,6 +178,8 @@ if (diaSemana == 1) {
                         var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                         manager.notify(1, builder.build());
                          }
+               }
+                
                 } else {
                     console.log("No esta en la UCAB/CASA");
                     //Se debe inicializar el timmer de 30 min
@@ -179,9 +190,10 @@ if (diaSemana == 1) {
                         console.log("Error: " + e.message);
                         });
 
-                    } else {
+                    } else if (geolocation.isEnabled() == true){
                        //ESTE ES EL ELSE DE SI EL GPS YA ESTA ENCENDIDO
-                         //Aqui se hace automatico el llamado a las coordenadas del GPS  
+                       console.log("El gps esta encendido");
+                      //Aqui se hace automatico el llamado a las coordenadas del GPS  
                     var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
                     then(function(loc) {
                     if (loc) {
@@ -224,14 +236,19 @@ if (diaSemana == 1) {
                 //Se compara la distancia obtenida con la tolerancia en mts
                 if (d <= 100) {
                  console.log("Esta en la UCAB/CASA");
+                  ls_gps('gps',"UCAB");
 
+             if (ls_magnetometro.get('magnetometro') == null) {
                 //Se consulta si el tlf tiene magnetometro
                  magnetometer = hasSystemFeature('android.hardware.sensor.compass');      
                                       
                  console.log("Su dispositivo tiene magnetometro?:" + " " + magnetometer);
+                 ls_magnetometro('magnetometro',magnetometer);
+             } else {
 
-                   if (magnetometer) {
-                       console.log("Su dispositivo tiene magnetometro")
+                   if (ls_magnetometro.get('magnetometro') == true) {
+                       console.log("Su dispositivo tiene magnetometro");
+                       //Aqui se toman las mediciones
                     } else {
                        console.log("Su dispositivo no tiene magnetometro");
                         //AQUI SE ENVIA NOTIFICACION
@@ -258,8 +275,10 @@ if (diaSemana == 1) {
                         var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                         manager.notify(1, builder.build());
                          }
+              }
                 } else {
                     console.log("No esta en la UCAB/CASA");
+                     ls_gps('gps',null);
                     //Se debe inicializar el timmer de 30 min
                         }   
                     }
@@ -304,6 +323,39 @@ if (diaSemana == 1) {
         }
 
         };
+} else if (ls_salon.get('salon') != null && ls_gps.get('gps') == "UCAB" && ls_magnetometro != null) {
+
+    if (ls_magnetometro.get('magnetometro') == true) {
+        console.log("Su dispositivo tiene magnetometro");
+        //Aqui se toman las mediciones
+        } else {
+        console.log("Su dispositivo no tiene magnetometro");
+        //AQUI SE ENVIA NOTIFICACION
+        var utils = require("utils/utils");
+        var context = utils.ad.getApplicationContext();
+
+        var builder = new android.app.Notification.Builder(context);
+         builder.setContentTitle("Falla de hardware")
+        .setAutoCancel(true)
+                                               
+        .setContentText("Reporte Asistencia Manual")
+        .setVibrate([100, 200, 100])
+        .setSmallIcon(android.R.drawable.btn_star_big_on);
+
+        // will open main NativeScript activity when the notification is pressed
+        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+        var pendingIntent = android.app.PendingIntent.getActivity(context,
+         1,
+        mainIntent,
+        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+         builder.setDeleteIntent(getDeleteIntent(context));
+
+         var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+         manager.notify(1, builder.build());
+         }
+
+}        
 
 //AQUI SE ENVIA NOTIFICACION
     /*var utils = require("utils/utils");
