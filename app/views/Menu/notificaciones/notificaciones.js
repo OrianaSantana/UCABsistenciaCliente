@@ -30,14 +30,14 @@ NotificacionesPage.prototype.contentLoaded = function(args) {
    /* var proId = ls_profesor.get('id');
 
   notificacionesList.InsertarNotificacion(proId /*,mensaje)*/
-   /*  .catch(function(error) {
+   /* .catch(function(error) {
             console.log(error);          
             console.log("No PUDO insertar notificacion");
             return Promise.reject();
         })
         .then(function() {
             frameModule.topmost().navigate("views/Menu/home/home");
-        });*/
+        });  */
 
 };	
 
