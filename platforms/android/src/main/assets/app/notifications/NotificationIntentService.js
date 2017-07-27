@@ -12,7 +12,6 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
 
 function processStartNotification() {
 var ls_horario = require('local-storage');
-var ls_profesor = require('local-storage');
 var ls_salon = require('local-storage');
 var ls_lugar = require('local-storage');
 var ls_gps = require('local-storage');
@@ -21,9 +20,6 @@ var ls_horaFin = require('local-storage');
 var ls_magnetometro = require('local-storage');
 var geolocation = require("nativescript-geolocation");
 var horario = ls_horario.get('horario_profesor');
-var magnetometer = require("nativescript-accelerometer");
-var services = require("../service-helper");
-var utils = require("utils/utils");
 var dia;
 var diaHorario;
 var horaAndroid = java.lang.System.currentTimeMillis();
@@ -35,20 +31,7 @@ var magnetometer;
 var gps;
 var d;
 var lugar;
-var counter = 500;
-var pro_id = ls_profesor.get('id');
-var miObjeto = function (vx, vy, vz) {
-    this.vx = vx || '';
-    this.vy = vy || '';
-    this.vz = vz || '';
-    this.pro_id =  ls_profesor.get('id') || '';
-};
-var objeto;
-var intervalo;
-var intervalo1;
-var ArregloNuevo = []; 
-var data1;
-var counter1 = 60000;
+
 
 if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
 || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -110,7 +93,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
            horaClase = hora_inicio + ":" + min_hora_inicio;
            horaFin = hora_fin + ":" + min_hora_fin;
 
-           if (horaActual >= horaClase && horaActual < horaFin) {
+           if (horaActual >= horaClase && horaActual <= horaFin) {
              salonClase = horario[i].hor_salon;
              ls_salon('salon',salonClase);
              ls_horaInicio('inicio',horaClase);
@@ -187,7 +170,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                             ls_magnetometro('magnetometro',magnetometer);
                         } 
 
-                        if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
+                        if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
                             console.log("La clase no se ha terminado 1");
                             
                             //Se deben hacer calculos de localizacion
@@ -242,7 +225,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                 } else {
                     console.log("No esta en la UCAB/CASA");
 
-                      if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
+                      if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
                             console.log("La clase no se ha terminado 2");
                             //Se debe esperar a que termine la clase
                       } else {
@@ -315,8 +298,8 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                             ls_magnetometro('magnetometro',magnetometer);
                         } 
 
-                             if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
-                            console.log("La clase no se ha terminado 3");
+                             if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado 2");
                             
                             //Se deben hacer calculos de localizacion
 
@@ -328,7 +311,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                             
                         } else {
 
-                         console.log("La clase se termino 3");   
+                         console.log("La clase se termino 2");   
                       ls_salon('salon',null);
                           ls_lugar('lugar',null); 
 
@@ -360,7 +343,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                                     manager.notify(1, builder.build());
                                     
                          } else {
-                           console.log("La clase se termino y deben sacarse porcentajes de localizacion 3");
+                           console.log("La clase se termino y deben sacarse porcentajes de localizacion 2");
                          //Deben sacarse porcentajes de localizacion y dar respuesta
                          
                          }
@@ -369,11 +352,11 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                         
                 } else {
                     console.log("No esta en la UCAB/CASA");
-                   if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
-                            console.log("La clase no se ha terminado 4");
+                   if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado 3");
                             //Se debe esperar a que termine la clase
                       } else {
-                          console.log("La clase se termino, se marca inasistencia 4");
+                          console.log("La clase se termino, se marca inasistencia 3");
                           //Aqui se debe hacer el post de inasistencia
                           ls_salon('salon',null);
                           ls_lugar('lugar',null); 
@@ -390,10 +373,10 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
                     console.log("Su dispositivo no tiene GPS");
 
                     //SE DEBE PREGUNTAR POR LA HORA Y DAR LA NOTIFICACION AL FINALIZAR
-                     if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
-                            console.log("La clase no se ha terminado 5");
+                     if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+                            console.log("La clase no se ha terminado 4");
                      } else{
-                         console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");
+                         console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 4");
                         
                          console.log("Su dispositivo no tiene gps");
                             //AQUI SE ENVIA NOTIFICACION
@@ -437,45 +420,17 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
 
     //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
 
-    if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
-        console.log("La clase no se ha terminado 6");
+    if (horaActual >= ls_horaInicio.get('inicio') && horaActual <= ls_horaFin.get('fin')){
+        console.log("La clase no se ha terminado 5");
 
         //Los calculos de localizacion deben seguirse haciendo
         if (ls_magnetometro.get('magnetometro') == true) {
         console.log("Su dispositivo tiene magnetometro else salon,lugar true");
         //Aqui se toman las mediciones
-            magnetometer.startMagnetometerUpdates(function (data) {
-                data1 = data;
-                objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-            }
-            );
-
-             setTimeout(function() {
-                 console.log("Entre a la funcion setTimeout");
-                 magnetometer.stopMagnetometerUpdates();
-                 clearInterval(intervalo);
-                 clearInterval(intervalo1);
-                 console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
-                 ubicacion(ArregloNuevo)
-                .catch(function(error) {
-                    console.log("catch post ubicacion");
-                    console.log("No se pudo localizar");
-                    return Promise.reject();
-                })
-                .then(function(respuesta1) {
-                    console.log("Respuesta1" + " " + respuesta1._bodyInit);
-                    console.dir(respuesta1);
-                    ArregloNuevo = [];
-                });
-             }, counter1);
-
-             intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-             intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter); 
-            
-     }   
+        }   
 
     } else {
-        console.log("Se termino la clase 6");
+        console.log("Se termino la clase 5");
         ls_salon('salon',null);
         ls_lugar('lugar',null); 
        
@@ -561,35 +516,4 @@ hardwareDisponible = packageManager.getSystemAvailableFeatures();
               }
          }
 return false;
-}
-
-function handleErrors(response) {
-    if (!response.ok) {
-        console.log("HANDLE ERROR");
-        console.log(JSON.stringify(response));
-        throw Error(response.statusText);
-    }
-    return response;
-}
-function ubicacion(ArregloNuevo)
-{    
-    var config = require("../shared/config");
-
-    console.log("POST de ubicacion ENTRO");
-
-    return fetch(config.apiUrl + "ubicacion" , { 
-        method: "POST",
-        body: JSON.stringify(
-            ArregloNuevo 
-        ),
-        headers: {
-            // "Authorization": "Bearer " + config.token,
-            "Content-Type": "application/json"
-        }
-    })
-    .then(handleErrors)
-     .then(function(response) {          
-        return response;
-        });
-        
 }

@@ -20,7 +20,7 @@ function setupAlarm(context) {
     alarmIntent = getStartPendingIntent(context);
     alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP,
         java.lang.System.currentTimeMillis(),
-        1000 * 60 * 3, // <- every 5 minutes // 1000 * 60 * 60 * 24, /* alarm will send the `alarmIntent` object every 24h */
+        1000 * 60 * 1, // <- every 5 minutes // 1000 * 60 * 60 * 24, /* alarm will send the `alarmIntent` object every 24h */
         alarmIntent);  
 }
 
