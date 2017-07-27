@@ -110,7 +110,7 @@ function processStartNotification() {
         console.log("fecha y dia de hora android" + " " + diaSemana + " " + fechaAndroidReal.getDate() + "/" + 
         ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());                
         //Se comparan las horas
-        if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
+        if (ls_lugar.get('lugar') == null) {
         for (i=0; i< horario.length; i++){ 
                 diaHorario = horario[i].hor_dia;
                 hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
@@ -128,7 +128,7 @@ function processStartNotification() {
                     ls_salon('salon',salonClase);
                     ls_horaInicio('inicio',horaClase);
                     ls_horaFin('fin',horaFin);
-                    ls_idHorario('id',idHorario);
+                    ls_idHorario('idHorario',idHorario);
                     console.log("Su clase es en el salon:" + " " + salonClase);
                     console.log("salon" + " " + ls_salon.get('salon'));
                     console.log("inicio" + " " + ls_horaInicio.get('inicio'));
@@ -141,9 +141,12 @@ function processStartNotification() {
                     } 
                     if (ls_gps.get('gps') == true) {
                         //Se enciende el gps
-                        if (!geolocation.isEnabled()) {
-                            geolocation.enableLocationRequest();
-                            console.log("habilitando gps");
+                        if (!geolocation.isEnabled() || (geolocation.isEnabled())) {
+                            if(!geolocation.isEnabled()){
+                                    geolocation.enableLocationRequest();
+                                    console.log("habilitando gps");
+                            }
+                            console.log("El gps esta encendido");
                             //Aqui se hace automatico el llamado a las coordenadas del GPS  
                             var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
                             then(function(loc) {
@@ -165,7 +168,7 @@ function processStartNotification() {
                                                 ls_salon('salon',null);
                                                 ls_lugar('lugar',null); 
                                         //Aqui se debe hacer el post de inasistencia
-                                           inasistencia(ls_idHorario.get('id'),horaActual)
+                                           inasistencia(ls_idHorario.get('idHorario'),horaActual)
                                             .catch(function(error) {
                                                     console.log(error);
                                                     dialogsModule.alert({
@@ -187,54 +190,6 @@ function processStartNotification() {
                             }, function(e){
                                 console.log("Error: " + e.message);
                                 });                
-                        } else if (geolocation.isEnabled() == true){
-                            //ESTE ES EL ELSE DE SI EL GPS YA ESTA ENCENDIDO
-                            console.log("El gps esta encendido");
-                            //Aqui se hace automatico el llamado a las coordenadas del GPS  
-                            var location = geolocation.getCurrentLocation({desiredAccuracy: 3, updateDistance: 10, maximumAge: 20000, timeout: 20000}).
-                            then(function(loc) {
-                                    if (loc) {                                            
-                                        console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
-                                        d = getCoordenadasGPS(loc);
-                                        console.log("Esta es la distancia del radio" + " " + d);
-                                        //Se compara la distancia obtenida con la tolerancia en mts
-                                        if (d <= 100) {
-                                            ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar);
-                                            console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
-                                            console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
-                                        } else {
-                                            console.log("No esta en la UCAB/CASA");
-                                            if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
-                                                console.log("La clase no se ha terminado 4");
-                                                //Se debe esperar a que termine la clase
-                                            } else {
-                                                console.log("La clase se termino, se marca inasistencia 4");
-                                                ls_salon('salon',null);
-                                                ls_lugar('lugar',null); 
-                                                //Aqui se debe hacer el post de inasistencia
-                                                   
-                                                inasistencia(ls_idHorario.get('id'),horaActual)
-                                               .catch(function(error) {
-                                                    console.log(error);
-                                                    dialogsModule.alert({
-                                                        message: "No se pudo reportar la inasistencia",
-                                                        okButtonText: "OK"
-                                                    });
-                                                    console.log("No PUDO REPORTAR ASISTENCIA inasistencia");
-                                                    return Promise.reject();
-                                                })
-                                                .then(function() {
-                                                    dialogsModule.alert({
-                                                        message: "Inasistencia reportada exitosamente.",
-                                                        okButtonText: "OK"
-                                                    });
-                                                });                    
-                                            }
-                                        }   
-                                    }                                
-                            }, function(e){
-                                console.log("Error: " + e.message);
-                                });
                         } 
                     }else{
                         console.log("Su dispositivo no tiene GPS");
@@ -264,8 +219,7 @@ function processStartNotification() {
                                 var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                                 manager.notify(1, builder.build());
                         }                        
-                    }
-                            
+                    }                            
                 } else {
                     console.log("Las horas no son iguales");
                 }              
@@ -274,7 +228,7 @@ function processStartNotification() {
                 }
 
         };
-    } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && /*ls_magnetometro*/ls_magnetometro.get('magnetometro') != null) {
+    } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
             //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
             if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
@@ -288,7 +242,6 @@ function processStartNotification() {
                             objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
                         }
                         );
-
                         setTimeout(function() {
                             console.log("Entre a la funcion setTimeout");
                             magnetometer.stopMagnetometerUpdates();
@@ -309,8 +262,7 @@ function processStartNotification() {
                         }, counter1);
 
                         intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter); 
-            
+                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);             
                 }   
             } else{
                 console.log("Se termino la clase 6");
@@ -440,9 +392,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
              magnetometer.startMagnetometerUpdates(function (data) {
                             data1 = data;
                             objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-                        }
-                        );
-
+                        });
                         setTimeout(function() {
                             console.log("Entre a la funcion setTimeout");
                             magnetometer.stopMagnetometerUpdates();
@@ -461,7 +411,6 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                 ArregloNuevo = [];
                             });
                         }, counter1);
-
                         intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
                         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                             
         }                             
@@ -501,7 +450,6 @@ function getDeleteIntent(context) {
         intent.setAction("ACTION_DELETE_NOTIFICATION");
         return android.app.PendingIntent.getBroadcast(context, 0, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 }
-
 function hasSystemFeature (feature) {
     var application = require("application");
     var hardwareDisponible;
@@ -527,9 +475,7 @@ function handleErrors(response) {
 function ubicacion(ArregloNuevo)
 {    
     var config = require("../shared/config");
-
     console.log("POST de ubicacion ENTRO");
-
     return fetch(config.apiUrl + "ubicacion" , { 
         method: "POST",
         body: JSON.stringify(
@@ -543,16 +489,13 @@ function ubicacion(ArregloNuevo)
     .then(handleErrors)
      .then(function(response) {          
         return response;
-        });
-        
+        });        
 }
 function inasistencia(idHor,horaActual)
 {    
     var config = require("../shared/config");
-
     console.log("POST de inasistencia entro");
-
-   return fetch(config.apiUrl + "asistencias" , { 
+    return fetch(config.apiUrl + "asistencias" , { 
         method: "POST",
         body: JSON.stringify({
             fecha: horaActual,

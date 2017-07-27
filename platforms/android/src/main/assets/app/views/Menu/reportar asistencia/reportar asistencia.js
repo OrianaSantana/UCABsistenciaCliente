@@ -64,8 +64,8 @@ ReportePage.prototype.contentLoaded = function(args) {
             });
         });
 
-    }
-    */
+    }*/
+    
  
 }
 
