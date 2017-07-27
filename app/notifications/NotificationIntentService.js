@@ -50,6 +50,18 @@ function processStartNotification() {
         var ArregloNuevo = []; 
         var data1;
         var counter1 = 60000;
+        var l1207;
+        var l1208;
+        var l1209;
+        var l1210;
+        var l1211;
+        var l1212;
+        var l1213;
+        var pasillo;
+        var ninguno;
+        var idHorario;
+        var ls_idHorario = require('local-storage');
+
 
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
         || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -105,6 +117,7 @@ function processStartNotification() {
                 min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
                 hora_fin = horario[i].hor_hora_fin.substr(11,2);
                 min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
+                idHorario = horario[i].hor_id;
 
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
@@ -115,6 +128,7 @@ function processStartNotification() {
                     ls_salon('salon',salonClase);
                     ls_horaInicio('inicio',horaClase);
                     ls_horaFin('fin',horaFin);
+                    ls_idHorario('id',idHorario);
                     console.log("Su clase es en el salon:" + " " + salonClase);
                     console.log("salon" + " " + ls_salon.get('salon'));
                     console.log("inicio" + " " + ls_horaInicio.get('inicio'));
@@ -151,7 +165,23 @@ function processStartNotification() {
                                                 ls_salon('salon',null);
                                                 ls_lugar('lugar',null); 
                                         //Aqui se debe hacer el post de inasistencia
-                                        }
+                                           inasistencia(ls_idHorario.get('id'),horaActual)
+                                            .catch(function(error) {
+                                                    console.log(error);
+                                                    dialogsModule.alert({
+                                                        message: "No se pudo reportar la inasistencia",
+                                                        okButtonText: "OK"
+                                                    });
+                                                    console.log("No PUDO REPORTAR ASISTENCIA inasistencia");
+                                                    return Promise.reject();
+                                                })
+                                                .then(function() {
+                                                    dialogsModule.alert({
+                                                        message: "Inasistencia reportada exitosamente.",
+                                                        okButtonText: "OK"
+                                                    });
+                                                });
+                                                }
                                     }   
                                 }                                
                             }, function(e){
@@ -179,9 +209,26 @@ function processStartNotification() {
                                                 //Se debe esperar a que termine la clase
                                             } else {
                                                 console.log("La clase se termino, se marca inasistencia 4");
-                                                //Aqui se debe hacer el post de inasistencia
                                                 ls_salon('salon',null);
-                                                ls_lugar('lugar',null);                        
+                                                ls_lugar('lugar',null); 
+                                                //Aqui se debe hacer el post de inasistencia
+                                                   
+                                                inasistencia(ls_idHorario.get('id'),horaActual)
+                                               .catch(function(error) {
+                                                    console.log(error);
+                                                    dialogsModule.alert({
+                                                        message: "No se pudo reportar la inasistencia",
+                                                        okButtonText: "OK"
+                                                    });
+                                                    console.log("No PUDO REPORTAR ASISTENCIA inasistencia");
+                                                    return Promise.reject();
+                                                })
+                                                .then(function() {
+                                                    dialogsModule.alert({
+                                                        message: "Inasistencia reportada exitosamente.",
+                                                        okButtonText: "OK"
+                                                    });
+                                                });                    
                                             }
                                         }   
                                     }                                
@@ -197,7 +244,7 @@ function processStartNotification() {
                         } else{
                                 console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");                        
                                 console.log("Su dispositivo no tiene gps");
-                                //AQUI SE ENVIA NOTIFICACION
+                                //AQUI SE ENVIA NOTIFICACION // FALTA EL POST
                                 var utils = require("utils/utils");
                                 var context = utils.ad.getApplicationContext();
                                 var builder = new android.app.Notification.Builder(context);
@@ -237,41 +284,42 @@ function processStartNotification() {
                     console.log("Su dispositivo tiene magnetometro else salon,lugar true");
                     //Aqui se toman las mediciones
                      magnetometer.startMagnetometerUpdates(function (data) {
-                data1 = data;
-                objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-            }
-            );
+                            data1 = data;
+                            objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
+                        }
+                        );
 
-             setTimeout(function() {
-                 console.log("Entre a la funcion setTimeout");
-                 magnetometer.stopMagnetometerUpdates();
-                 clearInterval(intervalo);
-                 clearInterval(intervalo1);
-                 console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
-                 ubicacion(ArregloNuevo)
-                .catch(function(error) {
-                    console.log("catch post ubicacion");
-                    console.log("No se pudo localizar");
-                    return Promise.reject();
-                })
-                .then(function(respuesta1) {
-                    console.log("Respuesta1" + " " + respuesta1._bodyInit);
-                    console.dir(respuesta1);
-                    ArregloNuevo = [];
-                });
-             }, counter1);
+                        setTimeout(function() {
+                            console.log("Entre a la funcion setTimeout");
+                            magnetometer.stopMagnetometerUpdates();
+                            clearInterval(intervalo);
+                            clearInterval(intervalo1);
+                            console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
+                            ubicacion(ArregloNuevo)
+                            .catch(function(error) {
+                                console.log("catch post ubicacion");
+                                console.log("No se pudo localizar");
+                                return Promise.reject();
+                            })
+                            .then(function(respuesta1) {
+                                console.log("Respuesta1" + " " + respuesta1._bodyInit);
+                                console.dir(respuesta1);
+                                ArregloNuevo = [];
+                            });
+                        }, counter1);
 
-             intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-             intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter); 
+                        intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
+                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter); 
             
                 }   
             } else{
                 console.log("Se termino la clase 6");
                 ls_salon('salon',null);
-                ls_lugar('lugar',null);        
+                ls_lugar('lugar',null);   
+
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
-                    //AQUI SE ENVIA NOTIFICACION
+                    //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                     var utils = require("utils/utils");
                     var context = utils.ad.getApplicationContext();
                     var builder = new android.app.Notification.Builder(context);
@@ -294,10 +342,6 @@ function processStartNotification() {
                     console.log("La clase se termino y deben sacarse porcentajes de localizacion 5");
                     //Deben sacarse porcentajes de localizacion y dar respuesta
                 }
-                //Debe calcularse el porcentaje de localizacion para dar respuesta final 
-                //Aqui es donde ls_salon, ls_lugar, ls_horaInicio y ls_horaFin vuelven a null
-                //ls_gps y ls_magnetometro no se vuelven a null para no tener q volver a preguntar
-                //Si la sesion se cierra , todas las local storage vuelven a null
             }
         }             
         //AQUI SE ENVIA NOTIFICACION
@@ -349,6 +393,34 @@ function getCoordenadasGPS(loc){
     return d;
 }
 function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar){
+    var ls_profesor = require('local-storage');
+    var magnetometer = require("nativescript-accelerometer");
+    var services = require("../service-helper");
+    var utils = require("utils/utils");
+    var counter = 500;
+    var pro_id = ls_profesor.get('id');
+    var miObjeto = function (vx, vy, vz) {
+            this.vx = vx || '';
+            this.vy = vy || '';
+            this.vz = vz || '';
+            this.pro_id =  ls_profesor.get('id') || '';
+        };
+    var objeto;
+    var intervalo;
+    var intervalo1;
+    var ArregloNuevo = []; 
+    var data1;
+    var counter1 = 60000;
+    var l1207;
+    var l1208;
+    var l1209;
+    var l1210;
+    var l1211;
+    var l1212;
+    var l1213;
+    var pasillo;
+    var ninguno;
+
     console.log("Esta en la UCAB/CASA");
     lugar = "UCAB";
     ls_lugar('lugar',lugar);
@@ -364,7 +436,34 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         //Se deben hacer calculos de localizacion
         if (ls_magnetometro.get('magnetometro') == true) {
             console.log("Su dispositivo tiene magnetometro funcion gps encendido primera vez");
-            //Aqui se toman las mediciones                                
+            //Aqui se toman las mediciones    
+             magnetometer.startMagnetometerUpdates(function (data) {
+                            data1 = data;
+                            objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
+                        }
+                        );
+
+                        setTimeout(function() {
+                            console.log("Entre a la funcion setTimeout");
+                            magnetometer.stopMagnetometerUpdates();
+                            clearInterval(intervalo);
+                            clearInterval(intervalo1);
+                            console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
+                            ubicacion(ArregloNuevo)
+                            .catch(function(error) {
+                                console.log("catch post ubicacion");
+                                console.log("No se pudo localizar");
+                                return Promise.reject();
+                            })
+                            .then(function(respuesta1) {
+                                console.log("Respuesta1" + " " + respuesta1._bodyInit);
+                                console.dir(respuesta1);
+                                ArregloNuevo = [];
+                            });
+                        }, counter1);
+
+                        intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
+                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                             
         }                             
     } else{
         console.log("La clase se termino 1");   
@@ -372,7 +471,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         ls_lugar('lugar',null); 
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");
-            //AQUI SE ENVIA NOTIFICACION
+            //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
             var utils = require("utils/utils");
             var context = utils.ad.getApplicationContext();
             var builder = new android.app.Notification.Builder(context);
@@ -445,5 +544,32 @@ function ubicacion(ArregloNuevo)
      .then(function(response) {          
         return response;
         });
+        
+}
+function inasistencia(idHor,horaActual)
+{    
+    var config = require("../shared/config");
+
+    console.log("POST de inasistencia entro");
+
+   return fetch(config.apiUrl + "asistencias" , { 
+        method: "POST",
+        body: JSON.stringify({
+            fecha: horaActual,
+            estado: false,
+            tipo: "Inasistencia",
+            hor_id: idHor,
+            jus_id: 0,
+            observacion: viewModel.get("observacion") 
+        }),
+        headers: {
+            // "Authorization": "Bearer " + config.token,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(handleErrors)
+    .then(function(response) {
+        return response.json();
+    })
         
 }
