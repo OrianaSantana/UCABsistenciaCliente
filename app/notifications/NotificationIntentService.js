@@ -12,7 +12,6 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
 
 function processStartNotification() {
 var ls_horario = require('local-storage');
-var ls_profesor = require('local-storage');
 var ls_salon = require('local-storage');
 var ls_lugar = require('local-storage');
 var ls_gps = require('local-storage');
@@ -21,9 +20,6 @@ var ls_horaFin = require('local-storage');
 var ls_magnetometro = require('local-storage');
 var geolocation = require("nativescript-geolocation");
 var horario = ls_horario.get('horario_profesor');
-var magnetometer = require("nativescript-accelerometer");
-var services = require("../service-helper");
-var utils = require("utils/utils");
 var dia;
 var diaHorario;
 var horaAndroid = java.lang.System.currentTimeMillis();
@@ -35,20 +31,7 @@ var magnetometer;
 var gps;
 var d;
 var lugar;
-var counter = 500;
-var pro_id = ls_profesor.get('id');
-var miObjeto = function (vx, vy, vz) {
-    this.vx = vx || '';
-    this.vy = vy || '';
-    this.vz = vz || '';
-    this.pro_id =  ls_profesor.get('id') || '';
-};
-var objeto;
-var intervalo;
-var intervalo1;
-var ArregloNuevo = []; 
-var data1;
-var counter1 = 60000;
+
 
 if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
 || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -444,35 +427,7 @@ if (/*ls_salon.get('salon') == null && */ls_lugar.get('lugar') == null) {
         if (ls_magnetometro.get('magnetometro') == true) {
         console.log("Su dispositivo tiene magnetometro else salon,lugar true");
         //Aqui se toman las mediciones
-            magnetometer.startMagnetometerUpdates(function (data) {
-                data1 = data;
-                objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-            }
-            );
-
-             setTimeout(function() {
-                 console.log("Entre a la funcion setTimeout");
-                 magnetometer.stopMagnetometerUpdates();
-                 clearInterval(intervalo);
-                 clearInterval(intervalo1);
-                 console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
-                 ubicacion(ArregloNuevo)
-                .catch(function(error) {
-                    console.log("catch post ubicacion");
-                    console.log("No se pudo localizar");
-                    return Promise.reject();
-                })
-                .then(function(respuesta1) {
-                    console.log("Respuesta1" + " " + respuesta1._bodyInit);
-                    console.dir(respuesta1);
-                    ArregloNuevo = [];
-                });
-             }, counter1);
-
-             intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-             intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter); 
-            
-     }   
+        }   
 
     } else {
         console.log("Se termino la clase 6");
@@ -561,35 +516,4 @@ hardwareDisponible = packageManager.getSystemAvailableFeatures();
               }
          }
 return false;
-}
-
-function handleErrors(response) {
-    if (!response.ok) {
-        console.log("HANDLE ERROR");
-        console.log(JSON.stringify(response));
-        throw Error(response.statusText);
-    }
-    return response;
-}
-function ubicacion(ArregloNuevo)
-{    
-    var config = require("../shared/config");
-
-    console.log("POST de ubicacion ENTRO");
-
-    return fetch(config.apiUrl + "ubicacion" , { 
-        method: "POST",
-        body: JSON.stringify(
-            ArregloNuevo 
-        ),
-        headers: {
-            // "Authorization": "Bearer " + config.token,
-            "Content-Type": "application/json"
-        }
-    })
-    .then(handleErrors)
-     .then(function(response) {          
-        return response;
-        });
-        
 }
