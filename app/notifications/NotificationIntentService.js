@@ -690,8 +690,7 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
 function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
     var ls_respuesta = require('local-storage');
             if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
-               (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno) && 
-               (pasillo > (l1207 + l1208 + l1209 + l1210 + l1211 + l1212 + l1213 + ninguno))) { 
+               (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
                                             console.log("Estoy en: " + pasillo);
                                             resultadoFinal = "Pasillo";   
                                             ls_respuesta('respuesta',resultadoFinal);
@@ -702,44 +701,37 @@ function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultado
                                             resultadoFinal = "L1207";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
-                      (l1208 > l1213) && (l1208 > ninguno) && 
-                      (l1208 > (l1207 + l1209 + l1210 + l1211 + l1212 + l1213 + pasillo + ninguno))) {                 
+                      (l1208 > l1213) && (l1208 > ninguno)) {                 
                                             console.log("Estoy en: " + l1208);
                                             resultadoFinal = "L1208";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
-                      (l1209 > l1213) && (l1209 > ninguno) && 
-                      (l1209 > (l1207 + l1208 + l1210 + l1211 + l1212 + l1213 + pasillo + ninguno))) {                               
+                      (l1209 > l1213) && (l1209 > ninguno)) {                               
                                             console.log("Estoy en: " + l1209);
                                             resultadoFinal = "L1209";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
-                      (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno) && 
-                      (l1210 > (l1207 + l1208 + l1209 + l1211 + l1212 + l1213 + pasillo + ninguno))) {
+                      (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
                                             console.log("Estoy en: " + l1210);
                                             resultadoFinal = "L1210";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
-                      (l1211 > l1213) && (l1211 > ninguno) &&
-                      (l1211 > (l1207 + l1208 + l1209 + l1210 + l1212 + l1213 + pasillo + ninguno))) {
+                      (l1211 > l1213) && (l1211 > ninguno)) {
                                             console.log("Estoy en: " + l1211);
                                             resultadoFinal = "L1211";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
-                      (l1212 > l1213) && (l1212 > ninguno) &&
-                      (l1212 > (l1207 + l1208 + l1209 + l1210 + l1211 + l1213 + pasillo + ninguno))) {
+                      (l1212 > l1213) && (l1212 > ninguno)) {
                                             console.log("Estoy en: " + l1212);
                                             resultadoFinal = "L1212";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
-                      (l1213 > l1212) && (l1213 > ninguno) && 
-                      (l1213 > (l1207 + l1208 + l1209 + l1210 + l1211 + l1212 + pasillo + ninguno))) {
+                      (l1213 > l1212) && (l1213 > ninguno)) {
                                             console.log("Estoy en: " + l1213);
                                             resultadoFinal = "L1213";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
-                      (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213) && 
-                      (ninguno > (l1207 + l1208 + l1209 + l1210 + l1211 + l1212 + l1213 + pasillo))){                                           
+                      (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
                                             console.log("Estoy en: " + ninguno);
                                             resultadoFinal = "Ninguno";
                                             ls_respuesta('respuesta',resultadoFinal);
