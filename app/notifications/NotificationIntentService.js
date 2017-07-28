@@ -190,9 +190,7 @@ function processStartNotification() {
                         if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
                             console.log("La clase no se ha terminado 5");
                         } else{
-                                console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");
-                                ls_salon('salon',null);
-                                ls_lugar('lugar',null);                        
+                                console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");                        
                                 console.log("Su dispositivo no tiene gps");
                                 //AQUI SE ENVIA NOTIFICACION // FALTA EL POST
                                 var context = utils.ad.getApplicationContext();
@@ -245,11 +243,11 @@ function processStartNotification() {
                     MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);
                 }   
             } else{
-                console.log("Se termino la clase 6");  
+                console.log("Se termino la clase 6");
+                ls_salon('salon',null);
+                ls_lugar('lugar',null);   
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
-                     ls_salon('salon',null);
-                     ls_lugar('lugar',null); 
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                     var context = utils.ad.getApplicationContext();
                     var builder = new android.app.Notification.Builder(context);
@@ -333,7 +331,7 @@ function processStartNotification() {
                                             .setVibrate([100, 200, 100])
                                             .setSmallIcon(android.R.drawable.btn_star_big_on);
                                     // will open main NativeScript activity when the notification is pressed
-                                    var mainIntent = new android.content.Intent(application.start({ moduleName: "views/Menu/home/home" }), java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
                                     var pendingIntent = android.app.PendingIntent.getActivity(context,
                                                         1,
                                                         mainIntent,
@@ -385,8 +383,6 @@ function processStartNotification() {
                                                         console.log("Se inserto correctamente la notificacion");                               
                                                     });  
                             }
-                ls_salon('salon',null);
-                ls_lugar('lugar',null); 
                 }
             }
         }             
@@ -492,11 +488,11 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
              MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);   
         }                             
     } else{
-        console.log("La clase se termino 1");    
+        console.log("La clase se termino 1");   
+        ls_salon('salon',null);
+        ls_lugar('lugar',null); 
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");
-             ls_salon('salon',null);
-             ls_lugar('lugar',null);
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
             var context = utils.ad.getApplicationContext();
             var builder = new android.app.Notification.Builder(context);
@@ -631,9 +627,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         .then(function() {
                                             console.log("Se inserto correctamente la notificacion");                               
                                         });  
-                } 
-        ls_salon('salon',null);
-        ls_lugar('lugar',null);                   
+                }                    
          }                               
     }    
 }
