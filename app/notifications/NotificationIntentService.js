@@ -112,7 +112,13 @@ function processStartNotification() {
         ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());                
         //Se comparan las horas
         if (ls_lugar.get('lugar') == null) {
+               /*if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
         for (i=0; i< horario.length; i++){ 
+             /*  if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 diaHorario = horario[i].hor_dia;
                 hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
                 min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
@@ -123,8 +129,14 @@ function processStartNotification() {
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
+                /*  if (horaFormato >= 15 && minutoFormato >=30) {
+                                        services.stopAlarm();
+                                    }*/
 
                 if (horaActual >= horaClase && horaActual < horaFin) {
+                    /*if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                     salonClase = horario[i].hor_salon;
                     ls_salon('salon',salonClase);
                     ls_horaInicio('inicio',horaClase);
@@ -191,9 +203,11 @@ function processStartNotification() {
                         if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
                             console.log("La clase no se ha terminado 5");
                         } else{
-                                console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");                        
+                                console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");    
+                                ls_salon('salon',null);
+                                ls_lugar('lugar',null);                      
                                 console.log("Su dispositivo no tiene gps");
-                                //AQUI SE ENVIA NOTIFICACION // FALTA EL POST
+                                //AQUI SE ENVIA NOTIFICACION 
                                 mensajeTitulo = "Falla de hardware"
                                 mensaje = "Firme Asistencia en escuela";
                                 sendNotification(mensajeTitulo, mensaje, utils);
@@ -211,11 +225,20 @@ function processStartNotification() {
                     }                            
                 } else {
                     console.log("Las horas no son iguales");
+                     /* if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 }              
                 } else {
                     console.log("Los dias no son iguales");
+                     /* if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 }
         };
+         /* if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
     } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
             //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
@@ -229,10 +252,11 @@ function processStartNotification() {
                 }   
             } else{
                 console.log("Se termino la clase 6");
-                ls_salon('salon',null);
-                ls_lugar('lugar',null);   
+                 
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
+                     ls_salon('salon',null);
+                     ls_lugar('lugar',null); 
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                     mensajeTitulo = "Falla de hardware"
                     mensaje = "Reporte Asistencia Manual";
@@ -293,6 +317,8 @@ function processStartNotification() {
                                                             console.log("Se inserto correctamente la notificacion");                               
                                                         }); 
                                 });
+                                 ls_salon('salon',null);
+                                 ls_lugar('lugar',null); 
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                                  mensajeTitulo = "No está en el salón"
@@ -308,6 +334,8 @@ function processStartNotification() {
                                                     .then(function() {
                                                         console.log("Se inserto correctamente la notificacion");                               
                                                     });  
+                                        ls_salon('salon',null);
+                                        ls_lugar('lugar',null); 
                             }
                 }
             }
@@ -393,11 +421,11 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
              MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);   
         }                             
     } else{
-        console.log("La clase se termino 1");   
-        ls_salon('salon',null);
-        ls_lugar('lugar',null); 
+        console.log("La clase se termino 1");    
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");
+            ls_salon('salon',null);
+            ls_lugar('lugar',null);
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
             mensajeTitulo = "Falla de hardware"
             mensaje = "Reporte Asistencia Manual";
@@ -457,6 +485,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                             });  
 
                     });
+                    ls_salon('salon',null);
+                    ls_lugar('lugar',null);
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                     mensajeTitulo = "No está en el salón"
@@ -472,6 +502,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         .then(function() {
                                             console.log("Se inserto correctamente la notificacion");                               
                                         });  
+                                        ls_salon('salon',null);
+                                        ls_lugar('lugar',null);
                 }                    
          }                               
     }    
