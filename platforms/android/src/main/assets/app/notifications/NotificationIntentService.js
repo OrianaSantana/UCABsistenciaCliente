@@ -61,6 +61,7 @@ function processStartNotification() {
         var idHorario;
         var ls_idHorario = require('local-storage');
         var mensaje;
+        var mensajeTitulo;
         var resultadoFinal;
 
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
@@ -155,7 +156,7 @@ function processStartNotification() {
                                     console.log("Esta es la distancia del radio" + " " + d);
                                     //Se compara la distancia obtenida con la tolerancia en mts
                                     if (d <= 100) {
-                                        ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar);
+                                        ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon);
                                         console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
                                         console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
                                     } else{
@@ -193,26 +194,10 @@ function processStartNotification() {
                                 console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");                        
                                 console.log("Su dispositivo no tiene gps");
                                 //AQUI SE ENVIA NOTIFICACION // FALTA EL POST
-                                var context = utils.ad.getApplicationContext();
-                                var builder = new android.app.Notification.Builder(context);
-                                    builder.setContentTitle("Falla de hardware")
-                                            .setAutoCancel(true)                                                
-                                            .setContentText("Firme Asistencia en escuela")
-                                            .setVibrate([100, 200, 100])
-                                            .setSmallIcon(android.R.drawable.btn_star_big_on);
-                                // will open main NativeScript activity when the notification is pressed
-                                var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                                var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                1,
-                                mainIntent,
-                                android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                builder.setContentIntent(pendingIntent);
-                                builder.setDeleteIntent(getDeleteIntent(context));
-                                var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                                manager.notify(1, builder.build());
-
-                                //POST DE LA NOTIFICACION
+                                mensajeTitulo = "Falla de hardware"
                                 mensaje = "Firme Asistencia en escuela";
+                                sendNotification(mensajeTitulo, mensaje, utils);
+                                //POST DE LA NOTIFICACION                                
                                 insertarNotificacion(pro_id,mensaje)
                                 .catch(function(error) {
                                     console.log(error);          
@@ -249,26 +234,11 @@ function processStartNotification() {
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
-                    var context = utils.ad.getApplicationContext();
-                    var builder = new android.app.Notification.Builder(context);
-                        builder.setContentTitle("Falla de hardware")
-                            .setAutoCancel(true)                                                        
-                            .setContentText("Reporte Asistencia Manual")
-                            .setVibrate([100, 200, 100])
-                            .setSmallIcon(android.R.drawable.btn_star_big_on);
-                    // will open main NativeScript activity when the notification is pressed
-                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                    var pendingIntent = android.app.PendingIntent.getActivity(context,
-                        1,
-                        mainIntent,
-                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                        builder.setContentIntent(pendingIntent);
-                        builder.setDeleteIntent(getDeleteIntent(context));
-                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                        manager.notify(1, builder.build());                      
+                    mensajeTitulo = "Falla de hardware"
+                    mensaje = "Reporte Asistencia Manual";
+                    sendNotification(mensajeTitulo, mensaje, utils);                                            
                           //POST DE LA NOTIFICACION
-                          //Hay que validar si el profesor quiere que se reporte manual o se firme en escuela sin magnetometro
-                                mensaje = "Reporte Asistencia Manual";
+                          //Hay que validar si el profesor quiere que se reporte manual o se firme en escuela sin magnetometro                                
                                 insertarNotificacion(pro_id,mensaje)
                                 .catch(function(error) {
                                     console.log(error);          
@@ -283,38 +253,52 @@ function processStartNotification() {
                     //Deben sacarse porcentajes de localizacion y dar respuesta
                     resultadoFinal = GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno);
                             //Debe compararse el resultado final con el salon donde debe estar
+                            console.log("resultadoFinal " + resultadoFinal + " " + " ls_salon "+ ls_salon.get('salon'));
                             if(resultadoFinal == ls_salon.get('salon')){
                                 //Se hace el post de asistencia automatica
                                 asistenciaAutomatica(ls_idHorario.get('idHorario'),fechaAndroidReal)
                                 .catch(function(error) {
                                     console.log(error);                       
                                     console.log("No PUDO REPORTAR ASISTENCIA automatica");
+                                    //Se envia notificacion al profesor para que reporte manual en caso de falla
+                                    mensajeTitulo = "Reporte de Asistencia"
+                                    mensaje = "Reporte Asistencia Manual";
+                                    sendNotification(mensajeTitulo, mensaje, utils);                                                                                      
+                                        //POST DE LA NOTIFICACION
+                                                        insertarNotificacion(pro_id,mensaje)
+                                                        .catch(function(error) {
+                                                            console.log(error);          
+                                                            console.log("No PUDO insertar notificacion");
+                                                            return Promise.reject();
+                                                        })
+                                                        .then(function() {
+                                                            console.log("Se inserto correctamente la notificacion");                               
+                                                        }); 
                                     return Promise.reject();
                                 })
                                 .then(function() {
                                     console.log("Asistencia automatica reportada exitosamente");
+                                     //Se envia notificacion al profesor de reporte exitoso
+                                     mensajeTitulo = "Asistencia Automática"
+                                     mensaje = "Se reportó su asistencia con éxito";
+                                     sendNotification(mensajeTitulo, mensaje, utils);                                          
+                                        //POST DE LA NOTIFICACION
+                                                        insertarNotificacion(pro_id,mensaje)
+                                                        .catch(function(error) {
+                                                            console.log(error);          
+                                                            console.log("No PUDO insertar notificacion");
+                                                            return Promise.reject();
+                                                        })
+                                                        .then(function() {
+                                                            console.log("Se inserto correctamente la notificacion");                               
+                                                        }); 
                                 });
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
-                                var context = utils.ad.getApplicationContext();
-                                var builder = new android.app.Notification.Builder(context);
-                                    builder.setContentTitle("No está en el salón")
-                                        .setAutoCancel(true)                                                        
-                                        .setContentText("Reporte Asistencia Manual")
-                                        .setVibrate([100, 200, 100])
-                                        .setSmallIcon(android.R.drawable.btn_star_big_on);
-                                // will open main NativeScript activity when the notification is pressed
-                                var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                                var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                                    1,
-                                                    mainIntent,
-                                                    android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                                    builder.setContentIntent(pendingIntent);
-                                                    builder.setDeleteIntent(getDeleteIntent(context));
-                                var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                                    manager.notify(1, builder.build());   
+                                 mensajeTitulo = "No está en el salón"
+                                 mensaje = "Reporte Asistencia Manual";
+                                 sendNotification(mensajeTitulo, mensaje, utils);                                                                                 
                                     //POST DE LA NOTIFICACION
-                                                    mensaje = "Reporte Asistencia Manual";
                                                     insertarNotificacion(pro_id,mensaje)
                                                     .catch(function(error) {
                                                         console.log(error);          
@@ -328,28 +312,6 @@ function processStartNotification() {
                 }
             }
         }             
-        //AQUI SE ENVIA NOTIFICACION
-            /*var utils = require("utils/utils");
-            var context = utils.ad.getApplicationContext();
-
-            var builder = new android.app.Notification.Builder(context);
-            builder.setContentTitle("Scheduled Notification")
-                .setAutoCancel(true)
-                .setContentText("This notification has been triggered by Notification Service")
-                .setVibrate([100, 200, 100])
-                .setSmallIcon(android.R.drawable.btn_star_big_on);
-
-                // will open main NativeScript activity when the notification is pressed
-            var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-            var pendingIntent = android.app.PendingIntent.getActivity(context,
-                1,
-                mainIntent,
-                android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pendingIntent);
-            builder.setDeleteIntent(getDeleteIntent(context));
-
-            var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-            manager.notify(1, builder.build()); */
 }
 function getCoordenadasGPS(loc){
     console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
@@ -376,7 +338,7 @@ function getCoordenadasGPS(loc){
 
     return d;
 }
-function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar){
+function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon){
     var ls_profesor = require('local-storage');
     var ls_salon = require('local-storage');
     var ls_idHorario = require('local-storage');
@@ -409,6 +371,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
     var pasillo = 0;
     var ninguno = 0;
     var mensaje;
+    var mensajeTitulo;
     var resultadoFinal;
 
     console.log("Esta en la UCAB/CASA");
@@ -436,25 +399,10 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
-            var context = utils.ad.getApplicationContext();
-            var builder = new android.app.Notification.Builder(context);
-                builder.setContentTitle("Falla de hardware")
-                       .setAutoCancel(true)                                                        
-                       .setContentText("Reporte Asistencia Manual")
-                       .setVibrate([100, 200, 100])
-                       .setSmallIcon(android.R.drawable.btn_star_big_on);
-            // will open main NativeScript activity when the notification is pressed
-            var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-            var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                1,
-                                mainIntent,
-                                android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                builder.setContentIntent(pendingIntent);
-                                builder.setDeleteIntent(getDeleteIntent(context));
-            var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                manager.notify(1, builder.build());           
+            mensajeTitulo = "Falla de hardware"
+            mensaje = "Reporte Asistencia Manual";
+            sendNotification(mensajeTitulo, mensaje, utils);                                                                                                         
                  //POST DE LA NOTIFICACION
-                                mensaje = "Reporte Asistencia Manual";
                                 insertarNotificacion(pro_id,mensaje)
                                 .catch(function(error) {
                                     console.log(error);          
@@ -475,32 +423,46 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                      .catch(function(error) {
                         console.log(error);                       
                         console.log("No PUDO REPORTAR ASISTENCIA automatica");
+                         //Se envia notificacion al profesor para que reporte manual en caso de falla
+                         mensajeTitulo = "Reporte de Asistencia"
+                         mensaje = "Reporte Asistencia Manual";
+                         sendNotification(mensajeTitulo, mensaje, utils);                               
+                            //POST DE LA NOTIFICACION
+                                            insertarNotificacion(pro_id,mensaje)
+                                            .catch(function(error) {
+                                                console.log(error);          
+                                                console.log("No PUDO insertar notificacion");
+                                                return Promise.reject();
+                                            })
+                                            .then(function() {
+                                                console.log("Se inserto correctamente la notificacion");                               
+                                            });  
                         return Promise.reject();
                     })
                     .then(function() {
                         console.log("Asistencia automatica reportada exitosamente");
+                        //Se envia notificacion al profesor de reporte exitoso
+                        mensajeTitulo = "Asistencia Automática"
+                        mensaje = "Se reportó su asistencia con éxito";
+                        sendNotification(mensajeTitulo, mensaje, utils);                              
+                            //POST DE LA NOTIFICACION
+                                            insertarNotificacion(pro_id,mensaje)
+                                            .catch(function(error) {
+                                                console.log(error);          
+                                                console.log("No PUDO insertar notificacion");
+                                                return Promise.reject();
+                                            })
+                                            .then(function() {
+                                                console.log("Se inserto correctamente la notificacion");                               
+                                            });  
+
                     });
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
-                    var context = utils.ad.getApplicationContext();
-                    var builder = new android.app.Notification.Builder(context);
-                        builder.setContentTitle("No está en el salón")
-                            .setAutoCancel(true)                                                        
-                            .setContentText("Reporte Asistencia Manual")
-                            .setVibrate([100, 200, 100])
-                            .setSmallIcon(android.R.drawable.btn_star_big_on);
-                    // will open main NativeScript activity when the notification is pressed
-                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                    var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                        1,
-                                        mainIntent,
-                                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                        builder.setContentIntent(pendingIntent);
-                                        builder.setDeleteIntent(getDeleteIntent(context));
-                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                        manager.notify(1, builder.build());   
+                    mensajeTitulo = "No está en el salón"
+                    mensaje = "Reporte Asistencia Manual";
+                    sendNotification(mensajeTitulo, mensaje, utils);                         
                         //POST DE LA NOTIFICACION
-                                        mensaje = "Reporte Asistencia Manual";
                                         insertarNotificacion(pro_id,mensaje)
                                         .catch(function(error) {
                                             console.log(error);          
@@ -571,42 +533,53 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);    
 }
 function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
+    var ls_respuesta = require('local-storage');
             if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
                (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
                                             console.log("Estoy en: " + pasillo);
                                             resultadoFinal = "Pasillo";   
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
-                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
+                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo) &&
+                       (l1207 > (l1208 + l1209 + l1210 + l1211 + l1212 + l1213 + + pasillo + ninguno))){     
                                             console.log("Estoy en: " + l1207);
                                             resultadoFinal = "L1207";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
                       (l1208 > l1213) && (l1208 > ninguno)) {                 
                                             console.log("Estoy en: " + l1208);
                                             resultadoFinal = "L1208";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
                       (l1209 > l1213) && (l1209 > ninguno)) {                               
                                             console.log("Estoy en: " + l1209);
                                             resultadoFinal = "L1209";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
                       (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
                                             console.log("Estoy en: " + l1210);
                                             resultadoFinal = "L1210";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
                       (l1211 > l1213) && (l1211 > ninguno)) {
                                             console.log("Estoy en: " + l1211);
                                             resultadoFinal = "L1211";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
                       (l1212 > l1213) && (l1212 > ninguno)) {
                                             console.log("Estoy en: " + l1212);
                                             resultadoFinal = "L1212";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
                       (l1213 > l1212) && (l1213 > ninguno)) {
                                             console.log("Estoy en: " + l1213);
                                             resultadoFinal = "L1213";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
                       (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
                                             console.log("Estoy en: " + ninguno);
                                             resultadoFinal = "Ninguno";
+                                            ls_respuesta('respuesta',resultadoFinal);
             }
     return resultadoFinal;
 }
@@ -634,6 +607,26 @@ function handleErrors(response) {
         throw Error(response.statusText);
     }
     return response;
+}
+function sendNotification(mensajeTitulo, mensaje, utils){
+    var context = utils.ad.getApplicationContext();
+    var builder = new android.app.Notification.Builder(context);
+        builder.setContentTitle(mensajeTitulo)
+               .setAutoCancel(true)                                                
+               .setContentText(mensaje)
+               .setVibrate([100, 200, 100])
+               .setSmallIcon(android.R.drawable.btn_star_big_on);
+    // will open main NativeScript activity when the notification is pressed
+    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+    var pendingIntent = android.app.PendingIntent.getActivity(context,
+                        1,
+                        mainIntent,
+                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                        builder.setContentIntent(pendingIntent);
+                        builder.setDeleteIntent(getDeleteIntent(context));
+                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                        manager.notify(1, builder.build());
+
 }
 function ubicacion(ArregloNuevo){    
     var config = require("../shared/config");
