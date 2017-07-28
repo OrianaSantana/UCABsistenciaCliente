@@ -20,13 +20,14 @@ var pageData = new observableModule.fromObject({
 PreferenciasPage.prototype.contentLoaded = function(args) {
     page = args.object;
     page.bindingContext = pageData;
-    
+    pageData.set("isLoading", false);
     preferenciasList.vaciarLista();
     preferenciasList.cargarPreferencias();
 };
 
 PreferenciasPage.prototype.onCheckChange = function(args) {
     console.log("check");
+    pageData.set("isLoading", true);
     //ls_preferencias('preferencias', page.get('preferenciasList'));     
     //se obtiene la lista, verificar que asi se obtiene y que el valorCambia tiene el valor que esta cambiando
     //si asi no se obtiene hacer un for, y almacenar en una lista
@@ -70,6 +71,7 @@ PreferenciasPage.prototype.onCheckChange = function(args) {
                 okButtonText: "OK"
             });
           console.log("PREFERENCIAS ACTUALIZADAS");
+          pageData.set("isLoading", false);
         });
 
     //preferenciasList.vaciarLista(); //no se si se deba hacer 

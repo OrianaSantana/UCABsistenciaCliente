@@ -26,17 +26,7 @@
         </SegmentedBar>
         <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
         <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
-    <StackLayout>
-        <Label text="UCABsistencia" class="tittle"/>       
-        <Label text="Valores Campo Magnético" class="Label"/>       
-        <TextView id="textview" text="{{ messageview }}" editable="false" class="textarea" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"/>    
-        <StackLayout orientation="horizontal">
-            <Button text="Iniciar" tap="{{ insert }}" />
-            <Button text="Limpiar" tap= "{{ limpiar }}"/>        
-        </StackLayout>
-        <Label text="Tiempo de muestreo" class="Label botones"/>
-        <Button text="10x1sec" id="Boton8Sec" tap="{{ onTap3 }}" class="buttonClass green radius" />
-    </StackLayout>
+   
      </GridLayout>
        
     </GridLayout>
