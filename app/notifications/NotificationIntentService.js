@@ -64,7 +64,6 @@ function processStartNotification() {
         var mensaje;
         var resultadoFinal;
 
-
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
         || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
         || fechaAndroidReal.getHours() == 7 || fechaAndroidReal.getHours() == 8 || fechaAndroidReal.getHours() == 9 || fechaAndroidReal.getHours() == 0) {
@@ -243,6 +242,7 @@ function processStartNotification() {
                 if (ls_magnetometro.get('magnetometro') == true) {
                     console.log("Su dispositivo tiene magnetometro else salon,lugar true");
                     //Aqui se toman las mediciones
+                    //MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno)
                      magnetometer.startMagnetometerUpdates(function (data) {
                             data1 = data;
                             objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
@@ -291,12 +291,10 @@ function processStartNotification() {
                                         l1213 = l1213 + 1;
                                         break;
                                     default:
-                                        ninguno = ninguno + 1;
-                                            
+                                        ninguno = ninguno + 1;                                            
                                 }
                             });
                         }, counter1);
-
                         intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
                         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);             
                 }   
@@ -304,7 +302,6 @@ function processStartNotification() {
                 console.log("Se termino la clase 6");
                 ls_salon('salon',null);
                 ls_lugar('lugar',null);   
-
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
@@ -325,7 +322,6 @@ function processStartNotification() {
                         builder.setDeleteIntent(getDeleteIntent(context));
                     var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                         manager.notify(1, builder.build());                      
-
                           //POST DE LA NOTIFICACION
                           //Hay que validar si el profesor quiere que se reporte manual o se firme en escuela sin magnetometro
                                 mensaje = "Reporte Asistencia Manual";
@@ -338,51 +334,12 @@ function processStartNotification() {
                                 .then(function() {
                                     console.log("Se inserto correctamente la notificacion");                               
                                 });                     
-                } else {
+                } else{
                     console.log("La clase se termino y deben sacarse porcentajes de localizacion 5");
                     //Deben sacarse porcentajes de localizacion y dar respuesta
-                            if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
-                                (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
-                            console.log("Estoy en: " + pasillo);
-                            resultadoFinal = "Pasillo";   
-                        } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
-                                (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
-                            console.log("Estoy en: " + l1207);
-                            resultadoFinal = "L1207";
-                        } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
-                                (l1208 > l1213) && (l1208 > ninguno)) {                 
-                            console.log("Estoy en: " + l1208);
-                            resultadoFinal = "L1208";
-                        } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
-                                (l1209 > l1213) && (l1209 > ninguno)) {                               
-                            console.log("Estoy en: " + l1209);
-                            resultadoFinal = "L1209";
-                        } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
-                                (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
-                            console.log("Estoy en: " + l1210);
-                            resultadoFinal = "L1210";
-                        } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
-                                (l1211 > l1213) && (l1211 > ninguno)) {
-                        console.log("Estoy en: " + l1211);
-                            resultadoFinal = "L1211";
-                        } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
-                                (l1212 > l1213) && (l1212 > ninguno)) {
-                            console.log("Estoy en: " + l1212);
-                            resultadoFinal = "L1212";
-                        } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
-                                (l1213 > l1212) && (l1213 > ninguno)) {
-                            console.log("Estoy en: " + l1213);
-                            resultadoFinal = "L1213";
-                        } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
-                                (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
-                            console.log("Estoy en: " + ninguno);
-                            resultadoFinal = "Ninguno";
-                        }
-
+                    resultadoFinal = GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno);
                             //Debe compararse el resultado final con el salon donde debe estar
-
                             if(resultadoFinal == ls_salon.get('salon')){
-
                                 //Se hace el post de asistencia automatica
                                 asistenciaAutomatica(ls_idHorario.get('idHorario'),fechaAndroidReal)
                                 .catch(function(error) {
@@ -393,7 +350,6 @@ function processStartNotification() {
                                 .then(function() {
                                     console.log("Asistencia automatica reportada exitosamente");
                                 });
-
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                                 var context = utils.ad.getApplicationContext();
@@ -413,7 +369,6 @@ function processStartNotification() {
                                                     builder.setDeleteIntent(getDeleteIntent(context));
                                 var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                                     manager.notify(1, builder.build());   
-
                                     //POST DE LA NOTIFICACION
                                                     mensaje = "Reporte Asistencia Manual";
                                                     insertarNotificacion(pro_id,mensaje)
@@ -425,7 +380,6 @@ function processStartNotification() {
                                                     .then(function() {
                                                         console.log("Se inserto correctamente la notificacion");                               
                                                     });  
-
                             }
                 }
             }
@@ -528,7 +482,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         //Se deben hacer calculos de localizacion
         if (ls_magnetometro.get('magnetometro') == true) {
             console.log("Su dispositivo tiene magnetometro funcion gps encendido primera vez");
-            //Aqui se toman las mediciones    
+            //Aqui se toman las mediciones 
+            //MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno);   
              magnetometer.startMagnetometerUpdates(function (data) {
                             data1 = data;
                             objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
@@ -576,13 +531,12 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         l1213 = l1213 + 1;
                                         break;
                                     default:
-                                        ninguno = ninguno + 1;
-                                            
+                                        ninguno = ninguno + 1;                                            
                                 }
                             });
                         }, counter1);
                         intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                             
+                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                            
         }                             
     } else{
         console.log("La clase se termino 1");   
@@ -608,7 +562,6 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                 builder.setDeleteIntent(getDeleteIntent(context));
             var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                 manager.notify(1, builder.build());           
-
                  //POST DE LA NOTIFICACION
                                 mensaje = "Reporte Asistencia Manual";
                                 insertarNotificacion(pro_id,mensaje)
@@ -623,49 +576,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         } else{
                 console.log("La clase se termino y deben sacarse porcentajes de localizacion 1");
                         //Deben sacarse porcentajes de localizacion y dar respuesta      
-
-                          if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
-                        (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
-                    console.log("Estoy en: " + pasillo);
-                    resultadoFinal = "Pasillo";   
-                } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
-                        (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
-                    console.log("Estoy en: " + l1207);
-                    resultadoFinal = "L1207";
-                } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
-                        (l1208 > l1213) && (l1208 > ninguno)) {                 
-                    console.log("Estoy en: " + l1208);
-                    resultadoFinal = "L1208";
-                } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
-                        (l1209 > l1213) && (l1209 > ninguno)) {                               
-                    console.log("Estoy en: " + l1209);
-                    resultadoFinal = "L1209";
-                } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
-                        (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
-                    console.log("Estoy en: " + l1210);
-                    resultadoFinal = "L1210";
-                } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
-                        (l1211 > l1213) && (l1211 > ninguno)) {
-                   console.log("Estoy en: " + l1211);
-                    resultadoFinal = "L1211";
-                } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
-                        (l1212 > l1213) && (l1212 > ninguno)) {
-                    console.log("Estoy en: " + l1212);
-                    resultadoFinal = "L1212";
-                } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
-                        (l1213 > l1212) && (l1213 > ninguno)) {
-                    console.log("Estoy en: " + l1213);
-                    resultadoFinal = "L1213";
-                } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
-                        (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
-                    console.log("Estoy en: " + ninguno);
-                    resultadoFinal = "Ninguno";
-                }
-
+               resultadoFinal = GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno);
                 //Debe compararse el resultado final con el salon donde debe estar
-
                 if(resultadoFinal == ls_salon.get('salon')){
-
                     //Se hace el post de asistencia automatica
                     asistenciaAutomatica(ls_idHorario.get('idHorario'),fechaAndroidReal)
                      .catch(function(error) {
@@ -676,7 +589,6 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                     .then(function() {
                         console.log("Asistencia automatica reportada exitosamente");
                     });
-
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                     var context = utils.ad.getApplicationContext();
@@ -696,7 +608,6 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         builder.setDeleteIntent(getDeleteIntent(context));
                     var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
                         manager.notify(1, builder.build());   
-
                         //POST DE LA NOTIFICACION
                                         mensaje = "Reporte Asistencia Manual";
                                         insertarNotificacion(pro_id,mensaje)
@@ -712,6 +623,101 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
          }                               
     }    
 }
+/*function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno){
+    magnetometer.startMagnetometerUpdates(function (data) {
+        data1 = data;
+        objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
+    });
+    setTimeout(function() {
+        console.log("Entre a la funcion setTimeout");
+        magnetometer.stopMagnetometerUpdates();
+        clearInterval(intervalo);
+        clearInterval(intervalo1);
+        console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
+        ubicacion(ArregloNuevo)
+    .catch(function(error) {
+            console.log("catch post ubicacion");
+            console.log("No se pudo localizar");
+            return Promise.reject();
+    })
+    .then(function(respuesta1) {
+            console.log("Respuesta1" + " " + respuesta1._bodyInit);
+            console.dir(respuesta1);
+            var condicion = respuesta1._bodyInit;
+            ArregloNuevo = [];
+            switch(condicion) {
+                    case "Pasillo":
+                        pasillo = pasillo + 1;
+                    break;
+                    case "L1207":
+                        l1207 = l1207 + 1;
+                    break;
+                    case "L1208":
+                        l1208 = l1208 + 1;
+                    break;
+                    case "L1209":
+                        l1209 = l1209 + 1;
+                    break;
+                    case "L1210":
+                        l1210 = l1210 + 1;
+                    break;
+                    case "L1211":
+                        l1211 = l1211 + 1;
+                    break;
+                    case "L1212":
+                        l1212 = l1212 + 1;
+                    break;
+                    case "L1213": 
+                        l1213 = l1213 + 1;
+                    break;
+                    default:
+                        ninguno = ninguno + 1;                                            
+             }
+    });
+    }, counter1);
+        intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
+        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);    
+}*/
+function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
+            if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
+               (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
+                                            console.log("Estoy en: " + pasillo);
+                                            resultadoFinal = "Pasillo";   
+            } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
+                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
+                                            console.log("Estoy en: " + l1207);
+                                            resultadoFinal = "L1207";
+            } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
+                      (l1208 > l1213) && (l1208 > ninguno)) {                 
+                                            console.log("Estoy en: " + l1208);
+                                            resultadoFinal = "L1208";
+            } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
+                      (l1209 > l1213) && (l1209 > ninguno)) {                               
+                                            console.log("Estoy en: " + l1209);
+                                            resultadoFinal = "L1209";
+            } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
+                      (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
+                                            console.log("Estoy en: " + l1210);
+                                            resultadoFinal = "L1210";
+            } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
+                      (l1211 > l1213) && (l1211 > ninguno)) {
+                                            console.log("Estoy en: " + l1211);
+                                            resultadoFinal = "L1211";
+            } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
+                      (l1212 > l1213) && (l1212 > ninguno)) {
+                                            console.log("Estoy en: " + l1212);
+                                            resultadoFinal = "L1212";
+            } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
+                      (l1213 > l1212) && (l1213 > ninguno)) {
+                                            console.log("Estoy en: " + l1213);
+                                            resultadoFinal = "L1213";
+            } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
+                      (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
+                                            console.log("Estoy en: " + ninguno);
+                                            resultadoFinal = "Ninguno";
+            }
+    return resultadoFinal;
+}
 function getDeleteIntent(context) {
         var intent = new android.content.Intent(context, java.lang.Class.forName("com.tns.broadcastreceivers.NotificationEventReceiver"));
         intent.setAction("ACTION_DELETE_NOTIFICATION");
@@ -722,7 +728,6 @@ function hasSystemFeature (feature) {
     var hardwareDisponible;
     var packageManager = application.android.context.getPackageManager();
     hardwareDisponible = packageManager.getSystemAvailableFeatures();
-
             for (i=0; i< hardwareDisponible.length; i++){ 
                 if (hardwareDisponible[i].name == feature){
                     return true;
@@ -730,7 +735,6 @@ function hasSystemFeature (feature) {
             }
     return false;
 }
-
 function handleErrors(response) {
     if (!response.ok) {
         console.log("HANDLE ERROR");
@@ -739,8 +743,7 @@ function handleErrors(response) {
     }
     return response;
 }
-function ubicacion(ArregloNuevo)
-{    
+function ubicacion(ArregloNuevo){    
     var config = require("../shared/config");
     console.log("POST de ubicacion ENTRO");
     return fetch(config.apiUrl + "ubicacion" , { 
@@ -758,8 +761,7 @@ function ubicacion(ArregloNuevo)
         return response;
         });        
 }
-function inasistencia(idHor,fechaActual)
-{    
+function inasistencia(idHor,fechaActual){    
     var config = require("../shared/config");
     console.log("POST de inasistencia entro");
     return fetch(config.apiUrl + "asistencias" , { 
@@ -770,7 +772,7 @@ function inasistencia(idHor,fechaActual)
             tipo: "Inasistencia",
             hor_id: idHor,
             jus_id: 0,
-            observacion: viewModel.get("observacion") 
+            observacion: "" 
         }),
         headers: {
             // "Authorization": "Bearer " + config.token,
@@ -783,12 +785,9 @@ function inasistencia(idHor,fechaActual)
     })
         
 }
-function insertarNotificacion(idPro,mensajito)
-{    
+function insertarNotificacion(idPro,mensajito){    
     var config = require("../shared/config");
-
     console.log("POST de insertar notificacion entro");
-
     return fetch(config.apiUrl + "profesores/notificaciones/notificacion", { 
         method: "POST",
         body: JSON.stringify({
@@ -802,15 +801,11 @@ function insertarNotificacion(idPro,mensajito)
     .then(handleErrors)
     .then(function(response) {
         return response.json();
-    })
-        
+    })        
 }
-function asistenciaAutomatica(idHor,fechaActual)
-{    
+function asistenciaAutomatica(idHor,fechaActual){    
     var config = require("../shared/config");
-
-    console.log("POST de inasistencia entro");
-
+    console.log("POST de asistencia automatica entro");
     return fetch(config.apiUrl + "asistencias" , { 
         method: "POST",
         body: JSON.stringify({
@@ -819,7 +814,7 @@ function asistenciaAutomatica(idHor,fechaActual)
             tipo: "Automática",
             hor_id: idHor,
             jus_id: 0,
-            observacion: viewModel.get("observacion") 
+            observacion: "" 
         }),
         headers: {
             // "Authorization": "Bearer " + config.token,
