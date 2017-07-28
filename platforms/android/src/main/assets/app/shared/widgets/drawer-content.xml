@@ -2,7 +2,7 @@
     <Image src="res://profile" horizontalAlignment="left"></Image>
     <label text="{{ profesor }}"/>
     <label text="{{ correo }}"/>
-<grid-layout class="drawer-content" columns="auto,auto" rows="auto,auto,auto,auto,auto,auto,auto,auto">
+<grid-layout class="drawer-content" columns="auto,auto" rows="auto,auto,auto,auto,auto,auto">
   <Image src="res://home" col="0" row="0"></Image>
     <label text="Home" tap="navigate" class="{{ selectedPage == 'home' ? 'selected' : '' }}" col="1" row="0"/>
      <Image src="res://about" col="0" row="1"></Image>
@@ -10,15 +10,11 @@
     <Image src="res://settings" col="0" row="2"></Image>
     <label text="Preferencias" tap="navigate" class="{{ selectedPage == 'preferencias' ? 'selected' : '' }}" col="1" row="2"/>
     <Image src="res://settings" col="0" row="3"></Image>    
-	  <label text="ABS" tap="navigate" class="{{ selectedPage == 'abs' ? 'selected' : '' }}" col="1" row="3"/>
+	 <label text="Notificaciones" tap="navigate" class="{{ selectedPage == 'notificaciones' ? 'selected' : '' }}" col="1" row="3"  android:separatorColor="#000000" android:divider="#000000"/>       
     <Image src="res://settings" col="0" row="4"></Image>    
-	 <label text="Notificaciones" tap="navigate" class="{{ selectedPage == 'notificaciones' ? 'selected' : '' }}" col="1" row="4"  android:separatorColor="#000000" android:divider="#000000"/>       
-    <Image src="res://settings" col="0" row="5"></Image>    
-	  <label text="Cerrar Sesion" tap="navigate" class="{{ selectedPage == 'cerrar sesion' ? 'selected' : '' }}" col="1" row="5"/>       
-    <Image src="res://settings" col="0" row="6"></Image>    
-	  <label text="Gps" tap="navigate" class="{{ selectedPage == 'gps' ? 'selected' : '' }}" col="1" row="6"/>  
-	  <Image src="res://settings" col="0" row="7"></Image>    
-	  <label text="Ubicacion" tap="navigate" class="{{ selectedPage == 'ubicacion' ? 'selected' : '' }}" col="1" row="7"/>
+	  <label text="Cerrar Sesion" tap="navigate" class="{{ selectedPage == 'cerrar sesion' ? 'selected' : '' }}" col="1" row="4"/>       
+	  <Image src="res://settings" col="0" row="5"></Image>    
+	  <label text="Ubicacion" tap="navigate" class="{{ selectedPage == 'ubicacion' ? 'selected' : '' }}" col="1" row="5"/>
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="7" colSpan="2"/> 
 </grid-layout>
  </stack-layout>

@@ -111,7 +111,13 @@ function processStartNotification() {
         ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());                
         //Se comparan las horas
         if (ls_lugar.get('lugar') == null) {
+             /*if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
         for (i=0; i< horario.length; i++){ 
+           /*  if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 diaHorario = horario[i].hor_dia;
                 hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
                 min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
@@ -123,7 +129,14 @@ function processStartNotification() {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
 
+                /*  if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
+
                 if (horaActual >= horaClase && horaActual < horaFin) {
+                     /*if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                     salonClase = horario[i].hor_salon;
                     ls_salon('salon',salonClase);
                     ls_horaInicio('inicio',horaClase);
@@ -226,11 +239,20 @@ function processStartNotification() {
                     }                            
                 } else {
                     console.log("Las horas no son iguales");
+                   /* if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 }              
                 } else {
                     console.log("Los dias no son iguales");
+                     /*if (horaFormato >= 15 && minutoFormato >=30) {
+                        services.stopAlarm();
+                    }*/
                 }
         };
+        /* if (horaFormato >= 15 && minutoFormato >=30) {
+            services.stopAlarm();
+        }*/
     } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
             //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
