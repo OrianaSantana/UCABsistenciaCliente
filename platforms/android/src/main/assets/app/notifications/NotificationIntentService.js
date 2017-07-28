@@ -123,14 +123,7 @@ function processStartNotification() {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
 
-                  if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
-
                 if (horaActual >= horaClase && horaActual < horaFin) {
-                     if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                     salonClase = horario[i].hor_salon;
                     ls_salon('salon',salonClase);
                     ls_horaInicio('inicio',horaClase);
@@ -149,9 +142,6 @@ function processStartNotification() {
                     if (ls_gps.get('gps') == true) {
                         //Se enciende el gps
                         if (!geolocation.isEnabled() || (geolocation.isEnabled())) {
-                             if (horaFormato >= 15 && minutoFormato >=30) {
-                                services.stopAlarm();
-                                }
                             if(!geolocation.isEnabled()){
                                     geolocation.enableLocationRequest();
                                     console.log("habilitando gps");
@@ -165,27 +155,15 @@ function processStartNotification() {
                                     console.log("Esta es la distancia del radio" + " " + d);
                                     //Se compara la distancia obtenida con la tolerancia en mts
                                     if (d <= 100) {
-                                         if (horaFormato >= 15 && minutoFormato >=30) {
-                                                services.stopAlarm();
-                                            }
                                         ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar);
                                         console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
                                         console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
                                     } else{
-                                         if (horaFormato >= 15 && minutoFormato >=30) {
-                                            services.stopAlarm();
-                                        }
                                         console.log("No esta en la UCAB/CASA");
                                         if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
                                         console.log("La clase no se ha terminado 2");
                                         //Se debe esperar a que termine la clase
-                                         if (horaFormato >= 15 && minutoFormato >=30) {
-                                            services.stopAlarm();
-                                        }
                                         } else{
-                                             if (horaFormato >= 15 && minutoFormato >=30) {
-                                                    services.stopAlarm();
-                                                }
                                                 console.log("La clase se termino, se marca inasistencia 2");
                                                 ls_salon('salon',null);
                                                 ls_lugar('lugar',null); 
@@ -207,17 +185,11 @@ function processStartNotification() {
                                 });                
                         } 
                     }else{
-                         if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                         }
                         console.log("Su dispositivo no tiene GPS");
                         //SE DEBE PREGUNTAR POR LA HORA Y DAR LA NOTIFICACION AL FINALIZAR
                         if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
                             console.log("La clase no se ha terminado 5");
                         } else{
-                             if (horaFormato >= 15 && minutoFormato >=30) {
-                                services.stopAlarm();
-                            }
                                 console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");                        
                                 console.log("Su dispositivo no tiene gps");
                                 //AQUI SE ENVIA NOTIFICACION // FALTA EL POST
@@ -254,49 +226,28 @@ function processStartNotification() {
                     }                            
                 } else {
                     console.log("Las horas no son iguales");
-                    if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                 }              
                 } else {
                     console.log("Los dias no son iguales");
-                     if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                 }
         };
     } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
-             if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
             //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
             if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
                 console.log("La clase no se ha terminado 6");
-                 if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                 //Los calculos de localizacion deben seguirse haciendo
                 if (ls_magnetometro.get('magnetometro') == true) {
                     console.log("Su dispositivo tiene magnetometro else salon,lugar true");
                     //Aqui se toman las mediciones
-                     if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                     MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);
                 }   
             } else{
                 console.log("Se termino la clase 6");
-                 if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                 ls_salon('salon',null);
                 ls_lugar('lugar',null);   
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
-                     if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                     var context = utils.ad.getApplicationContext();
                     var builder = new android.app.Notification.Builder(context);
@@ -329,9 +280,6 @@ function processStartNotification() {
                                 });                     
                 } else{
                     console.log("La clase se termino y deben sacarse porcentajes de localizacion 5");
-                     if (horaFormato >= 15 && minutoFormato >=30) {
-                        services.stopAlarm();
-                    }
                     //Deben sacarse porcentajes de localizacion y dar respuesta
                     resultadoFinal = GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno);
                             //Debe compararse el resultado final con el salon donde debe estar
@@ -341,73 +289,12 @@ function processStartNotification() {
                                 .catch(function(error) {
                                     console.log(error);                       
                                     console.log("No PUDO REPORTAR ASISTENCIA automatica");
-                                    //Se envia notificacion al profesor para que reporte manual en caso de falla
-                                    var context = utils.ad.getApplicationContext();
-                                    var builder = new android.app.Notification.Builder(context);
-                                        builder.setContentTitle("Reporte de Asistencia")
-                                            .setAutoCancel(true)                                                        
-                                            .setContentText("Reporte Asistencia Manual")
-                                            .setVibrate([100, 200, 100])
-                                            .setSmallIcon(android.R.drawable.btn_star_big_on);
-                                    // will open main NativeScript activity when the notification is pressed
-                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                                        1,
-                                                        mainIntent,
-                                                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                                        builder.setContentIntent(pendingIntent);
-                                                        builder.setDeleteIntent(getDeleteIntent(context));
-                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                                        manager.notify(1, builder.build());   
-                                        //POST DE LA NOTIFICACION
-                                                        mensaje = "Reporte Asistencia Manual";
-                                                        insertarNotificacion(pro_id,mensaje)
-                                                        .catch(function(error) {
-                                                            console.log(error);          
-                                                            console.log("No PUDO insertar notificacion");
-                                                            return Promise.reject();
-                                                        })
-                                                        .then(function() {
-                                                            console.log("Se inserto correctamente la notificacion");                               
-                                                        }); 
                                     return Promise.reject();
                                 })
                                 .then(function() {
                                     console.log("Asistencia automatica reportada exitosamente");
-                                     //Se envia notificacion al profesor de reporte exitoso
-                                    var context = utils.ad.getApplicationContext();
-                                    var builder = new android.app.Notification.Builder(context);
-                                        builder.setContentTitle("Asistencia Automática")
-                                            .setAutoCancel(true)                                                        
-                                            .setContentText("Se reportó su asistencia con éxito")
-                                            .setVibrate([100, 200, 100])
-                                            .setSmallIcon(android.R.drawable.btn_star_big_on);
-                                    // will open main NativeScript activity when the notification is pressed
-                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                                        1,
-                                                        mainIntent,
-                                                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                                        builder.setContentIntent(pendingIntent);
-                                                        builder.setDeleteIntent(getDeleteIntent(context));
-                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                                        manager.notify(1, builder.build());   
-                                        //POST DE LA NOTIFICACION
-                                                        mensaje = "Se reportó su asistencia con éxito";
-                                                        insertarNotificacion(pro_id,mensaje)
-                                                        .catch(function(error) {
-                                                            console.log(error);          
-                                                            console.log("No PUDO insertar notificacion");
-                                                            return Promise.reject();
-                                                        })
-                                                        .then(function() {
-                                                            console.log("Se inserto correctamente la notificacion");                               
-                                                        }); 
                                 });
                             } else {
-                                 if (horaFormato >= 15 && minutoFormato >=30) {
-                                    services.stopAlarm();
-                                }
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                                 var context = utils.ad.getApplicationContext();
                                 var builder = new android.app.Notification.Builder(context);
@@ -588,69 +475,10 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                      .catch(function(error) {
                         console.log(error);                       
                         console.log("No PUDO REPORTAR ASISTENCIA automatica");
-                         //Se envia notificacion al profesor para que reporte manual en caso de falla
-                        var context = utils.ad.getApplicationContext();
-                        var builder = new android.app.Notification.Builder(context);
-                            builder.setContentTitle("Reporte de Asistencia")
-                                .setAutoCancel(true)                                                        
-                                .setContentText("Reporte Asistencia Manual")
-                                .setVibrate([100, 200, 100])
-                                .setSmallIcon(android.R.drawable.btn_star_big_on);
-                        // will open main NativeScript activity when the notification is pressed
-                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                        var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                            1,
-                                            mainIntent,
-                                            android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                            builder.setContentIntent(pendingIntent);
-                                            builder.setDeleteIntent(getDeleteIntent(context));
-                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                            manager.notify(1, builder.build());   
-                            //POST DE LA NOTIFICACION
-                                            mensaje = "Reporte Asistencia Manual";
-                                            insertarNotificacion(pro_id,mensaje)
-                                            .catch(function(error) {
-                                                console.log(error);          
-                                                console.log("No PUDO insertar notificacion");
-                                                return Promise.reject();
-                                            })
-                                            .then(function() {
-                                                console.log("Se inserto correctamente la notificacion");                               
-                                            });  
                         return Promise.reject();
                     })
                     .then(function() {
                         console.log("Asistencia automatica reportada exitosamente");
-                        //Se envia notificacion al profesor de reporte exitoso
-                        var context = utils.ad.getApplicationContext();
-                        var builder = new android.app.Notification.Builder(context);
-                            builder.setContentTitle("Asistencia Automática")
-                                .setAutoCancel(true)                                                        
-                                .setContentText("Se reportó su asistencia con éxito")
-                                .setVibrate([100, 200, 100])
-                                .setSmallIcon(android.R.drawable.btn_star_big_on);
-                        // will open main NativeScript activity when the notification is pressed
-                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
-                        var pendingIntent = android.app.PendingIntent.getActivity(context,
-                                            1,
-                                            mainIntent,
-                                            android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-                                            builder.setContentIntent(pendingIntent);
-                                            builder.setDeleteIntent(getDeleteIntent(context));
-                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-                            manager.notify(1, builder.build());   
-                            //POST DE LA NOTIFICACION
-                                            mensaje = "Se reportó su asistencia con éxito";
-                                            insertarNotificacion(pro_id,mensaje)
-                                            .catch(function(error) {
-                                                console.log(error);          
-                                                console.log("No PUDO insertar notificacion");
-                                                return Promise.reject();
-                                            })
-                                            .then(function() {
-                                                console.log("Se inserto correctamente la notificacion");                               
-                                            });  
-
                     });
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
@@ -743,53 +571,42 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);    
 }
 function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
-    var ls_respuesta = require('local-storage');
             if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
                (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
                                             console.log("Estoy en: " + pasillo);
                                             resultadoFinal = "Pasillo";   
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
-                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo) &&
-                       (l1207 > (l1208 + l1209 + l1210 + l1211 + l1212 + l1213 + + pasillo + ninguno))){     
+                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
                                             console.log("Estoy en: " + l1207);
                                             resultadoFinal = "L1207";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
                       (l1208 > l1213) && (l1208 > ninguno)) {                 
                                             console.log("Estoy en: " + l1208);
                                             resultadoFinal = "L1208";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
                       (l1209 > l1213) && (l1209 > ninguno)) {                               
                                             console.log("Estoy en: " + l1209);
                                             resultadoFinal = "L1209";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
                       (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
                                             console.log("Estoy en: " + l1210);
                                             resultadoFinal = "L1210";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
                       (l1211 > l1213) && (l1211 > ninguno)) {
                                             console.log("Estoy en: " + l1211);
                                             resultadoFinal = "L1211";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
                       (l1212 > l1213) && (l1212 > ninguno)) {
                                             console.log("Estoy en: " + l1212);
                                             resultadoFinal = "L1212";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
                       (l1213 > l1212) && (l1213 > ninguno)) {
                                             console.log("Estoy en: " + l1213);
                                             resultadoFinal = "L1213";
-                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
                       (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
                                             console.log("Estoy en: " + ninguno);
                                             resultadoFinal = "Ninguno";
-                                            ls_respuesta('respuesta',resultadoFinal);
             }
     return resultadoFinal;
 }
