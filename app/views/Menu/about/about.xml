@@ -22,8 +22,6 @@
 	    <GridLayout rows="auto, *" columns="*" cssClass="main-content" id="main-content">
        <!-- Segmented Bar -->
         <SegmentedBar row="0" 
-                ios:selectedBackgroundColor="white"
-                android:selectedBackgroundColor="#053140" 
                 cssClass="conf-segmented-bar">
             <SegmentedBar.items>
                 <SegmentedBarItem title="About"/>

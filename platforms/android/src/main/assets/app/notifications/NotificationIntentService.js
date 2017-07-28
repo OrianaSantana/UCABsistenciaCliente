@@ -289,10 +289,68 @@ function processStartNotification() {
                                 .catch(function(error) {
                                     console.log(error);                       
                                     console.log("No PUDO REPORTAR ASISTENCIA automatica");
+                                    //Se envia notificacion al profesor para que reporte manual en caso de falla
+                                    var context = utils.ad.getApplicationContext();
+                                    var builder = new android.app.Notification.Builder(context);
+                                        builder.setContentTitle("Reporte de Asistencia")
+                                            .setAutoCancel(true)                                                        
+                                            .setContentText("Reporte Asistencia Manual")
+                                            .setVibrate([100, 200, 100])
+                                            .setSmallIcon(android.R.drawable.btn_star_big_on);
+                                    // will open main NativeScript activity when the notification is pressed
+                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                                        1,
+                                                        mainIntent,
+                                                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                                        builder.setContentIntent(pendingIntent);
+                                                        builder.setDeleteIntent(getDeleteIntent(context));
+                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                                        manager.notify(1, builder.build());   
+                                        //POST DE LA NOTIFICACION
+                                                        mensaje = "Reporte Asistencia Manual";
+                                                        insertarNotificacion(pro_id,mensaje)
+                                                        .catch(function(error) {
+                                                            console.log(error);          
+                                                            console.log("No PUDO insertar notificacion");
+                                                            return Promise.reject();
+                                                        })
+                                                        .then(function() {
+                                                            console.log("Se inserto correctamente la notificacion");                               
+                                                        }); 
                                     return Promise.reject();
                                 })
                                 .then(function() {
                                     console.log("Asistencia automatica reportada exitosamente");
+                                     //Se envia notificacion al profesor de reporte exitoso
+                                    var context = utils.ad.getApplicationContext();
+                                    var builder = new android.app.Notification.Builder(context);
+                                        builder.setContentTitle("Asistencia Automática")
+                                            .setAutoCancel(true)                                                        
+                                            .setContentText("Se reportó su asistencia con éxito")
+                                            .setVibrate([100, 200, 100])
+                                            .setSmallIcon(android.R.drawable.btn_star_big_on);
+                                    // will open main NativeScript activity when the notification is pressed
+                                    var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                                    var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                                        1,
+                                                        mainIntent,
+                                                        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                                        builder.setContentIntent(pendingIntent);
+                                                        builder.setDeleteIntent(getDeleteIntent(context));
+                                    var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                                        manager.notify(1, builder.build());   
+                                        //POST DE LA NOTIFICACION
+                                                        mensaje = "Se reportó su asistencia con éxito";
+                                                        insertarNotificacion(pro_id,mensaje)
+                                                        .catch(function(error) {
+                                                            console.log(error);          
+                                                            console.log("No PUDO insertar notificacion");
+                                                            return Promise.reject();
+                                                        })
+                                                        .then(function() {
+                                                            console.log("Se inserto correctamente la notificacion");                               
+                                                        }); 
                                 });
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
@@ -475,10 +533,69 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                      .catch(function(error) {
                         console.log(error);                       
                         console.log("No PUDO REPORTAR ASISTENCIA automatica");
+                         //Se envia notificacion al profesor para que reporte manual en caso de falla
+                        var context = utils.ad.getApplicationContext();
+                        var builder = new android.app.Notification.Builder(context);
+                            builder.setContentTitle("Reporte de Asistencia")
+                                .setAutoCancel(true)                                                        
+                                .setContentText("Reporte Asistencia Manual")
+                                .setVibrate([100, 200, 100])
+                                .setSmallIcon(android.R.drawable.btn_star_big_on);
+                        // will open main NativeScript activity when the notification is pressed
+                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                        var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                            1,
+                                            mainIntent,
+                                            android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                            builder.setContentIntent(pendingIntent);
+                                            builder.setDeleteIntent(getDeleteIntent(context));
+                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                            manager.notify(1, builder.build());   
+                            //POST DE LA NOTIFICACION
+                                            mensaje = "Reporte Asistencia Manual";
+                                            insertarNotificacion(pro_id,mensaje)
+                                            .catch(function(error) {
+                                                console.log(error);          
+                                                console.log("No PUDO insertar notificacion");
+                                                return Promise.reject();
+                                            })
+                                            .then(function() {
+                                                console.log("Se inserto correctamente la notificacion");                               
+                                            });  
                         return Promise.reject();
                     })
                     .then(function() {
                         console.log("Asistencia automatica reportada exitosamente");
+                        //Se envia notificacion al profesor de reporte exitoso
+                        var context = utils.ad.getApplicationContext();
+                        var builder = new android.app.Notification.Builder(context);
+                            builder.setContentTitle("Asistencia Automática")
+                                .setAutoCancel(true)                                                        
+                                .setContentText("Se reportó su asistencia con éxito")
+                                .setVibrate([100, 200, 100])
+                                .setSmallIcon(android.R.drawable.btn_star_big_on);
+                        // will open main NativeScript activity when the notification is pressed
+                        var mainIntent = new android.content.Intent(context, java.lang.Class.forName("com.tns.NativeScriptActivity")); 
+                        var pendingIntent = android.app.PendingIntent.getActivity(context,
+                                            1,
+                                            mainIntent,
+                                            android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+                                            builder.setContentIntent(pendingIntent);
+                                            builder.setDeleteIntent(getDeleteIntent(context));
+                        var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                            manager.notify(1, builder.build());   
+                            //POST DE LA NOTIFICACION
+                                            mensaje = "Se reportó su asistencia con éxito";
+                                            insertarNotificacion(pro_id,mensaje)
+                                            .catch(function(error) {
+                                                console.log(error);          
+                                                console.log("No PUDO insertar notificacion");
+                                                return Promise.reject();
+                                            })
+                                            .then(function() {
+                                                console.log("Se inserto correctamente la notificacion");                               
+                                            });  
+
                     });
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
@@ -571,42 +688,53 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);    
 }
 function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
+    var ls_respuesta = require('local-storage');
             if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
                (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
                                             console.log("Estoy en: " + pasillo);
                                             resultadoFinal = "Pasillo";   
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if  ((l1207 > l1208) && (l1207 > l1209) && (l1207 > l1210) && (l1207 > l1211) && (l1207 > l1212) && 
-                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo)){     
+                       (l1207 > l1213) && (l1207 > ninguno) && (l1207 > pasillo) &&
+                       (l1207 > (l1208 + l1209 + l1210 + l1211 + l1212 + l1213 + + pasillo + ninguno))){     
                                             console.log("Estoy en: " + l1207);
                                             resultadoFinal = "L1207";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1208 > pasillo) && (l1208 > l1207) && (l1208 > l1209) && (l1208 > l1210) && (l1208 > l1211) &&(l1208 > l1212) && 
                       (l1208 > l1213) && (l1208 > ninguno)) {                 
                                             console.log("Estoy en: " + l1208);
                                             resultadoFinal = "L1208";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1209 > pasillo) && (l1209 > l1207) && (l1209 > l1208) && (l1209 > l1210) && (l1209 > l1211) && (l1209 > l1212) && 
                       (l1209 > l1213) && (l1209 > ninguno)) {                               
                                             console.log("Estoy en: " + l1209);
                                             resultadoFinal = "L1209";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1210 > pasillo) && (l1210 > l1207) && (l1210 > l1208) && (l1210 > l1209) && (l1210 > l1211) && 
                       (l1210 > l1212) && (l1210 > l1213) && (l1210 > ninguno)) {
                                             console.log("Estoy en: " + l1210);
                                             resultadoFinal = "L1210";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1211 > pasillo) && (l1211 > l1207) && (l1211 > l1208) && (l1211 > l1209) && (l1211 > l1210) && (l1211 > l1212) && 
                       (l1211 > l1213) && (l1211 > ninguno)) {
                                             console.log("Estoy en: " + l1211);
                                             resultadoFinal = "L1211";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1212 > pasillo) && (l1212 > l1207) && (l1212 > l1208) && (l1212 > l1209) && (l1212 > l1210) && (l1212 > l1211) &&
                       (l1212 > l1213) && (l1212 > ninguno)) {
                                             console.log("Estoy en: " + l1212);
                                             resultadoFinal = "L1212";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((l1213 > pasillo) && (l1213 > l1207) && (l1213 > l1208) && (l1213 > l1209) && (l1213 > l1210) && (l1213 > l1211) &&
                       (l1213 > l1212) && (l1213 > ninguno)) {
                                             console.log("Estoy en: " + l1213);
                                             resultadoFinal = "L1213";
+                                            ls_respuesta('respuesta',resultadoFinal);
             } else if ((ninguno > pasillo) && (ninguno > l1207) && (ninguno > l1208) && (ninguno > l1209) && (ninguno > l1210) && 
                       (ninguno > l1211) && (ninguno > l1212) && (ninguno > l1213)){                                           
                                             console.log("Estoy en: " + ninguno);
                                             resultadoFinal = "Ninguno";
+                                            ls_respuesta('respuesta',resultadoFinal);
             }
     return resultadoFinal;
 }

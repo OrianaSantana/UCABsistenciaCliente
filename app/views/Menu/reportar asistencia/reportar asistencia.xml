@@ -24,8 +24,6 @@
        <StackLayout>
        <!-- Segmented Bar -->
         <SegmentedBar row="0"                 
-                ios:selectedBackgroundColor="white"
-                android:selectedBackgroundColor="#053140" 
                 cssClass="conf-segmented-bar">
             <SegmentedBar.items>
                 <SegmentedBarItem title="Reportar Asistencia"/>
@@ -65,7 +63,7 @@
             <!--</ScrollView>-->
         <!--</GridLayout>
     </GridLayout>-->      
-    <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" cssClass="animacion"/>  
+    <ActivityIndicator busy="{{ isLoading }}" rowSpan="2"/>  
     </GridLayout>
 
     

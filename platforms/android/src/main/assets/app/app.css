@@ -20,7 +20,7 @@ Button {
 
 
 action-bar {
-  background-color: #053140;
+  background-color: lightslategray;
   color: white;
 }
 label {
@@ -62,8 +62,9 @@ height: 25;
 .selected {
   color: yellow;
 }
+
 .conf-segmented-bar {
-    background-color: #808080; 
+    background-color: #4ac1fa;
     color: white;    
     font-size: 16;
 }
