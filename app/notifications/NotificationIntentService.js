@@ -9,7 +9,6 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
     }
 });
 
-
 function processStartNotification() {
     
         var ls_horario = require('local-storage');
@@ -231,7 +230,6 @@ function processStartNotification() {
                 } else {
                     console.log("Los dias no son iguales");
                 }
-
         };
     } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
@@ -242,61 +240,7 @@ function processStartNotification() {
                 if (ls_magnetometro.get('magnetometro') == true) {
                     console.log("Su dispositivo tiene magnetometro else salon,lugar true");
                     //Aqui se toman las mediciones
-                    //MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno)
-                     magnetometer.startMagnetometerUpdates(function (data) {
-                            data1 = data;
-                            objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-                        }
-                        );
-                        setTimeout(function() {
-                            console.log("Entre a la funcion setTimeout");
-                            magnetometer.stopMagnetometerUpdates();
-                            clearInterval(intervalo);
-                            clearInterval(intervalo1);
-                            console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
-                            ubicacion(ArregloNuevo)
-                            .catch(function(error) {
-                                console.log("catch post ubicacion");
-                                console.log("No se pudo localizar");
-                                return Promise.reject();
-                            })
-                            .then(function(respuesta1) {
-                                console.log("Respuesta1" + " " + respuesta1._bodyInit);
-                                console.dir(respuesta1);
-                                var condicion = respuesta1._bodyInit;
-                                ArregloNuevo = [];
-                                 switch(condicion) {
-                                    case "Pasillo":
-                                        pasillo = pasillo + 1;
-                                        break;
-                                    case "L1207":
-                                        l1207 = l1207 + 1;
-                                        break;
-                                    case "L1208":
-                                        l1208 = l1208 + 1;
-                                        break;
-                                    case "L1209":
-                                        l1209 = l1209 + 1;
-                                        break;
-                                    case "L1210":
-                                        l1210 = l1210 + 1;
-                                        break;
-                                    case "L1211":
-                                        l1211 = l1211 + 1;
-                                        break;
-                                    case "L1212":
-                                        l1212 = l1212 + 1;
-                                        break;
-                                    case "L1213": 
-                                        l1213 = l1213 + 1;
-                                        break;
-                                    default:
-                                        ninguno = ninguno + 1;                                            
-                                }
-                            });
-                        }, counter1);
-                        intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);             
+                    MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);
                 }   
             } else{
                 console.log("Se termino la clase 6");
@@ -483,60 +427,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         if (ls_magnetometro.get('magnetometro') == true) {
             console.log("Su dispositivo tiene magnetometro funcion gps encendido primera vez");
             //Aqui se toman las mediciones 
-            //MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno);   
-             magnetometer.startMagnetometerUpdates(function (data) {
-                            data1 = data;
-                            objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
-                        });
-                        setTimeout(function() {
-                            console.log("Entre a la funcion setTimeout");
-                            magnetometer.stopMagnetometerUpdates();
-                            clearInterval(intervalo);
-                            clearInterval(intervalo1);
-                            console.log("Arreglo nuevo data1" + " " + JSON.stringify(ArregloNuevo)); 
-                            ubicacion(ArregloNuevo)
-                            .catch(function(error) {
-                                console.log("catch post ubicacion");
-                                console.log("No se pudo localizar");
-                                return Promise.reject();
-                            })
-                            .then(function(respuesta1) {
-                                console.log("Respuesta1" + " " + respuesta1._bodyInit);
-                                console.dir(respuesta1);
-                                var condicion = respuesta1._bodyInit;
-                                ArregloNuevo = [];
-                                  switch(condicion) {
-                                    case "Pasillo":
-                                        pasillo = pasillo + 1;
-                                        break;
-                                    case "L1207":
-                                        l1207 = l1207 + 1;
-                                        break;
-                                    case "L1208":
-                                        l1208 = l1208 + 1;
-                                        break;
-                                    case "L1209":
-                                        l1209 = l1209 + 1;
-                                        break;
-                                    case "L1210":
-                                        l1210 = l1210 + 1;
-                                        break;
-                                    case "L1211":
-                                        l1211 = l1211 + 1;
-                                        break;
-                                    case "L1212":
-                                        l1212 = l1212 + 1;
-                                        break;
-                                    case "L1213": 
-                                        l1213 = l1213 + 1;
-                                        break;
-                                    default:
-                                        ninguno = ninguno + 1;                                            
-                                }
-                            });
-                        }, counter1);
-                        intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
-                        intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                            
+             MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id);   
         }                             
     } else{
         console.log("La clase se termino 1");   
@@ -623,7 +514,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
          }                               
     }    
 }
-/*function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,L1207,L1208,L1209,L1210,L1211,L1212,L1213,ninguno){
+function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,ninguno,counter1,counter,miObjeto,pro_id){
+    console.log("medir magnetometro");
     magnetometer.startMagnetometerUpdates(function (data) {
         data1 = data;
         objeto = new miObjeto(data.x, data.y, data.z, pro_id);    
@@ -677,7 +569,7 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
     }, counter1);
         intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
         intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);    
-}*/
+}
 function GetLocation(pasillo,l1207,l1208,l1209,l1210,l1211,l1212,l1213,resultadoFinal,ninguno){
             if ((pasillo > l1207) && (pasillo > l1208) && (pasillo > l1209) && (pasillo > l1210) && (pasillo > l1211) &&
                (pasillo > l1212) && (pasillo > l1213) && (pasillo > ninguno)) { 
