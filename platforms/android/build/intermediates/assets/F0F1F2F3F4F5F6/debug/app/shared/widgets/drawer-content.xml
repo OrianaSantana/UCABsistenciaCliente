@@ -14,7 +14,7 @@
     <Image src="res://settings" col="0" row="4"></Image>
     <label text="Preferencias" tap="navigate" class="{{ selectedPage == 'preferencias' ? 'selected' : '' }}" col="1" row="4"/>          
     <Image src="res://logout" col="0" row="5"></Image>     
-	  <label text="Cerrar Sesion" tap="navigate" class="{{ selectedPage == 'cerrar sesion' ? 'selected' : '' }}" col="1" row="5" android:separatorColor="#000000" android:divider="#000000"/> 
+	  <label text="Cerrar Sesion" tap="navigate" class="{{ selectedPage == 'cerrar sesion' ? 'selected' : '' }}" col="1" row="5"/> 
     <ActivityIndicator busy="{{ isLoading }}" rowSpan="7" colSpan="2"/> 
 </grid-layout>
  </stack-layout>

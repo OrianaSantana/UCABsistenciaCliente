@@ -26,8 +26,8 @@
         </SegmentedBar>
         <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
         <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
-   
-     </GridLayout>
+       <Image src="{{ ubicacion }}"></Image>      
+      </GridLayout>
        
     </GridLayout>
 
