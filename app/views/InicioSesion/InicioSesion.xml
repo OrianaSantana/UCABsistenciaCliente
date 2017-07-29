@@ -7,6 +7,6 @@
         <TextField text= "{{usuario}}" hint="usuario@ucab.edu.ve" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
         <TextField text= "{{Contraseña}}" hint="Contraseña" secure="true" />
         <Button text="Iniciar Sesión" tap="IniciarSesion" />
-         <ActivityIndicator busy="{{ isLoading }}"/>
+        <ActivityIndicator busy="{{ isLoading }}"/>
     </StackLayout>
 </Page>
