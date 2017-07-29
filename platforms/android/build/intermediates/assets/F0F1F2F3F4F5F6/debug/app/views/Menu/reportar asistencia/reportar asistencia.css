@@ -1,4 +1,6 @@
-.animacion {
+.conf-segmented-bar {
    background-color: #4ac1fa;
+   color: white;
+   font-weight: bold;
+   font-size: 15;
 }
-

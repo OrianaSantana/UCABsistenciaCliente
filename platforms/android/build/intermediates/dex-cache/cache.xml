@@ -2,6 +2,41 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\UCABsistenciaprueba\runtime\unspecified\jars\libs\binding-generator.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4290aba11bda501dbadc2dd5c4b08282c0bbfeb8">
+        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\binding-generator_d16427f63cd05c806fcf7025dbfd74f8e13b7070.jar" />
+    </item>
+    <item
+        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\List-2016.3.1118-dev-release\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="a1733921f8567f06df140d8a53a802669b62bb16">
+        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\intermediates-exploded-aar-List-2016.3.1118-dev-release_b54b0201e2b173d15186995fa7b8df190d4e8095.jar" />
+    </item>
+    <item
+        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-animated-vector-drawable-23.4.0_1f90debfe6597583cf7d49b9710ce41d8ca500d8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-support-v4-23.4.0_364ab4cb71a2c4d8a8ffadf4df274a5ecc878fce.jar" />
+    </item>
+    <item
+        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-support-vector-drawable-23.4.0_ebbed9fff26903e0ec69ee3f647c4d148c14ac49.jar" />
+    </item>
+    <item
         jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.3"
@@ -23,32 +58,11 @@
         <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\intermediates-exploded-aar-Primitives-2016.3.1118-dev-release_ad77b51f984cb8eceb8d5aada242fc3cdc0a2870.jar" />
     </item>
     <item
-        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\UCABsistenciaprueba\runtime\unspecified\jars\libs\binding-generator.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="4290aba11bda501dbadc2dd5c4b08282c0bbfeb8">
-        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\binding-generator_d16427f63cd05c806fcf7025dbfd74f8e13b7070.jar" />
-    </item>
-    <item
         jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
         jumboMode="false"
         revision="23.0.3"
         sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
         <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\internal_impl-23.4.0_1963edfcabf74fb3fdc8ba9f6a900c38bcd7acfd.jar" />
-    </item>
-    <item
-        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\List-2016.3.1118-dev-release\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="a1733921f8567f06df140d8a53a802669b62bb16">
-        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\intermediates-exploded-aar-List-2016.3.1118-dev-release_b54b0201e2b173d15186995fa7b8df190d4e8095.jar" />
-    </item>
-    <item
-        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-animated-vector-drawable-23.4.0_1f90debfe6597583cf7d49b9710ce41d8ca500d8.jar" />
     </item>
     <item
         jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
@@ -84,20 +98,6 @@
         revision="23.0.3"
         sha1="9909ad5fcc13fcc60529cfa340ee7e0abc79af38">
         <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\UCABsistenciaprueba-runtime-unspecified_65002cac5c15f893f64874097fcdd4497b2a5f40.jar" />
-    </item>
-    <item
-        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-support-v4-23.4.0_364ab4cb71a2c4d8a8ffadf4df274a5ecc878fce.jar" />
-    </item>
-    <item
-        jar="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.3"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="C:\Users\Oriana\Documents\GitHub\UCABsistencia-prueba - copia\platforms\android\build\intermediates\pre-dexed\F0F1F2F3F4F5F6\debug\com.android.support-support-vector-drawable-23.4.0_ebbed9fff26903e0ec69ee3f647c4d148c14ac49.jar" />
     </item>
     <item
         jar="C:\dev\tools\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"

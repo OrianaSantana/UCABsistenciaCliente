@@ -19,37 +19,50 @@ var diaHorario;
 var horaAndroid = java.lang.System.currentTimeMillis();
 var fechaAndroidReal = new Date(horaAndroid);
 var diaSemana = fechaAndroidReal.getDay();
-var horaActual = fechaAndroidReal.getHours() + ":" + fechaAndroidReal.getMinutes();
+var horaFormato;
+var minutoFormato;
+
+/*if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
+|| fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
+|| fechaAndroidReal.getHours() == 7 || fechaAndroidReal.getHours() == 8 || fechaAndroidReal.getHours() == 9) {
+  
+  horaFormato = "0" + fechaAndroidReal.getHours();
+} else {
+    horaFormato = fechaAndroidReal.getHours();
+}
+
+if (fechaAndroidReal.getMinutes() == 1 || fechaAndroidReal.getMinutes() == 2 || fechaAndroidReal.getMinutes() == 3 
+|| fechaAndroidReal.getMinutes() == 4 || fechaAndroidReal.getMinutes() == 5 || fechaAndroidReal.getMinutes() == 6 
+|| fechaAndroidReal.getMinutes() == 7 || fechaAndroidReal.getMinutes() == 8 || fechaAndroidReal.getMinutes() == 9) {
+  
+  minutoFormato = "0" + fechaAndroidReal.getMinutes();
+} else {
+    minutoFormato = fechaAndroidReal.getMinutes();
+}
+
+var horaActual = horaFormato + ":" + minutoFormato;
 var hora_inicio = 0;
 var min_hora_inicio = 0;
-var horaClase;
-//var formato = java.text.SimpleDateFormat("MMM dd,yyyy HH:mm");
-//var fechaFormato = java.util.Date(horaAndroid);
-//var finalAndroid = formato.format(fechaFormato);
-
+var horaClase;*/
 
 var HomePage = function() {};
 HomePage.prototype = new BasePage();
 HomePage.prototype.constructor = HomePage;
 console.log("LLAMADO HOMEJS 1");
 var user = conferenceViewModel.instance;
+
 // Place any code you want to run when the home page loads here.
 HomePage.prototype.contentLoaded = function(args) {
   var page = args.object;
   console.log("ENTRO  "+ ls_horario.get('horario_profesor'));
   console.dir(ls_horario.get('horario_profesor'));
-  //var gotData = page.navigationContext;
-  //console.log(" GOTDATA   "+gotData);
-  //console.log(" home.js   "+gotData.horario[0].hor_catedra);
-
- // var user = conferenceViewModel.instance;
-  //page.bindingContext = conferenceViewModel.instance;
+ 
   page.bindingContext = user;
   user.horarios(ls_horario.get('horario_profesor'));
   console.log("LLAMADO HOMEJS 3 content");
 
 
-if (diaSemana == 1) {
+/*if (diaSemana == 1) {
     dia = 'Lunes';
      console.log("El dia de la semana es:" + " " + dia);
 } else if (diaSemana == 2) {
@@ -67,10 +80,10 @@ if (diaSemana == 1) {
 }
         console.log("Hora REAL ANDROID" + " " + horaActual);
         console.log("fecha y dia de hora android" + " " + diaSemana + " " + fechaAndroidReal.getDate() + "/" + 
-        ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());
+        ((fechaAndroidReal.getMonth()) + 1) + "/" + fechaAndroidReal.getFullYear());*/
         
-//Esta comparacion en el servicio debe hacerse cada minuto
-  for (i=0; i< horario.length; i++){ 
+//Esta comparacion en el servicio debe hacerse cada minuto/Cada hora
+  /*for (i=0; i< horario.length; i++){ 
          diaHorario = horario[i].hor_dia;
          hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
          min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
@@ -92,21 +105,11 @@ if (diaSemana == 1) {
             console.log("Los dias no son iguales");
         }
 
-        };
+        };*/
 
 }
 console.log("LLAMADO HOMEJS 2");
 
-/*HomePage.prototype.pageLoaded = function(args,respuesta1) {
-  var page = args.object;
-  var gotData = page.navigationContext; 
-  console.log(" home.js   "+gotData.horario[0].hor_catedra);
-  var user = conferenceViewModel.instance;
-  //page.bindingContext = conferenceViewModel.instance;
-  page.bindingContext = user;
-  user.horarios(gotData.horario);
-  console.log("LLAMADO HOMEJS 3");
-}*/
 HomePage.prototype.onBackgroundLoaded = function(args){
     var background = args.object;    
     var colors = new Array(new color_1.Color("#67749b"), new color_1.Color("#5b677b"));

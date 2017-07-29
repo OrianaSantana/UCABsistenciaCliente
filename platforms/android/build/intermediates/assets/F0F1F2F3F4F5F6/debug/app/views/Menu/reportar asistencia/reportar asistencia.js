@@ -64,8 +64,8 @@ ReportePage.prototype.contentLoaded = function(args) {
             });
         });
 
-    }
-    */
+    }*/
+    
  
 }
 
@@ -98,14 +98,14 @@ ReportePage.prototype.ReportarAsistenciaTap = function() {
                 okButtonText: "OK"
             });*/
             frameModule.topmost().navigate("views/Menu/home/home");
-            reporte.set("isLoading", true);
+            reporte.set("isLoading", false);
         });
 }
 
 ReportePage.prototype.CancelarReporte = function() {
      reporte.set("isLoading", true);
     frameModule.topmost().navigate("views/Menu/home/home");
-     reporte.set("isLoading", true);
+     reporte.set("isLoading", false);
 }
 
 

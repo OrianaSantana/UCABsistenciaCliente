@@ -1,0 +1,13 @@
+.conf-segmented-bar {
+   background-color: #4ac1fa;
+   color: white;
+   font-weight: bold;
+   font-size: 15;
+}
+
+.session-pref {
+  font-family: "sans-serif";
+	font-size: 20;
+  color:black;
+  margin-bottom: 10;
+}
