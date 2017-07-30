@@ -636,13 +636,17 @@ function hasSystemFeature1 (feature) {
     var activity = application.android.foregroundActivity;
     var sensorManager = activity.getSystemService(android.content.Context.SENSOR_SERVICE);
     var magnetometerSensor = sensorManager.getDefaultSensor(android.hardware.Sensor.TYPE_MAGNETIC_FIELD);
-    console.log("magnetometer sensor "+ magnetometerSensor);   
+    var magnetometerSensorVersion = magnetometerSensor.getVersion();
+    console.log("version "+ magnetometerSensorVersion);
     if (feature == 'l_gps')
     {
         return pruebaGPS;
-    } else if (feature == 'l_magnetometro'){
+    } else if (feature == 'l_magnetometro' && magnetometerSensorVersion == 1){
         return pruebaMagnetometro;
-    }  
+    } else if ((feature == 'l_magnetometro' && magnetometerSensorVersion != 1)){
+        pruebaMagnetometro = false;
+        return pruebaMagnetometro;
+    }
     return false;
 }
 function handleErrors(response) {
