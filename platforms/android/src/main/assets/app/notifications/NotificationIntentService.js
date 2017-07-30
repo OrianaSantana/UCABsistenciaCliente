@@ -8,7 +8,7 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
         android.support.v4.content.WakefulBroadcastReceiver.completeWakefulIntent(intent);
     }
 });
-
+ 
 function processStartNotification() {
     
         var ls_horario = require('local-storage');
@@ -507,7 +507,7 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
             console.log("catch post ubicacion");
             console.log("No se pudo localizar");
             return Promise.reject();
-    })
+    }) 
     .then(function(respuesta1) {
             console.log("Respuesta1" + " " + respuesta1._bodyInit);
             console.dir(respuesta1);
@@ -551,7 +551,7 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
                         console.log("ninguno");                                           
              }
     });
-}, counter1); 
+}, counter1);     
                 intervalo = setInterval(function () { console.log(" " + " x: " + " " + data1.x + " " + " y: " + " " + data1.y + " " + " z: " + " " + data1.z); }, counter);
                 intervalo1 = setInterval(function(){ArregloNuevo.push(objeto)},counter);                
 }
@@ -632,10 +632,11 @@ function hasSystemFeature1 (feature) {
     var application = require("application");
     var packageManager = application.android.context.getPackageManager();
     var pruebaMagnetometro = packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_SENSOR_COMPASS);
-    var pruebaGPS = packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_SENSOR_COMPASS);
+    var pruebaGPS = packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_LOCATION_GPS);
     var activity = application.android.foregroundActivity;
     var sensorManager = activity.getSystemService(android.content.Context.SENSOR_SERVICE);
     var magnetometerSensor = sensorManager.getDefaultSensor(android.hardware.Sensor.TYPE_MAGNETIC_FIELD);
+    console.log("magnetometer sensor "+ magnetometerSensor);   
     if (feature == 'l_gps')
     {
         return pruebaGPS;
