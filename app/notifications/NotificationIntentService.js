@@ -9,8 +9,10 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
     }
 });
 
+  var ls_horario = require('local-storage');
+  var horario = ls_horario.get('horario_profesor');
+  
 function processStartNotification() {
-        var ls_horario = require('local-storage');
         var ls_profesor = require('local-storage');
         var ls_salon = require('local-storage');
         var ls_lugar = require('local-storage');
@@ -19,7 +21,7 @@ function processStartNotification() {
         var ls_horaFin = require('local-storage');
         var ls_magnetometro = require('local-storage');
         var geolocation = require("nativescript-geolocation");
-        var horario = ls_horario.get('horario_profesor');
+        var ls_i = require('local-storage');
         var magnetometer = require("nativescript-accelerometer");
         var services = require("../service-helper");
         var utils = require("utils/utils");
@@ -63,10 +65,10 @@ function processStartNotification() {
         var mensajeTitulo;
         var resultadoFinal;
         var ls_preferencias = require('local-storage');
-        var preferencias = ls_preferencias.get('preferencias');   
-        var ls_minutosClase = require('local-storage');
-        ls_minutosClase('clase',false);
-        var minutosParaClase;          
+        var preferencias = ls_preferencias.get('preferencias');  
+        var ls_minutosClase = require('local-storage'); 
+        var minutosParaClase;   
+        var minutoArreglado;       
 
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
         || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -126,6 +128,7 @@ function processStartNotification() {
              /*  if (horaFormato >= 15 && minutoFormato >=30) {
                         services.stopAlarm();
                     }*/
+                console.log("Vamos por la i" + ":" + i);    
                 diaHorario = horario[i].hor_dia;
                 hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
                 min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
@@ -136,13 +139,17 @@ function processStartNotification() {
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
-                //if (horaClase == horaFormato){
-                    minutosParaClase = (horaClase - horaActual)/1000;
-                //}
-                console.log("hora clase " + horaClase);
-                if (ls_minutosClase.get('clase') == false) {
-                    if (minutosParaClase > 0 && minutosParaClase <= 15) {
-                        for (i=0; i< preferencias.length; i++){
+              //  if (hora_inicio - fechaAndroidReal.getHours() == 1 ){ //DESCOMENTAR AL FINAL
+                  if (min_hora_inicio == 00) {
+                    console.log("entro minutos 00");
+                    minutoArreglado = 60;
+                    minutosParaClase = Math.abs(minutoArreglado - fechaAndroidReal.getMinutes());
+                    console.log("minutos para la clase localstorage" + " " + ls_minutosClase.get('clase'));
+                    if (ls_minutosClase.get('clase') == null) {
+                        console.log("local minutos null");
+                        if (minutosParaClase > 0 && minutosParaClase <= 15){
+                        console.log("minutos para la clase" + " " + minutosParaClase);
+                         for (i=0; i< preferencias.length; i++){
                             console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
                                     if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == true) {
                                     mensajeTitulo = "Notificacion de Clase"
@@ -160,10 +167,43 @@ function processStartNotification() {
                                     });   
                                     }
                                 } 
-                    
-                    ls_minutosClase('clase',true);
+                        ls_minutosClase('clase',true);
+                        }
                     }
-                }
+                    } else {
+                        console.log("entro minutos no 00");
+                  //  minutoArreglado = 60 + min_hora_inicio;
+                    minutosParaClase = Math.abs(min_hora_inicio - fechaAndroidReal.getMinutes()); // cambiar por minutoArreglado cuando la resta de hrs es = 1
+                    console.log("minutos para la clase localstorage" + " " + ls_minutosClase.get('clase'));
+                    if (ls_minutosClase.get('clase') == null) {
+                     console.log("local minutos null");
+                        if (minutosParaClase > 0 && minutosParaClase <= 15){
+                        console.log("minutos para la clase" + " " + minutosParaClase);
+                        /* for (i=0; i< preferencias.length; i++){
+                            console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == true) {
+                                    mensajeTitulo = "Notificacion de Clase"
+                                    mensaje = "Clase empieza en 15 min";
+                                    sendNotification(mensajeTitulo, mensaje, utils);
+                                    //POST DE LA NOTIFICACION                                
+                                    insertarNotificacion(pro_id,mensaje)
+                                    .catch(function(error) {
+                                        console.log(error);          
+                                        console.log("No PUDO insertar notificacion");
+                                        return Promise.reject();
+                                    })
+                                    .then(function() {
+                                        console.log("Se inserto correctamente la notificacion");                               
+                                    });   
+                                    }
+                                } */ // solo falta probar preferencias para q las notificaciones se envíen
+                        ls_minutosClase('clase',true);
+                        }
+                    }
+
+                    }
+              // }
+             
                 /*  if (horaFormato >= 15 && minutoFormato >=30) {
                                         services.stopAlarm();
                                     }*/
@@ -188,7 +228,9 @@ function processStartNotification() {
                     ls_l1212('l1212',0) ;
                     ls_l1213('l1213',0) ;
                     ls_pasillo('pasillo',0) ;
-                    ls_ninguno('ninguno',0) ;                    
+                    ls_ninguno('ninguno',0) ;   
+                    ls_i('i',i);  
+                    console.log("local storage de i" + " " + ls_i.get('i'));          
                     //Se consulta si el tlf tiene gps
                     if (ls_gps.get('gps') == null) {
                         //gps = hasSystemFeature1('android.hardware.location.gps');
@@ -212,7 +254,7 @@ function processStartNotification() {
                                     console.log("Esta es la distancia del radio" + " " + d);
                                     //Se compara la distancia obtenida con la tolerancia en mts
                                     if (d <= 100) {
-                                        ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon, magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id);
+                                        ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon, magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id,ls_i);
                                         console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
                                         console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
                                     } else{
@@ -222,7 +264,9 @@ function processStartNotification() {
                                         //Se debe esperar a que termine la clase
                                         } else{
                                                 console.log("La clase se termino, se marca inasistencia 2");
-                                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                                                                               
+                                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);   
+                                                horario.splice(ls_i.get('i'),1);     
+                                                console.dir(horario);                                                                                             
                                         //Aqui se debe hacer el post de inasistencia
                                            inasistencia(ls_idHorario.get('idHorario'),fechaAndroidReal)
                                             .catch(function(error) {
@@ -247,8 +291,10 @@ function processStartNotification() {
                             console.log("La clase no se ha terminado 5");
                         } else{
                                 console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");    
-                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                                    
+                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                                   
                                 console.log("Su dispositivo no tiene gps");
+                                horario.splice(ls_i.get('i'),1);     
+                                 console.dir(horario); 
                                 //AQUI SE ENVIA NOTIFICACION 
                             for (i=0; i< preferencias.length; i++){ 
                                 console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
@@ -303,7 +349,9 @@ function processStartNotification() {
                 console.log("Se termino la clase 6");                 
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
-                     LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                    
+                     LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin); 
+                     horario.splice(ls_i.get('i'),1);     
+                     console.dir(horario);                    
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                      for (i=0; i< preferencias.length; i++){ 
                           console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
@@ -375,7 +423,9 @@ function processStartNotification() {
                                                             console.log("Se inserto correctamente la notificacion");                               
                                                         }); 
                                 });
-                                 LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                  
+                                 LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);   
+                                 horario.splice(ls_i.get('i'),1);     
+                                 console.dir(horario);                                
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                               for (i=0; i< preferencias.length; i++){ 
@@ -396,7 +446,9 @@ function processStartNotification() {
                                                     });  
                                  }
                               }
-                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                        
+                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);  
+                                        horario.splice(ls_i.get('i'),1);     
+                                        console.dir(horario);                                       
                             }
                 }
             }
@@ -406,10 +458,10 @@ function getCoordenadasGPS(loc){
     console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
     var lat1 = loc.latitude;
     var lon1 = (loc.longitude);
-    //var lat2 = 10.464803656000619; //Oriana 
-    //var lon2 = (-66.86167079430855); // Oriana
-    var lat2 = 10.517192;           //Jesus
-    var lon2 = (-66.903673);        //Jesus
+    var lat2 = 10.464803656000619; //Oriana 
+    var lon2 = (-66.86167079430855); // Oriana
+    //var lat2 = 10.517192;           //Jesus
+    //var lon2 = (-66.903673);        //Jesus
         /////////////DISTANCIA RADIAL
     var R = 6371e3; // metres                  
     var e = (lat1) * (Math.PI/180); //var φ1 = lat1.toRadians();                   
@@ -427,7 +479,7 @@ function getCoordenadasGPS(loc){
 
     return d;
 }
-function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon,magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id){
+function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon,magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id,ls_i){
     var ls_profesor = require('local-storage');
     var ls_salon = require('local-storage');
     var ls_idHorario = require('local-storage');
@@ -463,7 +515,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         console.log("La clase se termino 1");    
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");  
-            LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);          
+            LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);     horario.splice(ls_i.get('i'),1);     
+            console.dir(horario); 
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
              for (i=0; i< preferencias.length; i++){ 
                 console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
@@ -533,7 +586,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                             });  
 
                     });
-                    LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                    
+                    LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);      
+                    horario.splice(ls_i.get('i'),1);     
+                    console.dir(horario);               
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                      for (i=0; i< preferencias.length; i++){ 
@@ -554,7 +609,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         });  
                         }
                      }
-                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                         
+                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);   
+                                        horario.splice(ls_i.get('i'),1);     
+                                        console.dir(horario);                                       
                 }                    
          }                               
     }    
@@ -627,7 +684,7 @@ function MedirMagnetometro(magnetometer,data1,objeto,intervalo,intervalo1,Arregl
 }
 function GetLocation(ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno){
     var ls_respuesta = require('local-storage');
-    //var resultadoFinal;
+  //  var resultadoFinal;
     console.log("get location");
             if ((ls_pasillo.get('pasillo') > ls_l1207.get('l1207')) && (ls_pasillo.get('pasillo') > ls_l1208.get('l1208')) && (ls_pasillo.get('pasillo') > ls_l1209.get('l1209')) && (ls_pasillo.get('pasillo') > ls_l1210.get('l1210')) && (ls_pasillo.get('pasillo') > ls_l1211.get('l1211')) &&
                (ls_pasillo.get('pasillo') > ls_l1212.get('l1212')) && (ls_pasillo.get('pasillo') > ls_l1213.get('l1213')) && (ls_pasillo.get('pasillo') > ls_ninguno.get('ninguno'))) { 
@@ -697,14 +754,14 @@ function LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l12
     ls_horaFin('fin',null);
     ls_minutosClase('clase',null); 
     ls_idHorario('idHorario',null);
-    diaHorario = "";
-    hora_inicio = "";
-    min_hora_inicio ="";
-    hora_fin = "";
-    min_hora_fin = "";
-    idHorario = "";
-    horaClase = "";
-    horaFin = "";    
+    diaHorario = null;
+    hora_inicio = 0;
+    min_hora_inicio =0;
+    hora_fin = 0;
+    min_hora_fin = 0;
+    idHorario = 0;
+    horaClase = null;
+    horaFin = null;    
 }
 function getDeleteIntent(context) {
         var intent = new android.content.Intent(context, java.lang.Class.forName("com.tns.broadcastreceivers.NotificationEventReceiver"));
