@@ -21,6 +21,8 @@ var fechaAndroidReal = new Date(horaAndroid);
 var diaSemana = fechaAndroidReal.getDay();
 var horaFormato;
 var minutoFormato;
+var ls_profesor = require('local-storage');
+var ls_preferencias = require('local-storage');
 
 /*if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
 || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -51,6 +53,20 @@ HomePage.prototype.constructor = HomePage;
 console.log("LLAMADO HOMEJS 1");
 var user = conferenceViewModel.instance;
 
+function preferencias()
+{    
+    console.log("Buscar preferencias en menu-view-model");
+    return fetchModule.fetch( config.apiUrl + "preferencias/profesores?profesor-id=" + ls_profesor.get('id')) 
+        .then(handleErrors)
+        .then(function(response) {
+          console.log("preferencias response.json ");
+             return response.json();
+        })
+        .then(function(json) {
+          console.log("preferencias json " + json[0].pre_id);
+          return json;
+        });
+}
 // Place any code you want to run when the home page loads here.
 HomePage.prototype.contentLoaded = function(args) {
   var page = args.object;
@@ -61,7 +77,24 @@ HomePage.prototype.contentLoaded = function(args) {
   user.horarios(ls_horario.get('horario_profesor'));
   console.log("LLAMADO HOMEJS 3 content");
 
-
+  if  (ls_preferencias.get('preferencias')== null){
+      preferencias()
+                .catch(function(error) {  
+                    console.log("CAtch de la funtion consultar preferencias");        
+                    dialogsModule.alert({
+                        message: "No se pudo encontrar la lista de preferencias que busca",
+                        okButtonText: "OK"
+                    });
+                        console.log("No consiguio las prefrencias preferenciasjs");
+                        return Promise.reject();
+                    })
+                    .then(function(respuesta1) {   
+                    ls_preferencias('preferencias', respuesta1);         
+                    console.log(" IF RESPUESTA  "+ respuesta1[0].pre_nombre + " " + respuesta1[0].pre_status); 
+                    });    
+          
+        
+  }
 /*if (diaSemana == 1) {
     dia = 'Lunes';
      console.log("El dia de la semana es:" + " " + dia);

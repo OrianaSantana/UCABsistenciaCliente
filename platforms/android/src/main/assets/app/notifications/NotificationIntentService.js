@@ -8,9 +8,8 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
         android.support.v4.content.WakefulBroadcastReceiver.completeWakefulIntent(intent);
     }
 });
- 
+
 function processStartNotification() {
-    
         var ls_horario = require('local-storage');
         var ls_profesor = require('local-storage');
         var ls_salon = require('local-storage');
@@ -63,6 +62,11 @@ function processStartNotification() {
         var mensaje;
         var mensajeTitulo;
         var resultadoFinal;
+        var ls_preferencias = require('local-storage');
+        var preferencias = ls_preferencias.get('preferencias');   
+        var ls_minutosClase = require('local-storage');
+        ls_minutosClase('clase',false);
+        var minutosParaClase;          
 
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
         || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -128,10 +132,38 @@ function processStartNotification() {
                 hora_fin = horario[i].hor_hora_fin.substr(11,2);
                 min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
                 idHorario = horario[i].hor_id;
-
+                console.log(horario[i].hor_dia + " i " + i);
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
+                //if (horaClase == horaFormato){
+                    minutosParaClase = (horaClase - horaActual)/1000;
+                //}
+                console.log("hora clase " + horaClase);
+                if (ls_minutosClase.get('clase') == false) {
+                    if (minutosParaClase > 0 && minutosParaClase <= 15) {
+                        for (i=0; i< preferencias.length; i++){
+                            console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == true) {
+                                    mensajeTitulo = "Notificacion de Clase"
+                                    mensaje = "Clase empieza en 15 min";
+                                    sendNotification(mensajeTitulo, mensaje, utils);
+                                    //POST DE LA NOTIFICACION                                
+                                    insertarNotificacion(pro_id,mensaje)
+                                    .catch(function(error) {
+                                        console.log(error);          
+                                        console.log("No PUDO insertar notificacion");
+                                        return Promise.reject();
+                                    })
+                                    .then(function() {
+                                        console.log("Se inserto correctamente la notificacion");                               
+                                    });   
+                                    }
+                                } 
+                    
+                    ls_minutosClase('clase',true);
+                    }
+                }
                 /*  if (horaFormato >= 15 && minutoFormato >=30) {
                                         services.stopAlarm();
                                     }*/
@@ -190,7 +222,7 @@ function processStartNotification() {
                                         //Se debe esperar a que termine la clase
                                         } else{
                                                 console.log("La clase se termino, se marca inasistencia 2");
-                                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                                                                                               
+                                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                                                                               
                                         //Aqui se debe hacer el post de inasistencia
                                            inasistencia(ls_idHorario.get('idHorario'),fechaAndroidReal)
                                             .catch(function(error) {
@@ -215,22 +247,29 @@ function processStartNotification() {
                             console.log("La clase no se ha terminado 5");
                         } else{
                                 console.log("La clase ya termino, se envia notificacion al profesor por no tener gps 5");    
-                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                                                    
+                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                                    
                                 console.log("Su dispositivo no tiene gps");
                                 //AQUI SE ENVIA NOTIFICACION 
-                                mensajeTitulo = "Falla de hardware"
-                                mensaje = "Firme Asistencia en escuela";
-                                sendNotification(mensajeTitulo, mensaje, utils);
-                                //POST DE LA NOTIFICACION                                
-                                insertarNotificacion(pro_id,mensaje)
-                                .catch(function(error) {
-                                    console.log(error);          
-                                    console.log("No PUDO insertar notificacion");
-                                    return Promise.reject();
-                                })
-                                .then(function() {
-                                    console.log("Se inserto correctamente la notificacion");                               
-                                });     
+                            for (i=0; i< preferencias.length; i++){ 
+                                console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                                if (preferencias[i].pre_nombre == "Firma en escuela" && preferencias[i].pre_status == true) {
+                                   console.log("falla de hardware");
+                                    mensajeTitulo = "Falla de hardware"
+                                    mensaje = "Firme Asistencia en escuela";
+                                    sendNotification(mensajeTitulo, mensaje, utils);
+
+                                    //POST DE LA NOTIFICACION                                
+                                    insertarNotificacion(pro_id,mensaje)
+                                    .catch(function(error) {
+                                        console.log(error);          
+                                        console.log("No PUDO insertar notificacion");
+                                        return Promise.reject();
+                                    })
+                                    .then(function() {
+                                        console.log("Se inserto correctamente la notificacion");                               
+                                    });   
+                                }
+                             }  
                              }                        
                     }                            
                 } else {
@@ -249,7 +288,7 @@ function processStartNotification() {
          /* if (horaFormato >= 15 && minutoFormato >=30) {
                         services.stopAlarm();
                     }*/
-    } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
+       } else if (ls_salon.get('salon') != null && ls_lugar.get('lugar') == "UCAB" && ls_magnetometro.get('magnetometro') != null) {
             console.log("ELSE DE LUGAR");
             //Aqui se deberia preguntar por la hora final de la clase para terminar el proceso
             if (horaActual >= ls_horaInicio.get('inicio') && horaActual < ls_horaFin.get('fin')){
@@ -264,11 +303,14 @@ function processStartNotification() {
                 console.log("Se termino la clase 6");                 
                 if (ls_magnetometro.get('magnetometro') == false) {                            
                     console.log("Su dispositivo no tiene magnetometro");
-                     LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                    
+                     LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                    
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
-                    mensajeTitulo = "Falla de hardware"
-                    mensaje = "Reporte Asistencia Manual";
-                    sendNotification(mensajeTitulo, mensaje, utils);                                            
+                     for (i=0; i< preferencias.length; i++){ 
+                          console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                         if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                            mensajeTitulo = "Falla de hardware"
+                            mensaje = "Reporte Asistencia Manual";
+                            sendNotification(mensajeTitulo, mensaje, utils);                                            
                           //POST DE LA NOTIFICACION
                           //Hay que validar si el profesor quiere que se reporte manual o se firme en escuela sin magnetometro                                
                                 insertarNotificacion(pro_id,mensaje)
@@ -279,7 +321,9 @@ function processStartNotification() {
                                 })
                                 .then(function() {
                                     console.log("Se inserto correctamente la notificacion");                               
-                                });                     
+                                });  
+                         }
+                     }                   
                 } else{
                     console.log("La clase se termino y deben sacarse porcentajes de localizacion 5");
                     //Deben sacarse porcentajes de localizacion y dar respuesta
@@ -293,6 +337,10 @@ function processStartNotification() {
                                     console.log(error);                       
                                     console.log("No PUDO REPORTAR ASISTENCIA automatica");
                                     //Se envia notificacion al profesor para que reporte manual en caso de falla
+                                 for (i=0; i< preferencias.length; i++){ 
+                                    console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                                   if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                                       console.log("if de preferencias");
                                     mensajeTitulo = "Reporte de Asistencia"
                                     mensaje = "Reporte Asistencia Manual";
                                     sendNotification(mensajeTitulo, mensaje, utils);                                                                                      
@@ -306,6 +354,8 @@ function processStartNotification() {
                                                         .then(function() {
                                                             console.log("Se inserto correctamente la notificacion");                               
                                                         }); 
+                                   }
+                                 }
                                     return Promise.reject();
                                 })
                                 .then(function() {
@@ -325,9 +375,12 @@ function processStartNotification() {
                                                             console.log("Se inserto correctamente la notificacion");                               
                                                         }); 
                                 });
-                                 LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                                  
+                                 LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                  
                             } else {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
+                              for (i=0; i< preferencias.length; i++){ 
+                                 console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                                 if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
                                  mensajeTitulo = "No está en el salón"
                                  mensaje = "Reporte Asistencia Manual";
                                  sendNotification(mensajeTitulo, mensaje, utils);                                                                                 
@@ -341,7 +394,9 @@ function processStartNotification() {
                                                     .then(function() {
                                                         console.log("Se inserto correctamente la notificacion");                               
                                                     });  
-                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                                        
+                                 }
+                              }
+                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                        
                             }
                 }
             }
@@ -408,12 +463,15 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
         console.log("La clase se termino 1");    
         if (ls_magnetometro.get('magnetometro') == false) {                            
             console.log("Su dispositivo no tiene magnetometro");  
-            LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);          
+            LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);          
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
-            mensajeTitulo = "Falla de hardware"
-            mensaje = "Reporte Asistencia Manual";
-            sendNotification(mensajeTitulo, mensaje, utils);                                                                                                         
-                 //POST DE LA NOTIFICACION
+             for (i=0; i< preferencias.length; i++){ 
+                console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                    mensajeTitulo = "Falla de hardware"
+                    mensaje = "Reporte Asistencia Manual";
+                    sendNotification(mensajeTitulo, mensaje, utils);                                                                                                         
+                    //POST DE LA NOTIFICACION
                                 insertarNotificacion(pro_id,mensaje)
                                 .catch(function(error) {
                                     console.log(error);          
@@ -422,7 +480,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                 })
                                 .then(function() {
                                     console.log("Se inserto correctamente la notificacion");                               
-                                });                                
+                                }); 
+                }
+             }                               
         } else{
                 console.log("La clase se termino y deben sacarse porcentajes de localizacion 1");
                         //Deben sacarse porcentajes de localizacion y dar respuesta      
@@ -435,9 +495,12 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                         console.log(error);                       
                         console.log("No PUDO REPORTAR ASISTENCIA automatica");
                          //Se envia notificacion al profesor para que reporte manual en caso de falla
-                         mensajeTitulo = "Reporte de Asistencia"
-                         mensaje = "Reporte Asistencia Manual";
-                         sendNotification(mensajeTitulo, mensaje, utils);                               
+                          for (i=0; i< preferencias.length; i++){ 
+                            console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                            if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                                    mensajeTitulo = "Reporte de Asistencia"
+                                    mensaje = "Reporte Asistencia Manual";
+                                    sendNotification(mensajeTitulo, mensaje, utils);                               
                             //POST DE LA NOTIFICACION
                                             insertarNotificacion(pro_id,mensaje)
                                             .catch(function(error) {
@@ -447,7 +510,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                             })
                                             .then(function() {
                                                 console.log("Se inserto correctamente la notificacion");                               
-                                            });  
+                                            });
+                            }
+                          }  
                         return Promise.reject();
                     })
                     .then(function() {
@@ -468,12 +533,15 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                             });  
 
                     });
-                    LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                    
+                    LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                    
                 } else {
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
-                    mensajeTitulo = "No está en el salón"
-                    mensaje = "Reporte Asistencia Manual";
-                    sendNotification(mensajeTitulo, mensaje, utils);                         
+                     for (i=0; i< preferencias.length; i++){ 
+                        console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
+                        if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                            mensajeTitulo = "No está en el salón"
+                            mensaje = "Reporte Asistencia Manual";
+                            sendNotification(mensajeTitulo, mensaje, utils);                         
                         //POST DE LA NOTIFICACION
                                         insertarNotificacion(pro_id,mensaje)
                                         .catch(function(error) {
@@ -484,7 +552,9 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                                         .then(function() {
                                             console.log("Se inserto correctamente la notificacion");                               
                                         });  
-                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro);                                         
+                        }
+                     }
+                                        LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);                                         
                 }                    
          }                               
     }    
@@ -609,7 +679,8 @@ function GetLocation(ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_
 
     return resultadoFinal;
 }
-function LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro){
+function LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin){
+    console.log("Limpiando local storage");
     ls_salon('salon',null);
     ls_lugar('lugar',null);
     ls_l1207('l1207',null) ;
@@ -621,7 +692,19 @@ function LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l12
     ls_l1213('l1213',null) ;
     ls_pasillo('pasillo',null) ;
     ls_ninguno('ninguno',null) ;
-    ls_magnetometro('magnetometro',null);   
+    ls_magnetometro('magnetometro',null);
+    ls_horaInicio('inicio',null);
+    ls_horaFin('fin',null);
+    ls_minutosClase('clase',null); 
+    ls_idHorario('idHorario',null);
+    diaHorario = "";
+    hora_inicio = "";
+    min_hora_inicio ="";
+    hora_fin = "";
+    min_hora_fin = "";
+    idHorario = "";
+    horaClase = "";
+    horaFin = "";    
 }
 function getDeleteIntent(context) {
         var intent = new android.content.Intent(context, java.lang.Class.forName("com.tns.broadcastreceivers.NotificationEventReceiver"));
