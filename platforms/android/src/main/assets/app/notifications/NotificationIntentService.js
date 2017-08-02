@@ -11,7 +11,6 @@ com.pip3r4o.android.app.IntentService.extend("com.tns.notifications.Notification
 
   var ls_horario = require('local-storage');
   var horario = ls_horario.get('horario_profesor');
-  
 function processStartNotification() {
         var ls_profesor = require('local-storage');
         var ls_salon = require('local-storage');
@@ -63,12 +62,12 @@ function processStartNotification() {
         var ls_idHorario = require('local-storage');
         var mensaje;
         var mensajeTitulo;
-        var resultadoFinal;
-        var ls_preferencias = require('local-storage');
-        var preferencias = ls_preferencias.get('preferencias');  
+        var resultadoFinal; 
         var ls_minutosClase = require('local-storage'); 
         var minutosParaClase;   
         var minutoArreglado;       
+        var ls_preferencias = require('local-storage');
+        var preferencias = ls_preferencias.get('preferencias'); 
 
         if (fechaAndroidReal.getHours() == 1 || fechaAndroidReal.getHours() == 2 || fechaAndroidReal.getHours() == 3 
         || fechaAndroidReal.getHours() == 4 || fechaAndroidReal.getHours() == 5 || fechaAndroidReal.getHours() == 6 
@@ -128,14 +127,12 @@ function processStartNotification() {
              /*  if (horaFormato >= 15 && minutoFormato >=30) {
                         services.stopAlarm();
                     }*/
-                console.log("Vamos por la i" + ":" + i);    
                 diaHorario = horario[i].hor_dia;
                 hora_inicio = horario[i].hor_hora_inicio.substr(11,2);
                 min_hora_inicio = horario[i].hor_hora_inicio.substr(14,2);
                 hora_fin = horario[i].hor_hora_fin.substr(11,2);
                 min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
                 idHorario = horario[i].hor_id;
-                console.log(horario[i].hor_dia + " i " + i);
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
@@ -151,7 +148,8 @@ function processStartNotification() {
                         console.log("minutos para la clase" + " " + minutosParaClase);
                          for (i=0; i< preferencias.length; i++){
                             console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == true) {
+                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == "true") {
+                                    console.log("if de preferencias");
                                     mensajeTitulo = "Notificacion de Clase"
                                     mensaje = "Clase empieza en 15 min";
                                     sendNotification(mensajeTitulo, mensaje, utils);
@@ -179,9 +177,10 @@ function processStartNotification() {
                      console.log("local minutos null");
                         if (minutosParaClase > 0 && minutosParaClase <= 15){
                         console.log("minutos para la clase" + " " + minutosParaClase);
-                        /* for (i=0; i< preferencias.length; i++){
-                            console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status == true) {
+                         for (i=0; i< preferencias.length; i++){
+                            console.log("nombre"+preferencias[i].pre_nombre + "Status" + preferencias[i].pre_status + "longitud" + preferencias[i].pre_nombre.length );
+                                    if (preferencias[i].pre_nombre == "15 min antes de clase" && preferencias[i].pre_status=="true") {
+                                    console.log("entro en el if de preferencias "+preferencias[i].pre_nombre);
                                     mensajeTitulo = "Notificacion de Clase"
                                     mensaje = "Clase empieza en 15 min";
                                     sendNotification(mensajeTitulo, mensaje, utils);
@@ -196,7 +195,7 @@ function processStartNotification() {
                                         console.log("Se inserto correctamente la notificacion");                               
                                     });   
                                     }
-                                } */ // solo falta probar preferencias para q las notificaciones se envíen
+                                }  // solo falta probar preferencias para q las notificaciones se envíen
                         ls_minutosClase('clase',true);
                         }
                     }
@@ -298,7 +297,8 @@ function processStartNotification() {
                                 //AQUI SE ENVIA NOTIFICACION 
                             for (i=0; i< preferencias.length; i++){ 
                                 console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                                if (preferencias[i].pre_nombre == "Firma en escuela" && preferencias[i].pre_status == true) {
+                                if (preferencias[i].pre_nombre == "Firma en escuela" && preferencias[i].pre_status == "true") {
+                                   console.log("if de preferencias");
                                    console.log("falla de hardware");
                                     mensajeTitulo = "Falla de hardware"
                                     mensaje = "Firme Asistencia en escuela";
@@ -355,7 +355,7 @@ function processStartNotification() {
                     //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
                      for (i=0; i< preferencias.length; i++){ 
                           console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                         if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                         if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
                             mensajeTitulo = "Falla de hardware"
                             mensaje = "Reporte Asistencia Manual";
                             sendNotification(mensajeTitulo, mensaje, utils);                                            
@@ -387,8 +387,8 @@ function processStartNotification() {
                                     //Se envia notificacion al profesor para que reporte manual en caso de falla
                                  for (i=0; i< preferencias.length; i++){ 
                                     console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                                   if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
-                                       console.log("if de preferencias");
+                                   if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
+                                    console.log("if de preferencias");
                                     mensajeTitulo = "Reporte de Asistencia"
                                     mensaje = "Reporte Asistencia Manual";
                                     sendNotification(mensajeTitulo, mensaje, utils);                                                                                      
@@ -430,7 +430,8 @@ function processStartNotification() {
                                 //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                               for (i=0; i< preferencias.length; i++){ 
                                  console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                                 if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                                 if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
+                                 console.log("if de preferencias");
                                  mensajeTitulo = "No está en el salón"
                                  mensaje = "Reporte Asistencia Manual";
                                  sendNotification(mensajeTitulo, mensaje, utils);                                                                                 
@@ -458,10 +459,12 @@ function getCoordenadasGPS(loc){
     console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
     var lat1 = loc.latitude;
     var lon1 = (loc.longitude);
-    var lat2 = 10.464803656000619; //Oriana 
-    var lon2 = (-66.86167079430855); // Oriana
-    //var lat2 = 10.517192;           //Jesus
-    //var lon2 = (-66.903673);        //Jesus
+    //var lat2 = 10.464803656000619; //Oriana 
+    //var lon2 = (-66.86167079430855); // Oriana
+    //var lat2 = 10.517192;           //Jesus S
+    //var lon2 = (-66.903673);        //Jesus S
+    var lat2 = 10.449384552356227; //Jesus  
+    var lon2 = (-66.87164039757886); //Jesus    
         /////////////DISTANCIA RADIAL
     var R = 6371e3; // metres                  
     var e = (lat1) * (Math.PI/180); //var φ1 = lat1.toRadians();                   
@@ -520,7 +523,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
             //AQUI SE ENVIA NOTIFICACION //FALTA EL POST
              for (i=0; i< preferencias.length; i++){ 
                 console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
+                    console.log("if de preferencias");
                     mensajeTitulo = "Falla de hardware"
                     mensaje = "Reporte Asistencia Manual";
                     sendNotification(mensajeTitulo, mensaje, utils);                                                                                                         
@@ -550,7 +554,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                          //Se envia notificacion al profesor para que reporte manual en caso de falla
                           for (i=0; i< preferencias.length; i++){ 
                             console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                            if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                            if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
+                                    console.log("if de preferencias");
                                     mensajeTitulo = "Reporte de Asistencia"
                                     mensaje = "Reporte Asistencia Manual";
                                     sendNotification(mensajeTitulo, mensaje, utils);                               
@@ -593,7 +598,8 @@ function ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lug
                     //Se notifica al profesor que no esta en el salon y se hace post de notificacion
                      for (i=0; i< preferencias.length; i++){ 
                         console.log("nombre "+preferencias[i].pre_nombre + " Status " + preferencias[i].pre_status );
-                        if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == true) {
+                        if (preferencias[i].pre_nombre == "Reporte Manual" && preferencias[i].pre_status == "true") {
+                            console.log("if de preferencias");
                             mensajeTitulo = "No está en el salón"
                             mensaje = "Reporte Asistencia Manual";
                             sendNotification(mensajeTitulo, mensaje, utils);                         
