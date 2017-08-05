@@ -48,12 +48,12 @@
         "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
-        "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png",
-        "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
-    },
-    {
         "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\l1208.png",
         "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\src\\main\\res\\drawable-hdpi\\l1208.png"
+    },
+    {
+        "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png",
+        "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
         "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\checkbox_checked.png",
@@ -296,12 +296,12 @@
         "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\src\\main\\res\\drawable-hdpi\\checkbox_unchecked.png"
     },
     {
-        "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\abc_list_pressed_holo_light.9.png",
-        "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_list_pressed_holo_light.9.png"
-    },
-    {
         "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\l1212.png",
         "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\src\\main\\res\\drawable-hdpi\\l1212.png"
+    },
+    {
+        "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\abc_list_pressed_holo_light.9.png",
+        "source": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_list_pressed_holo_light.9.png"
     },
     {
         "merged": "C:\\Users\\Oriana\\Documents\\GitHub\\UCABsistencia-prueba - copia\\platforms\\android\\build\\intermediates\\res\\merged\\F0F1F2F3F4F5F6\\debug\\drawable-hdpi-v4\\abc_ic_ab_back_mtrl_am_alpha.png",

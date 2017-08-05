@@ -65,12 +65,6 @@ function PrefrenceListViewModel(items) {
             pre_nombre: lista[2].nombre,
             pre_status: lista[2].valorCambia,
             usu_id: ls_profesor.get('id')
-        },
-        {
-            pre_id: 4,
-            pre_nombre: lista[3].nombre,
-            pre_status: lista[3].valorCambia,
-            usu_id: ls_profesor.get('id')
         }]),
         headers: {
             // "Authorization": "Bearer " + config.token,

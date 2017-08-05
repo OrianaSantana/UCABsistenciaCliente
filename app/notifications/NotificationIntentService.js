@@ -695,48 +695,48 @@ function GetLocation(ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_
             if ((ls_pasillo.get('pasillo') > ls_l1207.get('l1207')) && (ls_pasillo.get('pasillo') > ls_l1208.get('l1208')) && (ls_pasillo.get('pasillo') > ls_l1209.get('l1209')) && (ls_pasillo.get('pasillo') > ls_l1210.get('l1210')) && (ls_pasillo.get('pasillo') > ls_l1211.get('l1211')) &&
                (ls_pasillo.get('pasillo') > ls_l1212.get('l1212')) && (ls_pasillo.get('pasillo') > ls_l1213.get('l1213')) && (ls_pasillo.get('pasillo') > ls_ninguno.get('ninguno'))) { 
                                             console.log("Estoy en: " + ls_pasillo.get('pasillo'));
-                                            resultadoFinal = "Pasillo";   
+                                            resultadoFinal = "pasillo";   
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if  ((ls_l1207.get('l1207') > ls_l1208.get('l1208')) && (ls_l1207.get('l1207') > ls_l1209.get('l1209')) && (ls_l1207.get('l1207') > ls_l1210.get('l1210')) && (ls_l1207.get('l1207') > ls_l1211.get('l1211')) && (ls_l1207.get('l1207') > ls_l1212.get('l1212')) && 
                        (ls_l1207.get('l1207') > ls_l1213.get('l1213')) && (ls_l1207.get('l1207') > ls_ninguno.get('ninguno')) && (ls_l1207.get('l1207') > ls_pasillo.get('pasillo')) &&
                        (ls_l1207.get('l1207') > (ls_l1208.get('l1208') + ls_l1209.get('l1209') + ls_l1210.get('l1210') + ls_l1211.get('l1211') + ls_l1212.get('l1212') + ls_l1213.get('l1213') + + ls_pasillo.get('pasillo') + ls_ninguno.get('ninguno')))){     
                                             console.log("Estoy en: " + ls_l1207.get('l1207'));
-                                            resultadoFinal = "L1207";
+                                            resultadoFinal = "l1207";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1208.get('l1208') > ls_pasillo.get('pasillo')) && (ls_l1208.get('l1208') > ls_l1207.get('l1207')) && (ls_l1208.get('l1208') > ls_l1209.get('l1209')) && (ls_l1208.get('l1208') > ls_l1210.get('l1210')) && (ls_l1208.get('l1208') > ls_l1211.get('l1211')) &&(ls_l1208.get('l1208') > ls_l1212.get('l1212')) && 
                       (ls_l1208.get('l1208') > ls_l1213.get('l1213')) && (ls_l1208.get('l1208') > ls_ninguno.get('ninguno'))) {                 
                                             console.log("Estoy en: " + ls_l1208.get('l1208'));
-                                            resultadoFinal = "L1208";
+                                            resultadoFinal = "l1208";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1209.get('l1209') > ls_pasillo.get('pasillo')) && (ls_l1209.get('l1209') > ls_l1207.get('l1207')) && (ls_l1209.get('l1209') > ls_l1208.get('l1208')) && (ls_l1209.get('l1209') > ls_l1210.get('l1210')) && (ls_l1209.get('l1209') > ls_l1211.get('l1211')) && (ls_l1209.get('l1209') > ls_l1212.get('l1212')) && 
                       (ls_l1209.get('l1209') > ls_l1213.get('l1213')) && (ls_l1209.get('l1209') > ls_ninguno.get('ninguno'))) {                               
                                             console.log("Estoy en: " + ls_l1209.get('l1209'));
-                                            resultadoFinal = "L1209";
+                                            resultadoFinal = "l1209";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1210.get('l1210') > ls_pasillo.get('pasillo')) && (ls_l1210.get('l1210') > ls_l1207.get('l1207')) && (ls_l1210.get('l1210') > ls_l1208.get('l1208')) && (ls_l1210.get('l1210') > ls_l1209.get('l1209')) && (ls_l1210.get('l1210') > ls_l1211.get('l1211')) && 
                       (ls_l1210.get('l1210') > ls_l1212.get('l1212')) && (ls_l1210.get('l1210') > ls_l1213.get('l1213')) && (ls_l1210.get('l1210') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1210.get('l1210'));
-                                            resultadoFinal = "L1210";
+                                            resultadoFinal = "l1210";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1211.get('l1211') > ls_pasillo.get('pasillo')) && (ls_l1211.get('l1211') > ls_l1207.get('l1207')) && (ls_l1211.get('l1211') > ls_l1208.get('l1208')) && (ls_l1211.get('l1211') > ls_l1209.get('l1209')) && (ls_l1211.get('l1211') > ls_l1210.get('l1210')) && (ls_l1211.get('l1211') > ls_l1212.get('l1212')) && 
                       (ls_l1211.get('l1211') > ls_l1213.get('l1213')) && (ls_l1211.get('l1211') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1211.get('l1211'));
-                                            resultadoFinal = "L1211";
+                                            resultadoFinal = "l1211";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1212.get('l1212') > ls_pasillo.get('pasillo')) && (ls_l1212.get('l1212') > ls_l1207.get('l1207')) && (ls_l1212.get('l1212') > ls_l1208.get('l1208')) && (ls_l1212.get('l1212') > ls_l1209.get('l1209')) && (ls_l1212.get('l1212') > ls_l1210.get('l1210')) && (ls_l1212.get('l1212') > ls_l1211.get('l1211')) &&
                       (ls_l1212.get('l1212') > ls_l1213.get('l1213')) && (ls_l1212.get('l1212') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1212.get('l1212'));
-                                            resultadoFinal = "L1212";
+                                            resultadoFinal = "l1212";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_l1213.get('l1213') > ls_pasillo.get('pasillo')) && (ls_l1213.get('l1213') > ls_l1207.get('l1207')) && (ls_l1213.get('l1213') > ls_l1208.get('l1208')) && (ls_l1213.get('l1213') > ls_l1209.get('l1209')) && (ls_l1213.get('l1213') > ls_l1210.get('l1210')) && (ls_l1213.get('l1213') > ls_l1211.get('l1211')) &&
                       (ls_l1213.get('l1213') > ls_l1212.get('l1212')) && (ls_l1213.get('l1213') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1213.get('l1213'));
-                                            resultadoFinal = "L1213";
+                                            resultadoFinal = "l1213";
                                             ls_respuesta('respuesta',resultadoFinal);
             } else if ((ls_ninguno.get('ninguno') > ls_pasillo.get('pasillo')) && (ls_ninguno.get('ninguno') > ls_l1207.get('l1207')) && (ls_ninguno.get('ninguno') > ls_l1208.get('l1208')) && (ls_ninguno.get('ninguno') > ls_l1209.get('l1209')) && (ls_ninguno.get('ninguno') > ls_l1210.get('l1210')) && 
                       (ls_ninguno.get('ninguno') > ls_l1211.get('l1211')) && (ls_ninguno.get('ninguno') > ls_l1212.get('l1212')) && (ls_ninguno.get('ninguno') > ls_l1213.get('l1213'))){                                           
                                             console.log("Estoy en: " + ls_ninguno.get('ninguno'));
-                                            resultadoFinal = "Ninguno";
+                                            resultadoFinal = "ninguno";
                                             ls_respuesta('respuesta',resultadoFinal);
             }
 

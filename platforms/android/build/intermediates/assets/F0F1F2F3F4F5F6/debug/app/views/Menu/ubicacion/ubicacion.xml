@@ -24,11 +24,10 @@
                 <SegmentedBarItem title="Ubicacion"/>
             </SegmentedBar.items>
         </SegmentedBar>
+          <GridLayout row="1" rows="auto, *"  loaded="onBackgroundLoaded">
         <!--<GridLayout row="1" rows="auto,auto, *" loaded="pruebaPreferencias">			-->        
-        <GridLayout row="1" rows="auto,auto, *" loaded="onBackgroundLoaded">
-       <Image src="{{ ubicacion }}"></Image>      
-      </GridLayout>
-       
+       <Image src="{{ ubicacion }}" cssClass="imagen"></Image>      
+       </GridLayout>
     </GridLayout>
 
     </drawer:rad-side-drawer.mainContent>

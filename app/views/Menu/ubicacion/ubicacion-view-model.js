@@ -7,35 +7,32 @@ var ls_profesor = require('local-storage');
 var fetchModule = require("fetch");
 var config = require("../../../shared/config");
 var ls_respuesta = require('local-storage');
-
+var imageSource = require("image-source");
+var prueba = "l1208";
+var fileName = prueba+".png"; // ls_respuesta.get('respuesta')+".png"
 
 function createViewModel() { 
-    var viewModel = new Observable();       
-
-// ls_respuesta.get('respuesta') //DEBE CAMBIARSE PRUEBA POR LA LOCALSTORAGE
-if (ls_respuesta.get('respuesta') == "L1207") {
-    viewModel.set("ubicacion","res://l1207");
-} else if (ls_respuesta.get('respuesta') == "L1208"){
-    viewModel.set("ubicacion","res://l1208");
-} else if (ls_respuesta.get('respuesta') == "L1209"){
-    viewModel.set("ubicacion","res://l1209");
-} else if (ls_respuesta.get('respuesta') == "L1210"){
-    viewModel.set("ubicacion","res://l1210");
-} else if (ls_respuesta.get('respuesta') == "L1211"){
-    viewModel.set("ubicacion","res://l1211");
-} else if (ls_respuesta.get('respuesta') == "L1212"){
-    viewModel.set("ubicacion","res://l1212");
-} else if (ls_respuesta.get('respuesta') == "L1213"){
-    viewModel.set("ubicacion","res://l1213");
-} else if (ls_respuesta.get('respuesta') == "Pasillo"){
-    viewModel.set("ubicacion","res://pasillo");
-} else if (ls_respuesta.get('respuesta') == "Ninguno"){
-     dialogsModule.alert({
-        message: "Ud. no se encuentra ni en el pasillo ni en un salón",
-        okButtonText: "OK"
-    });
-}
-
+    var viewModel = new Observable();    
+      
+      if(ls_respuesta.get('respuesta') == "l1207" || ls_respuesta.get('respuesta') == "l1208" || ls_respuesta.get('respuesta') == "l1209" ||
+      ls_respuesta.get('respuesta') == "l1210" || ls_respuesta.get('respuesta') == "l1211" || ls_respuesta.get('respuesta') == "l1212" ||
+      ls_respuesta.get('respuesta') == "l1213") {
+        imageSource.fromUrl(config.planoUrl+fileName)
+                    .then(function (res) {
+                        console.log("Image successfully loaded");
+                        viewModel.set("ubicacion",res);  
+                         
+                        }, function (error) {
+                                console.log("Error loading image: " + error);
+                            });                                         
+        
+      } else if (ls_respuesta.get('respuesta') == "ninguno"){
+        dialogsModule.alert({
+            message: "Ud. no se encuentra ni en el pasillo ni en un salón",
+            okButtonText: "OK"
+        });
+    }                 
+     
     return viewModel;
 }
 

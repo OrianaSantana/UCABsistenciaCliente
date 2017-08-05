@@ -3,7 +3,7 @@ var frameModule = require("ui/frame");
 var application = require("application");
 var utils = require("utils/utils");
 var services = require("../../service-helper");
-
+var tnsOAuthModule = require('nativescript-oauth');
 
 var ls_correo = require('local-storage');
 var ls_profesor = require('local-storage');
@@ -63,6 +63,17 @@ exports.IniciarSesion = function() {
    //console.log(ls.get('foo'));
 
 user.set("isLoading", true);
+
+tnsOAuthModule.login()
+      .catch(function(error) {
+            console.log(error);
+            console.log("Error en el token");
+            return Promise.reject();
+        })
+        .then(function() {
+         console.dir("accessToken " + tnsOAuthModule.accessToken());
+        });
+
    user.consultarProfesorID()
         .catch(function(error) {            
             dialogsModule.alert({
@@ -114,7 +125,7 @@ user.set("isLoading", true);
                                     }
                                 }                                       
                                     frameModule.topmost().navigate(navigationOptions);   
-                                  //  services.setupAlarm(utils.ad.getApplicationContext());
+                                   // services.setupAlarm(utils.ad.getApplicationContext());
                                    // user.set("isLoading", false);                                  
                                 });
                     });  

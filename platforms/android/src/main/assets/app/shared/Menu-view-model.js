@@ -5,6 +5,7 @@ var fetchModule = require("fetch");
 var dialogsModule = require("ui/dialogs");
 var config = require("./config");
 var services = require("../service-helper");
+var tnsOAuthModule = require('nativescript-oauth');
 
 var ls_profesor = require('local-storage');
 var ls_correo = require('local-storage');
@@ -193,6 +194,15 @@ BasePage.prototype.navigate = function(args) {
           
     } else if (pageName == "cerrar sesion"){
          appViewModel.set("isLoading", true);  
+        /*  tnsOAuthModule.logout()
+           .catch(function(error) {
+            console.log(error);
+            console.log("Error en logout token");
+            return Promise.reject();
+        })
+        .then(function() {
+             console.log("logout de token satisfactorio");
+        });*/
          cerrarSesion(ls_profesor.get('id'))
                       .catch(function(error) {
                           console.log(error);
@@ -237,7 +247,7 @@ BasePage.prototype.navigate = function(args) {
             console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
             appViewModel.set("isLoading", false);  
             topmost().navigate("views/InicioSesion/InicioSesion");
-            services.stopAlarm();
+            //services.stopAlarm();
     }
     else {
          appViewModel.set("isLoading", true);  

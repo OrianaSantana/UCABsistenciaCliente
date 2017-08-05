@@ -5,6 +5,7 @@ var fetchModule = require("fetch");
 var dialogsModule = require("ui/dialogs");
 var config = require("./config");
 var services = require("../service-helper");
+var tnsOAuthModule = require('nativescript-oauth');
 
 var ls_profesor = require('local-storage');
 var ls_correo = require('local-storage');
@@ -12,6 +13,22 @@ var ls_preferencias = require('local-storage');
 var ls_notificaciones = require('local-storage');
 var ls_asistencia = require('local-storage');
 var ls_horario = require('local-storage');
+var ls_l1207 = require('local-storage');
+var ls_l1208 = require('local-storage');
+var ls_l1209 = require('local-storage');
+var ls_l1210 = require('local-storage');
+var ls_l1211 = require('local-storage');
+var ls_l1212 = require('local-storage');
+var ls_l1213 = require('local-storage');
+var ls_pasillo = require('local-storage');
+var ls_ninguno = require('local-storage');
+var ls_idHorario = require('local-storage');
+var ls_minutosClase = require('local-storage');
+var ls_salon = require('local-storage');
+var ls_lugar = require('local-storage');
+var ls_horaInicio = require('local-storage');
+var ls_horaFin = require('local-storage');
+var ls_magnetometro = require('local-storage');
 var appViewModel = new Observable();
 //var ls_validator = require('local-storage');
 
@@ -177,6 +194,15 @@ BasePage.prototype.navigate = function(args) {
           
     } else if (pageName == "cerrar sesion"){
          appViewModel.set("isLoading", true);  
+          tnsOAuthModule.logout()
+           .catch(function(error) {
+            console.log(error);
+            console.log("Error en logout token");
+            return Promise.reject();
+        })
+        .then(function() {
+             console.log("logout de token satisfactorio");
+        });
          cerrarSesion(ls_profesor.get('id'))
                       .catch(function(error) {
                           console.log(error);
@@ -197,6 +223,21 @@ BasePage.prototype.navigate = function(args) {
             ls_notificaciones('notificaciones',null);
             ls_horario('horario_profesor',null);
             ls_asistencia('asistencias',null);
+            ls_salon('salon',null);
+            ls_lugar('lugar',null);
+            ls_l1207('l1207',null) ;
+            ls_l1208('l1208',null) ;
+            ls_l1209('l1209',null) ;
+            ls_l1210('l1210',null) ;
+            ls_l1211('l1211',null) ;
+            ls_l1212('l1212',null) ;
+            ls_l1213('l1213',null) ;
+            ls_pasillo('pasillo',null) ;
+            ls_ninguno('ninguno',null) ;
+            ls_magnetometro('magnetometro',null);
+            ls_horaInicio('inicio',null);
+            ls_horaFin('fin',null);
+            ls_minutosClase('clase',null);             
             console.log("local profesor" + " " + ls_profesor.get('profesor'));
             console.log("local id" + " " + ls_profesor.get('id'));
             console.log("local correo" + " " + ls_correo.get('correo'));
@@ -206,7 +247,7 @@ BasePage.prototype.navigate = function(args) {
             console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
             appViewModel.set("isLoading", false);  
             topmost().navigate("views/InicioSesion/InicioSesion");
-            services.stopAlarm();
+            //services.stopAlarm();
     }
     else {
          appViewModel.set("isLoading", true);  
