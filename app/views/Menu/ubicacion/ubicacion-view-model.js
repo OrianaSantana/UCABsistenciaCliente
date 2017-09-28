@@ -8,8 +8,8 @@ var fetchModule = require("fetch");
 var config = require("../../../shared/config");
 var ls_respuesta = require('local-storage');
 var imageSource = require("image-source");
-var prueba = "l1208";
-var fileName = prueba+".png"; // ls_respuesta.get('respuesta')+".png"
+//var prueba = "l1208";
+var fileName = ls_respuesta.get('respuesta')+".png"; //prueba+".png"; 
 
 function createViewModel() { 
     var viewModel = new Observable();    
@@ -28,10 +28,15 @@ function createViewModel() {
         
       } else if (ls_respuesta.get('respuesta') == "ninguno"){
         dialogsModule.alert({
-            message: "Ud. no se encuentra ni en el pasillo ni en un salón",
+            message: "Ud. no se encuentra en el salón",
             okButtonText: "OK"
         });
-    }                 
+    } else if (ls_respuesta.get('respuesta') == null){
+        dialogsModule.alert({
+            message: "Ud. no ha sido localizado todavía",
+            okButtonText: "OK"
+        });
+    }          
      
     return viewModel;
 }

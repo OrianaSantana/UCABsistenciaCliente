@@ -252,7 +252,7 @@ function processStartNotification() {
                                     d = getCoordenadasGPS(loc);                                    
                                     console.log("Esta es la distancia del radio" + " " + d);
                                     //Se compara la distancia obtenida con la tolerancia en mts
-                                    if (d <= 100) {
+                                    if (d <= 600) {
                                         ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon, magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id,ls_i);
                                         console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
                                         console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
@@ -459,12 +459,15 @@ function getCoordenadasGPS(loc){
     console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
     var lat1 = loc.latitude;
     var lon1 = (loc.longitude);
+
+    var lat2 = 10.46519599800089; //UCAB
+    var lon2 = (-66.97318413701691); // UCAB
     //var lat2 = 10.464803656000619; //Oriana 
     //var lon2 = (-66.86167079430855); // Oriana
     //var lat2 = 10.517192;           //Jesus S
     //var lon2 = (-66.903673);        //Jesus S
-    var lat2 = 10.449384552356227; //Jesus  
-    var lon2 = (-66.87164039757886); //Jesus    
+    //var lat2 = 10.449384552356227; //Jesus  
+    //var lon2 = (-66.87164039757886); //Jesus    
         /////////////DISTANCIA RADIAL
     var R = 6371e3; // metres                  
     var e = (lat1) * (Math.PI/180); //var φ1 = lat1.toRadians();                   
