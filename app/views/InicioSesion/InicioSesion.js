@@ -125,8 +125,8 @@ user.set("isLoading", true);
                                     }
                                 }                                       
                                     frameModule.topmost().navigate(navigationOptions);   
-                                   // services.setupAlarm(utils.ad.getApplicationContext());
-                                   // user.set("isLoading", false);                                  
+                                   services.setupAlarm(utils.ad.getApplicationContext());
+                                   user.set("isLoading", false);                                  
                                 });
                     });  
            }else if(respuesta1.pro_foto == "on"){

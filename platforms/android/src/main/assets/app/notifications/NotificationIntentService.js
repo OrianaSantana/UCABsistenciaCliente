@@ -133,6 +133,7 @@ function processStartNotification() {
                 hora_fin = horario[i].hor_hora_fin.substr(11,2);
                 min_hora_fin = horario[i].hor_hora_fin.substr(14,2);
                 idHorario = horario[i].hor_id;
+                console.log('ID DEL HORARIO' + ' ' + idHorario);
                 if (diaHorario == dia) {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
@@ -235,7 +236,8 @@ function processStartNotification() {
                         //gps = hasSystemFeature1('android.hardware.location.gps');
                         gps = hasSystemFeature1('l_gps');
                         console.log("Su dispositivo tiene gps?:" + " " + gps);
-                        ls_gps('gps',gps);
+                        //ls_gps('gps',gps);
+                        ls_gps('gps',false);
                     } 
                     if (ls_gps.get('gps') == true) {
                         //Se enciende el gps
@@ -252,7 +254,7 @@ function processStartNotification() {
                                     d = getCoordenadasGPS(loc);                                    
                                     console.log("Esta es la distancia del radio" + " " + d);
                                     //Se compara la distancia obtenida con la tolerancia en mts
-                                    if (d <= 100) {
+                                    if (d <= 600) {
                                         ValidarClase(ls_magnetometro,horaActual,ls_horaInicio,ls_horaFin,ls_lugar,ls_salon, magnetometer,data1,objeto,intervalo,intervalo1,ArregloNuevo,ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_ninguno,counter1,counter,miObjeto,pro_id,ls_i);
                                         console.log("Jesus Lugar en " + " " + ls_lugar.get('lugar'));
                                         console.log("Jesus Magnetometro " + " " + ls_magnetometro.get('magnetometro'));
@@ -263,9 +265,9 @@ function processStartNotification() {
                                         //Se debe esperar a que termine la clase
                                         } else{
                                                 console.log("La clase se termino, se marca inasistencia 2");
-                                                LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);   
-                                                horario.splice(ls_i.get('i'),1);     
-                                                console.dir(horario);                                                                                             
+                                              // LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);   
+                                                //horario.splice(ls_i.get('i'),1);     
+                                                //console.dir(horario);                                                                                             
                                         //Aqui se debe hacer el post de inasistencia
                                            inasistencia(ls_idHorario.get('idHorario'),fechaAndroidReal)
                                             .catch(function(error) {
@@ -276,7 +278,11 @@ function processStartNotification() {
                                                 .then(function() {
                                                     console.log("Inasistencia reportada exitosamente");
                                                 });
+                                                 LimpiarLocalStorage(ls_salon,ls_lugar,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_l1212,ls_l1213,ls_pasillo,ls_ninguno,ls_magnetometro,ls_horaInicio,ls_horaFin,ls_minutosClase,ls_idHorario,diaHorario,hora_inicio,min_hora_inicio,hora_fin,min_hora_fin,idHorario,horaClase,horaFin);
+                                                 horario.splice(ls_i.get('i'),1);     
+                                                console.dir(horario);
                                                 }
+                                            
                                     }   
                                 }                                
                             }, function(e){
@@ -457,14 +463,21 @@ function processStartNotification() {
 }
 function getCoordenadasGPS(loc){
     console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
-    var lat1 = loc.latitude;
-    var lon1 = (loc.longitude);
+   
+     //var lat1 = loc.latitude;
+    //var lon1 = (loc.longitude);
+
+    var lat1 = 10.4686479;
+    var lon1 = (-66.9720513);
+
+    var lat2 = 10.46519599800089; //UCAB
+    var lon2 = (-66.97318413701691); // UCAB
     //var lat2 = 10.464803656000619; //Oriana 
     //var lon2 = (-66.86167079430855); // Oriana
     //var lat2 = 10.517192;           //Jesus S
     //var lon2 = (-66.903673);        //Jesus S
-    var lat2 = 10.449384552356227; //Jesus  
-    var lon2 = (-66.87164039757886); //Jesus    
+    //var lat2 = 10.449384552356227; //Jesus  
+    //var lon2 = (-66.87164039757886); //Jesus    
         /////////////DISTANCIA RADIAL
     var R = 6371e3; // metres                  
     var e = (lat1) * (Math.PI/180); //var φ1 = lat1.toRadians();                   

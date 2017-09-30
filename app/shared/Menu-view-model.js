@@ -247,7 +247,7 @@ BasePage.prototype.navigate = function(args) {
             console.log("local asistencias" + " " + ls_asistencia.get('asistencias'));
             appViewModel.set("isLoading", false);  
             topmost().navigate("views/InicioSesion/InicioSesion");
-            //services.stopAlarm();
+            services.stopAlarm();
     }
     else {
          appViewModel.set("isLoading", true);  

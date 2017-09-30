@@ -8,7 +8,7 @@
      <Image src="res://about" col="0" row="1"></Image>
     <label text="About" tap="navigate" class="{{ selectedPage == 'about' ? 'selected' : '' }}" col="1" row="1"/>
      <Image src="res://ubicacion" col="0" row="2"></Image>  
-    <label text="Ubicacion" tap="navigate" class="{{ selectedPage == 'ubicacion' ? 'selected' : '' }}" col="1" row="2"/> 
+    <label text="Última Ubicacion" tap="navigate" class="{{ selectedPage == 'ubicacion' ? 'selected' : '' }}" col="1" row="2"/> 
     <Image src="res://notification" col="0" row="3"></Image>    
 	 <label text="Notificaciones" tap="navigate" class="{{ selectedPage == 'notificaciones' ? 'selected' : '' }}" col="1" row="3"/>   
     <Image src="res://settings" col="0" row="4"></Image>
