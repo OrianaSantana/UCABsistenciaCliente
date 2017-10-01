@@ -125,7 +125,7 @@ user.set("isLoading", true);
                                     }
                                 }                                       
                                     frameModule.topmost().navigate(navigationOptions);   
-                                   services.setupAlarm(utils.ad.getApplicationContext());
+                                  services.setupAlarm(utils.ad.getApplicationContext());
                                    user.set("isLoading", false);                                  
                                 });
                     });  

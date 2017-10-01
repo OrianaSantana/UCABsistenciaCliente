@@ -9,12 +9,21 @@ var config = require("../../../shared/config");
 var ls_respuesta = require('local-storage');
 var imageSource = require("image-source");
 //var prueba = "l1208";
-var fileName = ls_respuesta.get('respuesta')+".png"; //prueba+".png"; 
+var fileName = "l1207.png";//ls_respuesta.get('respuesta')+".png"; //prueba+".png"; 
 
 function createViewModel() { 
     var viewModel = new Observable();    
+
+     imageSource.fromUrl(config.planoUrl+fileName)
+                    .then(function (res) {
+                        console.log("Image successfully loaded");
+                        viewModel.set("ubicacion",res);  
+                         
+                        }, function (error) {
+                                console.log("Error loading image: " + error);
+                            }); 
       
-      if(ls_respuesta.get('respuesta') == "l1207" || ls_respuesta.get('respuesta') == "l1208" || ls_respuesta.get('respuesta') == "l1209" ||
+      /*if(ls_respuesta.get('respuesta') == "l1207" || ls_respuesta.get('respuesta') == "l1208" || ls_respuesta.get('respuesta') == "l1209" ||
       ls_respuesta.get('respuesta') == "l1210" || ls_respuesta.get('respuesta') == "l1211" || ls_respuesta.get('respuesta') == "l1212" ||
       ls_respuesta.get('respuesta') == "l1213") {
         imageSource.fromUrl(config.planoUrl+fileName)
@@ -36,7 +45,7 @@ function createViewModel() {
             message: "Ud. no ha sido localizado todavía",
             okButtonText: "OK"
         });
-    }          
+    }  */        
      
     return viewModel;
 }

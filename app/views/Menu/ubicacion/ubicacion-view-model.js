@@ -13,7 +13,8 @@ var fileName = ls_respuesta.get('respuesta')+".png"; //prueba+".png";
 
 function createViewModel() { 
     var viewModel = new Observable();    
-      
+
+  
       if(ls_respuesta.get('respuesta') == "l1207" || ls_respuesta.get('respuesta') == "l1208" || ls_respuesta.get('respuesta') == "l1209" ||
       ls_respuesta.get('respuesta') == "l1210" || ls_respuesta.get('respuesta') == "l1211" || ls_respuesta.get('respuesta') == "l1212" ||
       ls_respuesta.get('respuesta') == "l1213") {
@@ -36,7 +37,7 @@ function createViewModel() {
             message: "Ud. no ha sido localizado todavía",
             okButtonText: "OK"
         });
-    }          
+    }         
      
     return viewModel;
 }

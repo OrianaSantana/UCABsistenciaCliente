@@ -96,7 +96,7 @@ function processStartNotification() {
         var horaFin;
 
             // AQUI SE COMPARA HORARIO
-        if (diaSemana == 1) {
+        if (diaSemana == 1 || diaSemana == 6) {
             dia = 'Lunes';
             console.log("El dia de la semana es:" + " " + dia);
         } else if (diaSemana == 2) {
@@ -138,7 +138,7 @@ function processStartNotification() {
                 horaClase = hora_inicio + ":" + min_hora_inicio;
                 horaFin = hora_fin + ":" + min_hora_fin;
               //  if (hora_inicio - fechaAndroidReal.getHours() == 1 ){ //DESCOMENTAR AL FINAL
-                  if (min_hora_inicio == 00) {
+                  /*if (min_hora_inicio == 00) {
                     console.log("entro minutos 00");
                     minutoArreglado = 60;
                     minutosParaClase = Math.abs(minutoArreglado - fechaAndroidReal.getMinutes());
@@ -201,7 +201,7 @@ function processStartNotification() {
                         }
                     }
 
-                    }
+                    }*/
               // }
              
                 /*  if (horaFormato >= 15 && minutoFormato >=30) {
@@ -236,8 +236,8 @@ function processStartNotification() {
                         //gps = hasSystemFeature1('android.hardware.location.gps');
                         gps = hasSystemFeature1('l_gps');
                         console.log("Su dispositivo tiene gps?:" + " " + gps);
-                        //ls_gps('gps',gps);
-                        ls_gps('gps',false);
+                        ls_gps('gps',gps);
+                        
                     } 
                     if (ls_gps.get('gps') == true) {
                         //Se enciende el gps
@@ -284,10 +284,10 @@ function processStartNotification() {
                                                 }
                                             
                                     }   
-                                }                                
-                            }, function(e){
-                                console.log("Error: " + e.message);
-                                });                
+                               }   descomentar                             
+                           }, function(e){
+                            console.log("Error: " + e.message);
+                               });                
                         } 
                     }else{
                         console.log("Su dispositivo no tiene GPS");
@@ -462,10 +462,10 @@ function processStartNotification() {
         }             
 }
 function getCoordenadasGPS(loc){
-    console.log("tus coordenadas" + loc.latitude + " " + loc.longitude );
+    console.log("tus coordenadas" + loc.latitude + " " + loc.longitude ); 
    
      //var lat1 = loc.latitude;
-    //var lon1 = (loc.longitude);
+     //var lon1 = (loc.longitude);
 
     var lat1 = 10.4686479;
     var lon1 = (-66.9720513);
@@ -708,49 +708,52 @@ function GetLocation(ls_pasillo,ls_l1207,ls_l1208,ls_l1209,ls_l1210,ls_l1211,ls_
             if ((ls_pasillo.get('pasillo') > ls_l1207.get('l1207')) && (ls_pasillo.get('pasillo') > ls_l1208.get('l1208')) && (ls_pasillo.get('pasillo') > ls_l1209.get('l1209')) && (ls_pasillo.get('pasillo') > ls_l1210.get('l1210')) && (ls_pasillo.get('pasillo') > ls_l1211.get('l1211')) &&
                (ls_pasillo.get('pasillo') > ls_l1212.get('l1212')) && (ls_pasillo.get('pasillo') > ls_l1213.get('l1213')) && (ls_pasillo.get('pasillo') > ls_ninguno.get('ninguno'))) { 
                                             console.log("Estoy en: " + ls_pasillo.get('pasillo'));
-                                            resultadoFinal = "pasillo";   
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "Pasillo";   
+                                            ls_respuesta('respuesta','pasillo');
             } else if  ((ls_l1207.get('l1207') > ls_l1208.get('l1208')) && (ls_l1207.get('l1207') > ls_l1209.get('l1209')) && (ls_l1207.get('l1207') > ls_l1210.get('l1210')) && (ls_l1207.get('l1207') > ls_l1211.get('l1211')) && (ls_l1207.get('l1207') > ls_l1212.get('l1212')) && 
                        (ls_l1207.get('l1207') > ls_l1213.get('l1213')) && (ls_l1207.get('l1207') > ls_ninguno.get('ninguno')) && (ls_l1207.get('l1207') > ls_pasillo.get('pasillo')) &&
                        (ls_l1207.get('l1207') > (ls_l1208.get('l1208') + ls_l1209.get('l1209') + ls_l1210.get('l1210') + ls_l1211.get('l1211') + ls_l1212.get('l1212') + ls_l1213.get('l1213') + + ls_pasillo.get('pasillo') + ls_ninguno.get('ninguno')))){     
                                             console.log("Estoy en: " + ls_l1207.get('l1207'));
-                                            resultadoFinal = "l1207";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1207";
+                                            ls_respuesta('respuesta','l1207');
             } else if ((ls_l1208.get('l1208') > ls_pasillo.get('pasillo')) && (ls_l1208.get('l1208') > ls_l1207.get('l1207')) && (ls_l1208.get('l1208') > ls_l1209.get('l1209')) && (ls_l1208.get('l1208') > ls_l1210.get('l1210')) && (ls_l1208.get('l1208') > ls_l1211.get('l1211')) &&(ls_l1208.get('l1208') > ls_l1212.get('l1212')) && 
                       (ls_l1208.get('l1208') > ls_l1213.get('l1213')) && (ls_l1208.get('l1208') > ls_ninguno.get('ninguno'))) {                 
                                             console.log("Estoy en: " + ls_l1208.get('l1208'));
-                                            resultadoFinal = "l1208";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1208";
+                                            ls_respuesta('respuesta','l1208');
             } else if ((ls_l1209.get('l1209') > ls_pasillo.get('pasillo')) && (ls_l1209.get('l1209') > ls_l1207.get('l1207')) && (ls_l1209.get('l1209') > ls_l1208.get('l1208')) && (ls_l1209.get('l1209') > ls_l1210.get('l1210')) && (ls_l1209.get('l1209') > ls_l1211.get('l1211')) && (ls_l1209.get('l1209') > ls_l1212.get('l1212')) && 
                       (ls_l1209.get('l1209') > ls_l1213.get('l1213')) && (ls_l1209.get('l1209') > ls_ninguno.get('ninguno'))) {                               
                                             console.log("Estoy en: " + ls_l1209.get('l1209'));
-                                            resultadoFinal = "l1209";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1209";
+                                            ls_respuesta('respuesta','l1209');
             } else if ((ls_l1210.get('l1210') > ls_pasillo.get('pasillo')) && (ls_l1210.get('l1210') > ls_l1207.get('l1207')) && (ls_l1210.get('l1210') > ls_l1208.get('l1208')) && (ls_l1210.get('l1210') > ls_l1209.get('l1209')) && (ls_l1210.get('l1210') > ls_l1211.get('l1211')) && 
                       (ls_l1210.get('l1210') > ls_l1212.get('l1212')) && (ls_l1210.get('l1210') > ls_l1213.get('l1213')) && (ls_l1210.get('l1210') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1210.get('l1210'));
-                                            resultadoFinal = "l1210";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1210";
+                                            ls_respuesta('respuesta','l1210');
             } else if ((ls_l1211.get('l1211') > ls_pasillo.get('pasillo')) && (ls_l1211.get('l1211') > ls_l1207.get('l1207')) && (ls_l1211.get('l1211') > ls_l1208.get('l1208')) && (ls_l1211.get('l1211') > ls_l1209.get('l1209')) && (ls_l1211.get('l1211') > ls_l1210.get('l1210')) && (ls_l1211.get('l1211') > ls_l1212.get('l1212')) && 
                       (ls_l1211.get('l1211') > ls_l1213.get('l1213')) && (ls_l1211.get('l1211') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1211.get('l1211'));
-                                            resultadoFinal = "l1211";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1211";
+                                            ls_respuesta('respuesta','l1211');
             } else if ((ls_l1212.get('l1212') > ls_pasillo.get('pasillo')) && (ls_l1212.get('l1212') > ls_l1207.get('l1207')) && (ls_l1212.get('l1212') > ls_l1208.get('l1208')) && (ls_l1212.get('l1212') > ls_l1209.get('l1209')) && (ls_l1212.get('l1212') > ls_l1210.get('l1210')) && (ls_l1212.get('l1212') > ls_l1211.get('l1211')) &&
                       (ls_l1212.get('l1212') > ls_l1213.get('l1213')) && (ls_l1212.get('l1212') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1212.get('l1212'));
-                                            resultadoFinal = "l1212";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1212";
+                                            ls_respuesta('respuesta','l1212');
             } else if ((ls_l1213.get('l1213') > ls_pasillo.get('pasillo')) && (ls_l1213.get('l1213') > ls_l1207.get('l1207')) && (ls_l1213.get('l1213') > ls_l1208.get('l1208')) && (ls_l1213.get('l1213') > ls_l1209.get('l1209')) && (ls_l1213.get('l1213') > ls_l1210.get('l1210')) && (ls_l1213.get('l1213') > ls_l1211.get('l1211')) &&
                       (ls_l1213.get('l1213') > ls_l1212.get('l1212')) && (ls_l1213.get('l1213') > ls_ninguno.get('ninguno'))) {
                                             console.log("Estoy en: " + ls_l1213.get('l1213'));
-                                            resultadoFinal = "l1213";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "L1213";
+                                            ls_respuesta('respuesta','l1213');
             } else if ((ls_ninguno.get('ninguno') > ls_pasillo.get('pasillo')) && (ls_ninguno.get('ninguno') > ls_l1207.get('l1207')) && (ls_ninguno.get('ninguno') > ls_l1208.get('l1208')) && (ls_ninguno.get('ninguno') > ls_l1209.get('l1209')) && (ls_ninguno.get('ninguno') > ls_l1210.get('l1210')) && 
                       (ls_ninguno.get('ninguno') > ls_l1211.get('l1211')) && (ls_ninguno.get('ninguno') > ls_l1212.get('l1212')) && (ls_ninguno.get('ninguno') > ls_l1213.get('l1213'))){                                           
                                             console.log("Estoy en: " + ls_ninguno.get('ninguno'));
-                                            resultadoFinal = "ninguno";
-                                            ls_respuesta('respuesta',resultadoFinal);
+                                            resultadoFinal = "Ninguno";
+                                            ls_respuesta('respuesta','ninguno');
+            } else {
+                  resultadoFinal = "Ninguno";
+                  ls_respuesta('respuesta','ninguno');
             }
 
     return resultadoFinal;
